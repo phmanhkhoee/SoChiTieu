@@ -331,7 +331,7 @@
       color:var(--muted);
       white-space:nowrap;
     }
-    .footer-dot{opacity:.55}
+    .footer-dot{opacity:.55}.footer-right a{color:inherit;text-decoration:none}.footer-right a:hover{color:var(--blue);text-decoration:underline}
     .app-footer{
       max-width:none;
       margin-top:24px;
@@ -446,6 +446,61 @@
       .category-manager-row{grid-template-columns:34px minmax(0,1fr) auto}
       .category-row-delete{grid-column:2 / -1;justify-self:stretch}
     }
+
+    /* USER PROFILE */
+    .user-profile-button{display:flex;align-items:center;gap:9px;padding:4px 7px 4px 4px;border:1px solid transparent;border-radius:14px;background:transparent;text-align:left}
+    .user-profile-button:hover{border-color:#dfe6f0;background:#fff;transform:none;box-shadow:0 5px 14px rgba(28,43,69,.06)}
+    .user-avatar,.profile-avatar-large{display:grid;place-items:center;overflow:hidden;flex:none;border:1px solid #d7e3f6;border-radius:50%;background:#edf3ff;color:#2f6fed;font-weight:800}
+    .user-avatar{width:39px;height:39px;font-size:13px}
+    .profile-avatar-large{width:70px;height:70px;font-size:25px;box-shadow:0 9px 22px rgba(41,85,160,.13)}
+    .user-avatar img,.profile-avatar-large img{width:100%;height:100%;object-fit:cover;display:block}
+    .user-profile-caret{color:#7e8ba0;font-size:15px;line-height:1}
+    .user-area .user-text{display:block;min-width:0}
+    .user-text b{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .user-text span{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .profile-modal{width:min(640px,100%)}
+    .profile-overview-card{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid #e5ebf4;border-radius:17px;background:#fbfcff}
+    .profile-overview-card b{display:block;color:var(--ink);font-family:"Manrope";font-size:16px;letter-spacing:-.035em}
+    .profile-overview-card span{display:block;overflow:hidden;max-width:440px;margin-top:4px;color:var(--ink-soft);font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+    .profile-overview-card small{display:block;margin-top:6px;color:var(--muted);font-size:10px;line-height:1.5}
+    .profile-section{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+    .profile-section-title b{display:block;font-family:"Manrope";font-size:14px;letter-spacing:-.03em}
+    .profile-section-title span{display:block;margin-top:4px;color:var(--muted);font-size:11px;line-height:1.55}
+    .profile-avatar-style-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:14px}
+    .profile-avatar-style-head span{color:var(--ink-soft);font-size:12px;font-weight:800}
+    .profile-avatar-style-head small{color:var(--muted);font-size:10px;line-height:1.45;text-align:right}
+    .avatar-style-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;margin-top:9px}
+    .avatar-style-choice{aspect-ratio:1;display:grid;place-items:center;overflow:hidden;border:1px solid #e2e8f2;border-radius:13px;background:#fff}
+    .avatar-style-choice:hover{border-color:#adc6f6;background:#fbfdff}
+    .avatar-style-choice.active{border-color:#7ea8f7;box-shadow:0 0 0 3px rgba(47,111,237,.1)}
+    .avatar-style-dot{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;color:#fff;font-size:10px;font-weight:800}
+    .profile-actions-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:15px}
+    .profile-message{min-height:16px;color:var(--muted);font-size:11px;line-height:1.5}
+    .profile-message.error{color:var(--red)}
+    .profile-message.success{color:var(--green)}
+    .profile-reset-link{padding:9px 0}
+
+    /* More Flaticon choices, optimized for expense categories. */
+    .category-icon-palette{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));max-height:230px;overflow:auto;padding:2px;gap:8px}
+    .category-icon-choice{width:auto;aspect-ratio:1;border-radius:11px}
+    .category-icon-choice img{width:18px;height:18px}
+    .category-icon-choice::after{content:attr(data-label);position:absolute;z-index:20;display:none;max-width:120px;padding:5px 7px;border-radius:7px;background:#1f2f47;color:#fff;font-size:10px;line-height:1.25;transform:translateY(31px);white-space:normal}
+    .category-icon-choice{position:relative}
+    .category-icon-choice:hover::after{display:block}
+
+    @media(max-width:840px){
+      .user-profile-caret,.user-profile-button .user-text{display:none}
+      .avatar-style-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+    }
+    @media(max-width:540px){
+      .user-area{gap:6px}.user-area .btn-secondary{padding:8px 9px;font-size:11px}
+      .user-profile-button{padding:3px}.user-profile-button .user-text{display:none}
+      .profile-overview-card{align-items:flex-start}.profile-overview-card span{max-width:220px}
+      .avatar-style-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+      .profile-avatar-style-head{align-items:flex-start;flex-direction:column}.profile-avatar-style-head small{text-align:left}
+      .category-icon-palette{grid-template-columns:repeat(6,minmax(0,1fr));max-height:250px}
+    }
+
   </style>
 </head>
 <body>
@@ -591,8 +646,14 @@
           </div>
         </div>
         <div class="user-area">
-          <div class="user-text"><b id="userEmail"></b><span>Tài khoản đang đăng nhập</span></div>
-          <div class="user-badge">S</div>
+          <button class="user-profile-button" type="button" onclick="openProfileModal()" title="Quản lý tài khoản">
+            <span id="userAvatar" class="user-avatar" aria-hidden="true"><span>S</span></span>
+            <span class="user-text">
+              <b id="userDisplayName">Tài khoản</b>
+              <span id="userEmail">Đang đăng nhập</span>
+            </span>
+            <span class="user-profile-caret" aria-hidden="true">⌄</span>
+          </button>
           <button class="btn-secondary btn-small" onclick="showIntro()">Giới thiệu</button>
           <button class="btn-secondary btn-small" onclick="logout()">Đăng xuất</button>
         </div>
@@ -807,10 +868,82 @@
           <span>SoChiTieu</span>
           <span class="footer-dot" aria-hidden="true">•</span>
           <span>Quản lý tài chính cá nhân</span>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <a href="https://www.flaticon.com/" target="_blank" rel="noopener">Icons: Flaticon</a>
         </div>
       </footer>
     </div>
   </section>
+
+
+  <!-- USER PROFILE -->
+  <div id="profileModal" class="modal-overlay hidden">
+    <div class="modal profile-modal">
+      <div class="modal-header">
+        <div>
+          <h3>Tài khoản của bạn</h3>
+          <p>Cập nhật tên hiển thị, ảnh đại diện và thông tin bảo mật của tài khoản.</p>
+        </div>
+        <button class="close-modal" type="button" onclick="closeProfileModal()">×</button>
+      </div>
+
+      <section class="profile-overview-card">
+        <div id="profileAvatarPreview" class="profile-avatar-large" aria-hidden="true"><span>S</span></div>
+        <div>
+          <b id="profileCurrentName">Tài khoản</b>
+          <span id="profileCurrentEmail">email@example.com</span>
+          <small>Thông tin này gắn với tài khoản đăng nhập của bạn.</small>
+        </div>
+      </section>
+
+      <section class="profile-section">
+        <div class="profile-section-title">
+          <b>Thông tin hiển thị</b>
+          <span>Tên và avatar sẽ xuất hiện ở góc trên của ứng dụng.</span>
+        </div>
+
+        <label class="form-label" for="profileDisplayName">Tên hiển thị</label>
+        <input id="profileDisplayName" maxlength="42" placeholder="Ví dụ: Văn Mạnh">
+
+        <label class="form-label" for="profileAvatarUrl">Link ảnh đại diện</label>
+        <input id="profileAvatarUrl" type="url" oninput="previewProfileAvatar()" placeholder="https://domain.com/avatar.png">
+        <p class="help-text">Dán link ảnh công khai nếu muốn dùng ảnh riêng. Bỏ trống để dùng avatar chữ cái bên dưới.</p>
+
+        <div class="profile-avatar-style-head">
+          <span>Chọn kiểu avatar mặc định</span>
+          <small>Chỉ dùng khi chưa dán ảnh riêng.</small>
+        </div>
+        <div id="avatarStyleGrid" class="avatar-style-grid"></div>
+
+        <div class="profile-actions-row">
+          <button id="saveProfileButton" class="btn-primary" type="button" onclick="saveUserProfile()">Lưu thông tin</button>
+          <span id="profileMessage" class="profile-message" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <section class="profile-section profile-security-section">
+        <div class="profile-section-title">
+          <b>Bảo mật</b>
+          <span>Đổi mật khẩu bằng mật khẩu hiện tại để xác nhận danh tính.</span>
+        </div>
+
+        <label class="form-label" for="profileCurrentPassword">Mật khẩu hiện tại</label>
+        <input id="profileCurrentPassword" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu hiện tại">
+
+        <label class="form-label" for="profileNewPassword">Mật khẩu mới</label>
+        <input id="profileNewPassword" type="password" autocomplete="new-password" placeholder="Ít nhất 6 ký tự">
+
+        <label class="form-label" for="profileConfirmPassword">Nhập lại mật khẩu mới</label>
+        <input id="profileConfirmPassword" type="password" autocomplete="new-password" placeholder="Nhập lại mật khẩu mới">
+
+        <div class="profile-actions-row">
+          <button id="changePasswordButton" class="btn-secondary" type="button" onclick="changeUserPassword()">Đổi mật khẩu</button>
+          <button class="btn-link profile-reset-link" type="button" onclick="sendPasswordReset()">Gửi email đặt lại mật khẩu</button>
+        </div>
+        <p id="passwordMessage" class="profile-message" aria-live="polite"></p>
+      </section>
+    </div>
+  </div>
 
   <!-- SETTINGS MODAL -->
   <div id="brandModal" class="modal-overlay hidden">
@@ -915,7 +1048,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
     import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, onSnapshot, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -955,6 +1088,17 @@
     let calendarCursor = parseISODate(selectedTransactionDate);
     let dateModalTarget = "transaction";
     let debtPanelCollapsed = false;
+    let selectedAvatarStyle = "blue";
+    const AVATAR_STYLES = [
+      {id:"blue",label:"Xanh dương",background:"#2f6fed",foreground:"#ffffff"},
+      {id:"navy",label:"Xanh than",background:"#243b64",foreground:"#ffffff"},
+      {id:"violet",label:"Tím",background:"#7c4dff",foreground:"#ffffff"},
+      {id:"green",label:"Xanh lá",background:"#159b63",foreground:"#ffffff"},
+      {id:"coral",label:"Cam san hô",background:"#df6b55",foreground:"#ffffff"},
+      {id:"gold",label:"Vàng nâu",background:"#b7791f",foreground:"#ffffff"},
+      {id:"slate",label:"Xám than",background:"#56657b",foreground:"#ffffff"},
+      {id:"rose",label:"Hồng trầm",background:"#c45170",foreground:"#ffffff"}
+    ];
 
     function today(){ return formatISODate(new Date()); }
     function formatISODate(date){
@@ -989,21 +1133,38 @@
     ];
 
     const CATEGORY_ICON_CHOICES = [
-      "https://cdn-icons-png.flaticon.com/512/1046/1046784.png",
-      "https://cdn-icons-png.flaticon.com/512/7720/7720735.png",
-      "https://cdn-icons-png.flaticon.com/512/1946/1946436.png",
-      "https://cdn-icons-png.flaticon.com/512/1048/1048312.png",
-      "https://cdn-icons-png.flaticon.com/512/1832/18321.png",
-      "https://cdn-icons-png.flaticon.com/512/686/686589.png",
-      "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
-      "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-      "https://cdn-icons-png.flaticon.com/512/2791/2791984.png",
-      "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
-      "https://cdn-icons-png.flaticon.com/512/2966/2966483.png",
-      "https://cdn-icons-png.flaticon.com/512/2693/2693507.png"
+      {url:"https://cdn-icons-png.flaticon.com/512/1046/1046784.png",label:"Ăn uống"},
+      {url:"https://cdn-icons-png.flaticon.com/512/121/121894.png",label:"Cà phê"},
+      {url:"https://cdn-icons-png.flaticon.com/512/14/14125.png",label:"Đồ uống"},
+      {url:"https://cdn-icons-png.flaticon.com/512/7720/7720735.png",label:"Đi lại / xăng xe"},
+      {url:"https://cdn-icons-png.flaticon.com/512/31/31069.png",label:"Máy bay / du lịch"},
+      {url:"https://cdn-icons-png.flaticon.com/512/69/69987.png",label:"Di chuyển"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1946/1946436.png",label:"Nhà ở"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1048/1048312.png",label:"Điện nước"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1006/1006771.png",label:"Internet"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1832/18321.png",label:"Mua sắm"},
+      {url:"https://cdn-icons-png.flaticon.com/512/686/686589.png",label:"Giải trí"},
+      {url:"https://cdn-icons-png.flaticon.com/512/2991/2991108.png",label:"Học tập / công việc"},
+      {url:"https://cdn-icons-png.flaticon.com/512/3135/3135715.png",label:"Kinh doanh"},
+      {url:"https://cdn-icons-png.flaticon.com/512/2791/2791984.png",label:"Tiền / trả góp"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1077/1077012.png",label:"Gia đình"},
+      {url:"https://cdn-icons-png.flaticon.com/512/2966/2966483.png",label:"Sức khỏe"},
+      {url:"https://cdn-icons-png.flaticon.com/512/616/616554.png",label:"Thú cưng"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1320/1320933.png",label:"Chăm sóc thú cưng"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1438/1438550.png",label:"Làm đẹp"},
+      {url:"https://cdn-icons-png.flaticon.com/512/4200/4200696.png",label:"Wellness"},
+      {url:"https://cdn-icons-png.flaticon.com/512/2693/2693507.png",label:"Lịch / hóa đơn"},
+      {url:"https://cdn-icons-png.flaticon.com/512/3448/3448415.png",label:"Quán cà phê"},
+      {url:"https://cdn-icons-png.flaticon.com/512/1114/1114350.png",label:"Cafe / gặp gỡ"},
+      {url:"https://cdn-icons-png.flaticon.com/512/437/437236.png",label:"Phí vận chuyển"},
+      {url:"https://cdn-icons-png.flaticon.com/512/5776/5776720.png",label:"Đồ dùng thú cưng"},
+      {url:"https://cdn-icons-png.flaticon.com/512/11321/11321791.png",label:"Chăm sóc cơ thể"},
+      {url:"https://cdn-icons-png.flaticon.com/512/10732/10732643.png",label:"Du lịch"}
     ];
+    const CATEGORY_ICON_LABELS = Object.fromEntries(CATEGORY_ICON_CHOICES.map(item => [item.url,item.label]));
+    const CATEGORY_ICON_URLS = CATEGORY_ICON_CHOICES.map(item => item.url);
 
-    let categoryIconDraft = CATEGORY_ICON_CHOICES[0];
+    let categoryIconDraft = CATEGORY_ICON_URLS[0];
 
     function cloneDefaultCategories(){
       return DEFAULT_CATEGORIES.map(item => ({...item}));
@@ -1021,7 +1182,7 @@
           .map((item,index) => ({
             id:String(item.id || `category-${index}`),
             name:normalizeCategoryName(item.name),
-            icon:CATEGORY_ICON_CHOICES.includes(item.icon) ? item.icon : CATEGORY_ICON_CHOICES[index % CATEGORY_ICON_CHOICES.length]
+            icon:CATEGORY_ICON_URLS.includes(item.icon) ? item.icon : CATEGORY_ICON_URLS[index % CATEGORY_ICON_URLS.length]
           }));
       }
       return cloneDefaultCategories();
@@ -1109,7 +1270,7 @@
     function openCategoryManager(){
       if(!currentBookId) return;
       closeCategoryMenu();
-      categoryIconDraft = CATEGORY_ICON_CHOICES[0];
+      categoryIconDraft = CATEGORY_ICON_URLS[0];
       $("newCategoryName").value = "";
       renderCategoryIconPalette();
       renderCategoryManagerList();
@@ -1121,10 +1282,14 @@
     function renderCategoryIconPalette(){
       const palette = $("categoryIconPalette");
       palette.innerHTML = "";
-      CATEGORY_ICON_CHOICES.forEach(iconUrl => {
+      CATEGORY_ICON_CHOICES.forEach(iconEntry => {
+        const iconUrl = iconEntry.url;
         const button = document.createElement("button");
         button.type = "button";
         button.className = "category-icon-choice" + (iconUrl === categoryIconDraft ? " active" : "");
+        button.dataset.label = iconEntry.label;
+        button.title = iconEntry.label;
+        button.setAttribute("aria-label",`Chọn biểu tượng: ${iconEntry.label}`);
         const image = document.createElement("img");
         image.src = iconUrl;
         image.alt = "Chọn biểu tượng";
@@ -1336,6 +1501,54 @@
       return new Intl.DateTimeFormat("vi-VN",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(parseISODate(value));
     }
     function getBook(){ return allBooks.find(book => book.id === currentBookId); }
+    function getUserDisplayName(){
+      const name = String(currentUser?.displayName || "").trim();
+      if(name) return name;
+      const email = String(currentUser?.email || "");
+      return email ? email.split("@")[0] : "Tài khoản";
+    }
+    function avatarStyleStorageKey(){ return currentUser?.uid ? `sochitieu:avatar-style:${currentUser.uid}` : ""; }
+    function getAvatarStyle(styleId = selectedAvatarStyle){ return AVATAR_STYLES.find(item => item.id === styleId) || AVATAR_STYLES[0]; }
+    function initialsFromName(value){
+      const clean = String(value || "S").trim().replace(/\s+/g," ");
+      const parts = clean.split(" ").filter(Boolean);
+      const initials = parts.length > 1 ? `${parts[0][0] || ""}${parts.at(-1)[0] || ""}` : (parts[0] || "S").slice(0,2);
+      return initials.toLocaleUpperCase("vi-VN");
+    }
+    function escapeSvgText(value){ return String(value || "").replace(/[&<>'"]/g,char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&apos;",'"':"&quot;"}[char])); }
+    function makeInitialAvatarDataUrl(name,styleId){
+      const style = getAvatarStyle(styleId);
+      const text = escapeSvgText(initialsFromName(name));
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160"><rect width="160" height="160" rx="80" fill="${style.background}"/><circle cx="80" cy="80" r="58" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="2"/><text x="80" y="96" text-anchor="middle" font-family="Arial, sans-serif" font-size="60" font-weight="700" fill="${style.foreground}">${text}</text></svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+    function validAvatarUrl(value){
+      const raw = String(value || "").trim();
+      return validHttpUrl(raw) || /^data:image\/(svg\+xml|png|jpe?g|webp);/i.test(raw);
+    }
+    function renderAvatar(targetId,{name = getUserDisplayName(),photoURL = currentUser?.photoURL,styleId = selectedAvatarStyle} = {}){
+      const target = $(targetId);
+      if(!target) return;
+      target.innerHTML = "";
+      const source = validAvatarUrl(photoURL) ? photoURL : makeInitialAvatarDataUrl(name,styleId);
+      const image = document.createElement("img");
+      image.src = source;
+      image.alt = "Ảnh đại diện";
+      image.onerror = () => {
+        target.innerHTML = `<span>${safeText(initialsFromName(name))}</span>`;
+        target.style.background = getAvatarStyle(styleId).background;
+        target.style.color = getAvatarStyle(styleId).foreground;
+      };
+      target.style.background = "#edf3ff";
+      target.style.color = "#2f6fed";
+      target.appendChild(image);
+    }
+    function renderUserAccount(){
+      if(!currentUser) return;
+      $("userDisplayName").innerText = getUserDisplayName();
+      $("userEmail").innerText = currentUser.email || "";
+      renderAvatar("userAvatar");
+    }
 
     function setMeta(selector,value){
       const meta = document.head.querySelector(selector);
@@ -1425,7 +1638,8 @@
     onAuthStateChanged(auth,user=>{
       currentUser = user;
       if(user){
-        $("userEmail").innerText = user.email;
+        selectedAvatarStyle = localStorage.getItem(avatarStyleStorageKey()) || "blue";
+        renderUserAccount();
         setTransactionDate(today());
         setDebtDate("debtDate",today());
         setDebtDate("debtDueDate","");
@@ -1444,6 +1658,147 @@
         setLogo("headerLogo","");
       }
     });
+
+    /* USER PROFILE */
+    function setProfileMessage(targetId,text,type = ""){
+      const target = $(targetId);
+      if(!target) return;
+      target.innerText = text || "";
+      target.className = `profile-message${type ? ` ${type}` : ""}`;
+    }
+    function renderAvatarStyleGrid(){
+      const grid = $("avatarStyleGrid");
+      if(!grid) return;
+      grid.innerHTML = "";
+      AVATAR_STYLES.forEach(style => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "avatar-style-choice" + (style.id === selectedAvatarStyle ? " active" : "");
+        button.title = style.label;
+        button.setAttribute("aria-label",`Chọn avatar ${style.label}`);
+        const dot = document.createElement("span");
+        dot.className = "avatar-style-dot";
+        dot.style.background = style.background;
+        dot.style.color = style.foreground;
+        dot.textContent = initialsFromName($("profileDisplayName")?.value || getUserDisplayName());
+        button.appendChild(dot);
+        button.onclick = () => {
+          selectedAvatarStyle = style.id;
+          renderAvatarStyleGrid();
+          previewProfileAvatar();
+        };
+        grid.appendChild(button);
+      });
+    }
+    function openProfileModal(){
+      if(!currentUser) return;
+      selectedAvatarStyle = localStorage.getItem(avatarStyleStorageKey()) || "blue";
+      $("profileDisplayName").value = currentUser.displayName || getUserDisplayName();
+      $("profileAvatarUrl").value = validHttpUrl(currentUser.photoURL) ? currentUser.photoURL : "";
+      $("profileCurrentName").innerText = getUserDisplayName();
+      $("profileCurrentEmail").innerText = currentUser.email || "";
+      $("profileCurrentPassword").value = "";
+      $("profileNewPassword").value = "";
+      $("profileConfirmPassword").value = "";
+      setProfileMessage("profileMessage","");
+      setProfileMessage("passwordMessage","");
+      renderAvatarStyleGrid();
+      previewProfileAvatar();
+      $("profileModal").classList.remove("hidden");
+    }
+    function closeProfileModal(){ $("profileModal").classList.add("hidden"); }
+    function previewProfileAvatar(){
+      const name = $("profileDisplayName")?.value.trim() || getUserDisplayName();
+      const customUrl = $("profileAvatarUrl")?.value.trim() || "";
+      renderAvatar("profileAvatarPreview",{name,photoURL:customUrl || makeInitialAvatarDataUrl(name,selectedAvatarStyle),styleId:selectedAvatarStyle});
+      renderAvatarStyleGrid();
+    }
+    async function saveUserProfile(){
+      if(!currentUser) return;
+      const name = $("profileDisplayName").value.trim().replace(/\s+/g," ");
+      const customUrl = $("profileAvatarUrl").value.trim();
+      if(!name){ setProfileMessage("profileMessage","Tên hiển thị không được để trống.","error"); return; }
+      if(customUrl && !validHttpUrl(customUrl)){
+        setProfileMessage("profileMessage","Link avatar chưa hợp lệ. Hãy dùng link bắt đầu bằng https:// hoặc http://.","error");
+        return;
+      }
+      const avatarUrl = customUrl || makeInitialAvatarDataUrl(name,selectedAvatarStyle);
+      const button = $("saveProfileButton");
+      const oldLabel = button.innerText;
+      button.disabled = true;
+      button.innerText = "Đang lưu...";
+      try{
+        await updateProfile(currentUser,{displayName:name,photoURL:avatarUrl});
+        const key = avatarStyleStorageKey();
+        if(key) localStorage.setItem(key,selectedAvatarStyle);
+        renderUserAccount();
+        $("profileCurrentName").innerText = name;
+        setProfileMessage("profileMessage","Đã cập nhật thông tin tài khoản.","success");
+      }catch(error){
+        console.error("Không thể cập nhật profile:",error);
+        setProfileMessage("profileMessage","Không thể lưu thông tin. Hãy thử lại.","error");
+      }finally{
+        button.disabled = false;
+        button.innerText = oldLabel;
+      }
+    }
+    async function changeUserPassword(){
+      if(!currentUser) return;
+      const currentPassword = $("profileCurrentPassword").value;
+      const newPassword = $("profileNewPassword").value;
+      const confirmPassword = $("profileConfirmPassword").value;
+      if(!currentPassword || !newPassword || !confirmPassword){
+        setProfileMessage("passwordMessage","Nhập đủ mật khẩu hiện tại, mật khẩu mới và phần xác nhận.","error");
+        return;
+      }
+      if(newPassword.length < 6){
+        setProfileMessage("passwordMessage","Mật khẩu mới cần có ít nhất 6 ký tự.","error");
+        return;
+      }
+      if(newPassword !== confirmPassword){
+        setProfileMessage("passwordMessage","Mật khẩu xác nhận chưa khớp.","error");
+        return;
+      }
+      const button = $("changePasswordButton");
+      const oldLabel = button.innerText;
+      button.disabled = true;
+      button.innerText = "Đang đổi...";
+      try{
+        const credential = EmailAuthProvider.credential(currentUser.email,currentPassword);
+        await reauthenticateWithCredential(currentUser,credential);
+        await updatePassword(currentUser,newPassword);
+        $("profileCurrentPassword").value = "";
+        $("profileNewPassword").value = "";
+        $("profileConfirmPassword").value = "";
+        setProfileMessage("passwordMessage","Đã đổi mật khẩu thành công.","success");
+      }catch(error){
+        console.error("Không thể đổi mật khẩu:",error);
+        const code = error?.code || "";
+        let message = "Không thể đổi mật khẩu. Hãy kiểm tra lại và thử lại.";
+        if(code === "auth/invalid-credential" || code === "auth/wrong-password") message = "Mật khẩu hiện tại không đúng.";
+        if(code === "auth/requires-recent-login") message = "Phiên đăng nhập cần được xác thực lại. Hãy đăng xuất, đăng nhập rồi thử lại.";
+        setProfileMessage("passwordMessage",message,"error");
+      }finally{
+        button.disabled = false;
+        button.innerText = oldLabel;
+      }
+    }
+    async function sendPasswordReset(){
+      if(!currentUser?.email) return;
+      try{
+        await sendPasswordResetEmail(auth,currentUser.email);
+        setProfileMessage("passwordMessage","Đã gửi email đặt lại mật khẩu.","success");
+      }catch(error){
+        console.error("Không thể gửi email reset:",error);
+        setProfileMessage("passwordMessage","Không thể gửi email đặt lại mật khẩu.","error");
+      }
+    }
+    window.openProfileModal = openProfileModal;
+    window.closeProfileModal = closeProfileModal;
+    window.previewProfileAvatar = previewProfileAvatar;
+    window.saveUserProfile = saveUserProfile;
+    window.changeUserPassword = changeUserPassword;
+    window.sendPasswordReset = sendPasswordReset;
 
     /* BOOKS */
     function listenBooks(){
@@ -1688,7 +2043,7 @@
       const amount = parseMoneyInput($("amount").value);
       const note = $("note").value.trim();
       if(!date || !content || !amount || amount <= 0){ alert("Vui lòng nhập ngày, nội dung và số tiền hợp lệ."); return; }
-      await addDoc(collection(db,"books",currentBookId,"transactions"),{date,month:date.slice(0,7),content,type,category,amount,note,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdAt:serverTimestamp()});
+      await addDoc(collection(db,"books",currentBookId,"transactions"),{date,month:date.slice(0,7),content,type,category,amount,note,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdByName:getUserDisplayName(),createdByAvatar:currentUser.photoURL || "",createdAt:serverTimestamp()});
       $("content").value = ""; clearMoneyInput("amount"); $("note").value = "";
     }
     async function deleteTransaction(id){
@@ -1715,7 +2070,7 @@
           const row = document.createElement("tr");
           const kind = item.type === "income" ? "income" : "expense";
           const sign = kind === "income" ? "+" : "−";
-          row.innerHTML = `<td>${safeText(item.date)}</td><td>${safeText(item.content)}</td><td><span class="type ${kind}">${kind === "income" ? "Thu" : "Chi"}</span></td><td>${categoryLabel(item.category)}</td><td><span class="amount-value ${kind}">${sign}${money(item.amount)}</span></td><td>${safeText(item.note||"-")}</td><td>${safeText(item.createdByEmail||"-")}</td><td><button class="btn-danger" onclick="deleteTransaction('${item.id}')">Xóa</button></td>`;
+          row.innerHTML = `<td>${safeText(item.date)}</td><td>${safeText(item.content)}</td><td><span class="type ${kind}">${kind === "income" ? "Thu" : "Chi"}</span></td><td>${categoryLabel(item.category)}</td><td><span class="amount-value ${kind}">${sign}${money(item.amount)}</span></td><td>${safeText(item.note||"-")}</td><td>${safeText(item.createdByName || item.createdByEmail || "-")}</td><td><button class="btn-danger" onclick="deleteTransaction('${item.id}')">Xóa</button></td>`;
           list.appendChild(row);
         });
         $("totalIncome").innerText = money(totalIncome);
@@ -1792,7 +2147,7 @@
       const dueDate = $("debtDueDate").value;
       const note = $("debtNote").value.trim();
       if(!person || !amount || amount<=0){ alert("Vui lòng nhập tên người và số tiền hợp lệ."); return; }
-      await addDoc(collection(db,"books",currentBookId,"debts"),{type:debtMode,person,amount,debtDate,dueDate,note,settled:false,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdAt:serverTimestamp()});
+      await addDoc(collection(db,"books",currentBookId,"debts"),{type:debtMode,person,amount,debtDate,dueDate,note,settled:false,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdByName:getUserDisplayName(),createdByAvatar:currentUser.photoURL || "",createdAt:serverTimestamp()});
       $("debtPerson").value = "";
       clearMoneyInput("debtAmount");
       setDebtDate("debtDate",today());
@@ -2012,7 +2367,7 @@
     });
 
     // Close modal by clicking its dark background
-    ["brandModal","categoryModal","dateModal","monthModal"].forEach(id=>{
+    ["profileModal","brandModal","categoryModal","dateModal","monthModal"].forEach(id=>{
       $(id).addEventListener("click",event=>{ if(event.target.id === id) $(id).classList.add("hidden"); });
     });
   </script>

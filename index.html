@@ -721,11 +721,12 @@
 
     .support-float{
       position:fixed;z-index:90;right:22px;bottom:22px;display:inline-flex;align-items:center;gap:8px;
-      padding:12px 15px;border-radius:999px;background:#0a7cff;color:#fff;text-decoration:none;
-      box-shadow:0 14px 28px rgba(10,124,255,.28);font-size:12px;font-weight:800;
+      padding:11px 14px;border:1px solid rgba(255,255,255,.42);border-radius:999px;background:#1677e8;color:#fff;text-decoration:none;
+      box-shadow:0 8px 20px rgba(19,56,105,.18),0 1px 2px rgba(14,35,68,.12);font-size:12px;font-weight:800;
+      isolation:isolate;
     }
-    .support-float::before{content:"?";width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.18);font-size:12px}
-    .support-float:hover{color:#fff;background:#086fe4;transform:translateY(-2px)}
+    .support-float::before{content:"Z";width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#1677e8;font-size:10px;font-weight:900;box-shadow:none}
+    .support-float:hover{color:#fff;background:#126bd0;box-shadow:0 10px 22px rgba(19,56,105,.22),0 1px 2px rgba(14,35,68,.14);transform:translateY(-2px)}
 
     .admin-view{min-height:100vh;background:var(--page)}
     .admin-hero{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:23px;border:1px solid var(--line);border-radius:21px;background:#fff;box-shadow:var(--shadow)}
@@ -996,11 +997,13 @@
     body.dark-mode .site-footer{border-color:#252b35;color:#98a3b4}
 
     body.dark-mode .support-float{
-      background:#5577bd;
+      background:#607fc0;
+      border-color:rgba(205,219,255,.2);
       color:#f6f8ff;
-      box-shadow:0 14px 28px rgba(0,0,0,.34);
+      box-shadow:0 8px 20px rgba(0,0,0,.28),0 1px 2px rgba(0,0,0,.24);
     }
-    body.dark-mode .support-float:hover{background:#6688d2;color:#fff}
+    body.dark-mode .support-float::before{background:#eef3ff;color:#526ea9}
+    body.dark-mode .support-float:hover{background:#6c8bd0;color:#fff}
     body.dark-mode .admin-book-meta b{color:#d9e0ea}
     body.dark-mode .admin-empty{border-color:#3a4351;color:#9ba6b6}
 
@@ -1740,7 +1743,7 @@
       <div class="modal-header">
         <div>
           <h3>Quản lý danh mục</h3>
-          <p>Danh mục này chỉ áp dụng cho tài khoản của bạn trong sổ hiện tại. Mỗi thành viên có bộ danh mục riêng.</p>
+          <p>Danh mục được dùng chung trong sổ này. Thành viên và quản trị viên cùng thấy các thay đổi ngay lập tức.</p>
         </div>
         <button class="close-modal" onclick="closeCategoryManager()">×</button>
       </div>
@@ -1763,7 +1766,7 @@
       </div>
 
       <div id="categoryManagerList" class="category-manager-list"></div>
-      <p class="category-manager-note">Danh mục của bạn là riêng tư trong sổ này. Đổi tên hoặc xóa danh mục không làm thay đổi giao dịch của thành viên khác; giao dịch cũ vẫn được giữ nguyên lịch sử.</p>
+      <p class="category-manager-note">Danh mục dùng chung cho toàn bộ thành viên trong sổ. Đổi tên hoặc xóa danh mục không làm mất giao dịch cũ; lịch sử vẫn được giữ nguyên.</p>
     </div>
   </div>
 
@@ -1838,10 +1841,9 @@
     let debtMode = "owedToMe";
     let allBooks = [];
     let adminBooks = [];
-    // Danh mục là riêng theo từng tài khoản trong từng sổ.
-    // Không dùng chung với các thành viên khác của cùng một sổ.
-    let personalCategories = null;
-    let personalCategoryBookId = null;
+    // Danh mục thuộc về từng sổ: mọi thành viên và quản trị viên trong cùng sổ sẽ dùng chung.
+    let bookCategories = null;
+    let categoryBookId = null;
     let debts = [];
     let adminProfile = null;
     let hasAdminAccess = false;
@@ -1852,7 +1854,7 @@
     let unsubscribeMonthNote = null;
     let unsubscribeDebts = null;
     let unsubscribeAdminBooks = null;
-    let unsubscribePersonalCategories = null;
+    let unsubscribeBookCategories = null;
 
     let selectedTransactionDate = today();
     let pendingDate = selectedTransactionDate;
@@ -1889,7 +1891,7 @@
     function money(value){ return Number(value || 0).toLocaleString("vi-VN") + "đ"; }
 
     // Danh mục mặc định: icon đều dùng từ Flaticon và được hiển thị đơn sắc.
-    // Danh mục tùy chỉnh được lưu RIÊNG cho từng tài khoản trong từng sổ.
+    // Danh mục tùy chỉnh được lưu CHUNG theo từng sổ.
     const DEFAULT_CATEGORIES = [
       {id:"food",name:"Ăn uống",icon:"https://cdn-icons-png.flaticon.com/512/1046/1046784.png"},
       {id:"transport",name:"Đi lại / xăng xe",icon:"https://cdn-icons-png.flaticon.com/512/7720/7720735.png"},
@@ -1961,8 +1963,8 @@
         }));
     }
     function getBookCategories(){
-      const normalized = personalCategoryBookId === currentBookId
-        ? normalizeCategoryList(personalCategories)
+      const normalized = categoryBookId === currentBookId
+        ? normalizeCategoryList(bookCategories)
         : [];
       return normalized.length ? normalized : cloneDefaultCategories();
     }
@@ -1979,54 +1981,81 @@
       const meta = getCategoryMeta(category,savedIcon);
       return `<span class="category-label"><span class="category-icon"><img src="${safeText(meta.icon)}" alt="" loading="lazy" onerror="this.style.display='none'"></span>${safeText(category || "Khác")}</span>`;
     }
-    function personalCategorySettingsRef(bookId = currentBookId, userId = currentUser?.uid){
-      if(!bookId || !userId) return null;
-      return doc(db,"books",bookId,"memberSettings",userId);
+    // Danh mục dùng chung theo từng sổ: books/{bookId}/settings/categories.
+    function bookCategoriesRef(bookId = currentBookId){
+      if(!bookId) return null;
+      return doc(db,"books",bookId,"settings","categories");
     }
-    function listenPersonalCategories(){
-      if(unsubscribePersonalCategories) unsubscribePersonalCategories();
-      unsubscribePersonalCategories = null;
-      personalCategories = null;
-      personalCategoryBookId = currentBookId;
+    async function readLegacyCategoriesForCurrentUser(bookId){
+      // Chỉ hỗ trợ chuyển dữ liệu cũ của người đang mở sổ; không đọc danh mục riêng của người khác.
+      if(!bookId || !currentUser || isAdminUser()) return [];
+      try{
+        const legacyRef = doc(db,"books",bookId,"memberSettings",currentUser.uid);
+        const legacySnap = await getDoc(legacyRef);
+        return legacySnap.exists() ? normalizeCategoryList(legacySnap.data().categories) : [];
+      }catch(error){
+        console.warn("Không thể chuyển danh mục cũ:",error);
+        return [];
+      }
+    }
+    function listenBookCategories(){
+      if(unsubscribeBookCategories) unsubscribeBookCategories();
+      unsubscribeBookCategories = null;
+      bookCategories = null;
+      categoryBookId = currentBookId;
 
       const bookId = currentBookId;
-      const userId = currentUser?.uid;
-      const ref = personalCategorySettingsRef(bookId,userId);
-      if(!ref) {
+      const ref = bookCategoriesRef(bookId);
+      if(!ref){
         renderCategoryPicker();
         return;
       }
 
-      unsubscribePersonalCategories = onSnapshot(ref, async snapshot => {
+      unsubscribeBookCategories = onSnapshot(ref, async snapshot => {
         // Bỏ qua callback cũ khi người dùng đã chuyển sang sổ khác.
-        if(currentBookId !== bookId || currentUser?.uid !== userId) return;
+        if(currentBookId !== bookId) return;
 
         const stored = snapshot.exists() ? normalizeCategoryList(snapshot.data().categories) : [];
-        // Chuyển bộ danh mục cũ của chủ sổ sang bộ riêng của chính chủ sổ một lần.
-        // Thành viên khác bắt đầu với bộ mặc định của riêng họ.
-        const legacyBookCategories = currentUser?.uid === getBook()?.ownerId
-          ? normalizeCategoryList(getBook()?.categories)
-          : [];
-        personalCategories = stored.length
-          ? stored
-          : (legacyBookCategories.length ? legacyBookCategories : cloneDefaultCategories());
-        personalCategoryBookId = bookId;
+        if(stored.length){
+          bookCategories = stored;
+          categoryBookId = bookId;
+          renderCategoryPicker();
+          return;
+        }
+
+        // Lần đầu chuyển phiên bản: thành viên thường sẽ dùng bộ danh mục cũ của
+        // chính họ (nếu có) để tạo danh mục chung. Admin chỉ xem mặc định cho tới
+        // khi một thành viên lưu danh mục chung, tránh admin vô tình ghi đè dữ liệu cũ.
+        if(isAdminUser()){
+          bookCategories = cloneDefaultCategories();
+          categoryBookId = bookId;
+          renderCategoryPicker();
+          return;
+        }
+
+        const legacy = await readLegacyCategoriesForCurrentUser(bookId);
+        const initial = legacy.length ? legacy : cloneDefaultCategories();
+        bookCategories = initial;
+        categoryBookId = bookId;
         renderCategoryPicker();
 
-        // Lần đầu vào một sổ: tạo bộ danh mục riêng cho người dùng này.
         if(!snapshot.exists()){
           try{
             await setDoc(ref,{
-              categories: personalCategories,
+              categories: initial,
+              createdBy: currentUser?.uid || "",
+              createdByName: getUserDisplayName(),
+              createdAt: serverTimestamp(),
               updatedAt: serverTimestamp()
             },{merge:true});
           }catch(error){
-            console.warn("Không thể khởi tạo danh mục riêng:",error);
+            console.warn("Không thể khởi tạo danh mục dùng chung:",error);
           }
         }
       },error => {
-        console.warn("Không thể tải danh mục riêng:",error);
-        personalCategories = cloneDefaultCategories();
+        console.warn("Không thể tải danh mục của sổ:",error);
+        bookCategories = cloneDefaultCategories();
+        categoryBookId = bookId;
         renderCategoryPicker();
       });
     }
@@ -2097,10 +2126,13 @@
     async function persistCategories(categories){
       const clean = normalizeCategoryList(categories);
       if(!currentBookId || !currentUser) return;
-      personalCategories = clean;
-      const ref = personalCategorySettingsRef();
+      bookCategories = clean;
+      categoryBookId = currentBookId;
+      const ref = bookCategoriesRef();
       await setDoc(ref,{
         categories:clean,
+        updatedBy:currentUser.uid,
+        updatedByName:getUserDisplayName(),
         updatedAt:serverTimestamp()
       },{merge:true});
       renderCategoryPicker();
@@ -2206,7 +2238,7 @@
 
       try{
         await persistCategories(categories);
-        // Danh mục là riêng theo user; giữ nguyên lịch sử giao dịch cũ.
+        // Danh mục dùng chung theo sổ; giữ nguyên lịch sử giao dịch cũ.
         if($("category").value === oldName) $("category").value = newName;
         renderCategoryPicker();
         renderCategoryManagerList();
@@ -2472,10 +2504,10 @@
       if(unsubscribeMonthNote) unsubscribeMonthNote();
       if(unsubscribeDebts) unsubscribeDebts();
       if(unsubscribeAdminBooks) unsubscribeAdminBooks();
-      if(unsubscribePersonalCategories) unsubscribePersonalCategories();
-      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = unsubscribeAdminBooks = unsubscribePersonalCategories = null;
-      personalCategories = null;
-      personalCategoryBookId = null;
+      if(unsubscribeBookCategories) unsubscribeBookCategories();
+      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = unsubscribeAdminBooks = unsubscribeBookCategories = null;
+      bookCategories = null;
+      categoryBookId = null;
     }
 
     /* PUBLIC / AUTH VIEWS */
@@ -2953,7 +2985,7 @@
       updateBookBrand(getBook());
       renderBooks();
       loadDebtPanelPreference();
-      listenPersonalCategories();
+      listenBookCategories();
       listenTransactions();
       listenMonthNote();
       listenDebts();
@@ -3640,6 +3672,8 @@
         await deleteSubcollectionInBatches(bookId,"transactions");
         await deleteSubcollectionInBatches(bookId,"months");
         await deleteSubcollectionInBatches(bookId,"debts");
+        // Dọn cả danh mục dùng chung của sổ.
+        await deleteDoc(doc(db,"books",bookId,"settings","categories"));
 
         await deleteDoc(doc(db,"books",bookId));
 

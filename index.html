@@ -1,1313 +1,2020 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sổ Chi Tiêu</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
-
-:root{
-  --ink:#172033;
-  --muted:#778196;
-  --line:#e8ebf0;
-  --paper:#ffffff;
-  --page:#f7f8fb;
-  --blue:#2563eb;
-  --blue-soft:#eef4ff;
-  --green:#159b63;
-  --green-soft:#edfaf4;
-  --red:#df4b5a;
-  --red-soft:#fff0f2;
-  --yellow:#b7791f;
-  --yellow-soft:#fff8e7;
-  --shadow:0 10px 30px rgba(25,38,64,.07);
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:"DM Sans",Arial,sans-serif;
-}
-
-body{
-  min-height:100vh;
-  background:var(--page);
-  color:var(--ink);
-  padding:26px;
-}
-
-.app{
-  max-width:1450px;
-  margin:auto;
-}
-
-.hidden{display:none!important}
-
-button,input,select,textarea{
-  font:inherit;
-}
-
-button{
-  border:0;
-  cursor:pointer;
-  transition:.18s ease;
-}
-
-button:hover{
-  transform:translateY(-1px);
-}
-
-input,select,textarea{
-  width:100%;
-  outline:none;
-  border:1px solid var(--line);
-  background:#fff;
-  color:var(--ink);
-  border-radius:12px;
-  padding:12px 13px;
-  transition:.18s;
-}
-
-input:focus,select:focus,textarea:focus{
-  border-color:#8db4ff;
-  box-shadow:0 0 0 4px rgba(37,99,235,.09);
-}
-
-textarea{
-  min-height:112px;
-  resize:vertical;
-}
-
-.auth-wrap{
-  min-height:calc(100vh - 52px);
-  display:grid;
-  place-items:center;
-}
-
-.auth-card{
-  width:min(460px,100%);
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:26px;
-  padding:34px;
-  box-shadow:var(--shadow);
-}
-
-.auth-card .eyebrow,
-.eyebrow{
-  color:var(--blue);
-  font-size:12px;
-  font-weight:700;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-}
-
-.auth-card h1{
-  font-family:"Playfair Display",serif;
-  font-size:36px;
-  margin:8px 0 10px;
-  letter-spacing:-.04em;
-}
-
-.auth-card p{
-  color:var(--muted);
-  line-height:1.6;
-  margin-bottom:22px;
-}
-
-.stack{display:grid;gap:12px}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.row > *{flex:1}
-
-.btn-primary{
-  background:var(--blue);
-  color:#fff;
-  padding:12px 16px;
-  border-radius:12px;
-  font-weight:700;
-}
-
-.btn-secondary{
-  background:#fff;
-  border:1px solid var(--line);
-  color:var(--ink);
-  padding:12px 16px;
-  border-radius:12px;
-  font-weight:700;
-}
-
-.btn-danger{
-  background:var(--red-soft);
-  color:var(--red);
-  padding:9px 12px;
-  border-radius:10px;
-  font-weight:700;
-}
-
-.btn-success{
-  background:var(--green-soft);
-  color:var(--green);
-  padding:9px 12px;
-  border-radius:10px;
-  font-weight:700;
-}
-
-.btn-small{
-  padding:8px 10px;
-  border-radius:9px;
-  font-size:12px;
-}
-
-.message{
-  min-height:18px;
-  font-size:13px;
-  color:var(--red);
-}
-
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  margin-bottom:20px;
-}
-
-.brand h1{
-  font-family:"Playfair Display",serif;
-  font-size:31px;
-  letter-spacing:-.045em;
-  line-height:1;
-}
-
-.brand p{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:7px;
-}
-
-.user-area{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.user-name{
-  text-align:right;
-}
-
-.user-name b{
-  display:block;
-  font-size:13px;
-}
-
-.user-name span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.user-dot{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:var(--blue-soft);
-  color:var(--blue);
-  display:grid;
-  place-items:center;
-  font-weight:800;
-}
-
-.shell{
-  display:grid;
-  grid-template-columns:255px minmax(0,1fr);
-  gap:20px;
-}
-
-.sidebar,
-.panel{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:20px;
-  box-shadow:var(--shadow);
-}
-
-.sidebar{
-  padding:16px;
-  align-self:start;
-  position:sticky;
-  top:20px;
-}
-
-.sidebar-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:14px;
-}
-
-.sidebar h3,
-.panel-title{
-  font-size:15px;
-  letter-spacing:-.01em;
-}
-
-.divider{
-  height:1px;
-  background:var(--line);
-  margin:17px 0;
-}
-
-.book-list{
-  display:grid;
-  gap:7px;
-  margin-top:14px;
-}
-
-.book-item{
-  padding:12px;
-  border:1px solid transparent;
-  border-radius:12px;
-  cursor:pointer;
-  transition:.18s;
-}
-
-.book-item:hover{
-  background:#fafbfc;
-}
-
-.book-item.active{
-  background:var(--blue-soft);
-  border-color:#cddfff;
-}
-
-.book-item b{
-  display:block;
-  font-size:13px;
-}
-
-.book-item span{
-  color:var(--muted);
-  font-size:11px;
-  display:block;
-  margin-top:4px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.main{
-  min-width:0;
-}
-
-.dashboard-head{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:16px;
-  margin-bottom:16px;
-}
-
-.dashboard-head h2{
-  font-family:"Playfair Display",serif;
-  font-size:28px;
-  letter-spacing:-.04em;
-}
-
-.dashboard-head p{
-  color:var(--muted);
-  font-size:13px;
-  margin-top:6px;
-}
-
-.month-control{
-  width:170px;
-  flex:none;
-}
-
-.code-box{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin-top:10px;
-  padding:8px 10px;
-  border:1px dashed #b9cce9;
-  color:#4c6a92;
-  background:#fbfdff;
-  border-radius:10px;
-  font-size:11px;
-  max-width:100%;
-  word-break:break-all;
-}
-
-.summary{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.stat{
-  padding:17px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:17px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.stat b{
-  display:block;
-  margin-top:8px;
-  font-size:22px;
-  letter-spacing:-.04em;
-}
-
-.stat.income b{color:var(--green)}
-.stat.expense b{color:var(--red)}
-.stat.balance b{color:var(--blue)}
-.stat.count b{color:var(--yellow)}
-
-.content-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 330px;
-  gap:18px;
-}
-
-.panel{
-  padding:18px;
-}
-
-.panel-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  margin-bottom:15px;
-}
-
-.panel-top p{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:4px;
-}
-
-.transaction-form{
-  display:grid;
-  grid-template-columns:1.1fr 1.4fr 1fr 1.25fr 1fr;
-  gap:9px;
-}
-
-.transaction-form .full-action{
-  grid-column:span 5;
-}
-
-.table-wrap{
-  overflow:auto;
-  border:1px solid var(--line);
-  border-radius:14px;
-  margin-top:16px;
-}
-
-table{
-  border-collapse:collapse;
-  width:100%;
-  min-width:760px;
-}
-
-th,td{
-  text-align:left;
-  padding:13px;
-  border-bottom:1px solid var(--line);
-  font-size:13px;
-}
-
-th{
-  color:var(--muted);
-  background:#fbfcfe;
-  font-size:11px;
-  font-weight:700;
-  text-transform:uppercase;
-  letter-spacing:.05em;
-}
-
-td{
-  color:#303a4e;
-}
-
-tr:last-child td{border-bottom:0}
-
-.type{
-  display:inline-flex;
-  border-radius:999px;
-  padding:5px 8px;
-  font-size:11px;
-  font-weight:700;
-}
-
-.type.income{
-  color:var(--green);
-  background:var(--green-soft);
-}
-
-.type.expense{
-  color:var(--red);
-  background:var(--red-soft);
-}
-
-.month-note{
-  margin-top:18px;
-}
-
-.month-note textarea{
-  margin-top:10px;
-  background:#fffef9;
-  border-color:#eee6d7;
-}
-
-.note-save{
-  margin-top:10px;
-}
-
-.debt-intro{
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.55;
-  margin-bottom:14px;
-}
-
-.debt-tabs{
-  display:flex;
-  gap:7px;
-  margin-bottom:12px;
-}
-
-.debt-tab{
-  flex:1;
-  background:#f7f8fb;
-  color:var(--muted);
-  padding:9px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:700;
-}
-
-.debt-tab.active{
-  background:var(--blue-soft);
-  color:var(--blue);
-}
-
-.debt-form{
-  display:grid;
-  gap:8px;
-  padding:12px;
-  background:#fbfcfe;
-  border:1px solid var(--line);
-  border-radius:14px;
-}
-
-.debt-list{
-  display:grid;
-  gap:9px;
-  margin-top:13px;
-}
-
-.debt-card{
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:12px;
-  background:#fff;
-}
-
-.debt-card.settled{
-  opacity:.58;
-  background:#fafafa;
-}
-
-.debt-card-top{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:8px;
-}
-
-.debt-card b{
-  font-size:13px;
-}
-
-.debt-amount{
-  font-weight:700;
-  color:#1e293b;
-  font-size:13px;
-  white-space:nowrap;
-}
-
-.debt-meta{
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.55;
-  margin-top:6px;
-}
-
-.debt-actions{
-  display:flex;
-  gap:7px;
-  margin-top:10px;
-}
-
-.empty{
-  padding:22px 10px;
-  text-align:center;
-  color:var(--muted);
-  font-size:13px;
-}
-
-@media(max-width:1150px){
-  .content-grid{grid-template-columns:1fr}
-  .summary{grid-template-columns:repeat(2,1fr)}
-}
-
-@media(max-width:820px){
-  body{padding:13px}
-  .shell{grid-template-columns:1fr}
-  .sidebar{position:static}
-  .topbar{align-items:flex-start}
-  .user-name{display:none}
-  .dashboard-head{flex-direction:column}
-  .month-control{width:100%}
-  .transaction-form{grid-template-columns:1fr 1fr}
-  .transaction-form .full-action{grid-column:span 2}
-}
-
-@media(max-width:500px){
-  .auth-card{padding:24px 18px}
-  .brand h1{font-size:26px}
-  .summary{grid-template-columns:1fr 1fr}
-  .stat{padding:14px}
-  .stat b{font-size:18px}
-  .transaction-form{grid-template-columns:1fr}
-  .transaction-form .full-action{grid-column:span 1}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SoChiTieu — Quản lý thu chi, ghi chú và vay mượn</title>
+  <meta name="description" content="SoChiTieu giúp theo dõi thu chi theo tháng, ghi chú tài chính và quản lý khoản vay mượn riêng trên điện thoại hoặc máy tính.">
+  <meta name="theme-color" content="#2f6fed">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://sochitieuvm.netlify.app/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="512x512" href="https://cdn-icons-png.flaticon.com/512/2791/2791984.png">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2791/2791984.png">
+
+  <!-- Preview khi chia sẻ lên Facebook, Zalo, Discord, Messenger... -->
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="SoChiTieu">
+  <meta property="og:url" content="https://sochitieuvm.netlify.app/">
+  <meta property="og:title" content="SoChiTieu — Quản lý thu chi, ghi chú và vay mượn">
+  <meta property="og:description" content="Theo dõi thu chi theo từng tháng, lưu ghi chú tài chính và quản lý riêng những khoản vay mượn. Đồng bộ khi đăng nhập trên điện thoại hoặc máy tính.">
+  <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2791/2791984.png">
+  <meta property="og:image:secure_url" content="https://cdn-icons-png.flaticon.com/512/2791/2791984.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:alt" content="SoChiTieu — Ứng dụng quản lý thu chi">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SoChiTieu — Quản lý thu chi, ghi chú và vay mượn">
+  <meta name="twitter:description" content="Theo dõi thu chi theo tháng, lưu ghi chú tài chính và quản lý khoản vay mượn trong một nơi.">
+  <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/2791/2791984.png">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+    :root{
+      --ink:#1e293b;
+      --ink-soft:#42526a;
+      --muted:#7a879a;
+      --line:#e7ebf1;
+      --page:#f5f7fa;
+      --paper:#ffffff;
+      --blue:#2f6fed;
+      --blue-dark:#2056c8;
+      --blue-soft:#edf3ff;
+      --green:#0f9a68;
+      --green-soft:#eaf9f3;
+      --red:#df5360;
+      --red-soft:#fff0f2;
+      --amber:#b7791f;
+      --amber-soft:#fff8e8;
+      --shadow:0 18px 42px rgba(26,42,69,.08);
+      --shadow-lg:0 28px 80px rgba(24,39,64,.16);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;
+      background:var(--page);
+      color:var(--ink);
+      font-family:"Be Vietnam Pro",Arial,sans-serif;font-synthesis:none;
+    }
+    button,input,select,textarea{font:inherit}
+    button{border:0;cursor:pointer;transition:.18s ease}
+    button:hover{transform:translateY(-1px)}
+    input,select,textarea{
+      width:100%;
+      outline:none;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:#fff;
+      color:var(--ink);
+      padding:12px 13px;
+      transition:.18s ease;
+    }
+    input:focus,select:focus,textarea:focus{
+      border-color:#8dafef;
+      box-shadow:0 0 0 4px rgba(47,111,237,.1);
+    }
+    textarea{min-height:112px;resize:vertical}
+    .hidden{display:none!important}
+    .app{max-width:1440px;margin:auto;padding:24px}
+    .eyebrow{
+      color:var(--blue);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .brand-mark{
+      width:48px;height:48px;border-radius:16px;overflow:hidden;flex:none;
+      display:grid;place-items:center;background:var(--blue-soft);
+      border:1px solid #d6e3ff;
+    }
+    .brand-mark img{width:100%;height:100%;object-fit:cover;display:block}
+    .brand-name{font-family:"Manrope",sans-serif;font-weight:800;letter-spacing:-.05em}
+
+    /* PUBLIC INTRODUCTION */
+    .public-view{min-height:100vh;background:linear-gradient(180deg,#fff 0,#f6f8fc 72%)}
+    .public-nav{
+      max-width:1180px;margin:0 auto;padding:24px;
+      display:flex;justify-content:space-between;align-items:center;gap:18px;
+    }
+    .public-brand{display:flex;align-items:center;gap:11px}
+    .public-brand .brand-name{font-size:22px}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .btn-primary,.btn-secondary,.btn-danger,.btn-success,.btn-quiet{
+      border-radius:12px;font-weight:800;
+    }
+    .btn-primary{background:var(--blue);color:#fff;padding:12px 16px}
+    .btn-primary:hover{background:var(--blue-dark)}
+    .btn-secondary{background:#fff;color:var(--ink);border:1px solid var(--line);padding:12px 16px}
+    .btn-quiet{background:transparent;color:var(--ink-soft);padding:11px 12px}
+    .btn-danger{background:var(--red-soft);color:var(--red);padding:8px 10px;font-size:12px}
+    .btn-success{background:var(--green-soft);color:var(--green);padding:8px 10px;font-size:12px}
+    .btn-small{padding:8px 10px;border-radius:9px;font-size:12px}
+
+    .hero{
+      max-width:1180px;margin:28px auto 0;padding:54px 24px 70px;
+      display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:46px;align-items:center;
+    }
+    .hero h1{
+      max-width:650px;margin-top:13px;font-family:"Manrope",sans-serif;
+      font-size:clamp(38px,5vw,66px);line-height:1.05;letter-spacing:-.07em;
+    }
+    .hero h1 span{color:var(--blue)}
+    .hero p{max-width:600px;margin-top:18px;color:var(--ink-soft);font-size:16px;line-height:1.7}
+    .hero-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px}
+    .hero-note{margin-top:15px;color:var(--muted);font-size:12px}
+    .hero-card{
+      padding:20px;border:1px solid #e5ebf6;border-radius:27px;background:#fff;box-shadow:var(--shadow-lg);
+      transform:rotate(1.5deg);
+    }
+    .mock-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .mock-title{font-family:"Manrope",sans-serif;font-weight:800;letter-spacing:-.04em}
+    .mock-dot{width:10px;height:10px;border-radius:50%;background:#51c994;box-shadow:0 0 0 5px #eaf9f3}
+    .mock-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .mock-stat{padding:14px;border:1px solid var(--line);border-radius:15px;background:#fbfcff}
+    .mock-stat span{color:var(--muted);font-size:10px}
+    .mock-stat b{display:block;margin-top:7px;font-size:16px;letter-spacing:-.04em}
+    .mock-list{display:grid;gap:9px;margin-top:14px}
+    .mock-line{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:13px;background:#f8fafc;border:1px solid #eef1f5}
+    .mock-line-left{display:flex;align-items:center;gap:8px}
+    .mock-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#fff;border:1px solid #e7ebf1;flex:none}
+    .mock-icon img{width:16px;height:16px;object-fit:contain;filter:grayscale(1) brightness(.35) contrast(1.05);opacity:.78}
+    .mock-line b{font-size:12px}.mock-line span{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+    .mock-money{font-size:12px;font-weight:800}.mock-money.red{color:var(--red)}.mock-money.green{color:var(--green)}
+
+    .intro-section{max-width:1180px;margin:0 auto;padding:35px 24px 75px}
+    .section-heading{max-width:650px}
+    .section-heading h2{margin-top:10px;font-family:"Manrope",sans-serif;font-size:34px;letter-spacing:-.06em}
+    .section-heading p{margin-top:12px;color:var(--ink-soft);line-height:1.7}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+    .feature-card{padding:20px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:0 9px 24px rgba(29,44,72,.045);transition:transform .2s ease,box-shadow .2s ease}
+    .feature-card:hover{transform:translateY(-3px);box-shadow:0 15px 28px rgba(29,44,72,.09)}
+    .feature-icon{width:42px;height:42px;display:grid;place-items:center;border:1px solid #e7ebf1;border-radius:13px;background:#fafbfd}
+    .feature-icon img{width:22px;height:22px;object-fit:contain;filter:grayscale(1) brightness(.32) contrast(1.08);opacity:.82;transition:transform .22s ease}
+    .feature-card:hover .feature-icon img{transform:translateY(-2px) scale(1.08)}
+    .feature-no{margin-top:15px;color:var(--blue);font-family:"Manrope";font-size:12px;font-weight:800;letter-spacing:.09em}
+    .feature-card h3{margin-top:12px;font-family:"Manrope";font-size:17px;letter-spacing:-.035em}
+    .feature-card p{margin-top:8px;color:var(--muted);font-size:13px;line-height:1.6}
+    .how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:25px}
+    .how-step{padding:18px;border-top:2px solid var(--blue);background:#fff;border-radius:0 0 18px 18px;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .how-icon{width:34px;height:34px;display:grid;place-items:center;border:1px solid #e7ebf1;border-radius:11px;background:#fafbfd}
+    .how-icon img{width:18px;height:18px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.05);opacity:.78}
+    .how-step b{display:block;margin-top:13px;font-size:14px}.how-step span{display:block;margin-top:8px;color:var(--muted);font-size:13px;line-height:1.6}
+    .intro-cta{margin-top:42px;padding:28px;border-radius:24px;background:#1f3f8f;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:20px}
+    .intro-cta h3{font-family:"Manrope";font-size:24px;letter-spacing:-.05em}.intro-cta p{margin-top:7px;color:#dce7ff;font-size:13px;line-height:1.6}.intro-cta .btn-primary{background:#fff;color:#1f3f8f;white-space:nowrap}
+
+    /* AUTH */
+    .auth-view{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(180deg,#fff,#f6f8fb)}
+    .auth-card{width:min(490px,100%);padding:30px;border:1px solid var(--line);background:#fff;border-radius:25px;box-shadow:var(--shadow)}
+    .auth-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:25px}
+    .auth-logo{display:flex;align-items:center;gap:11px}.auth-logo .brand-name{font-size:21px}
+    .auth-card h1{font-family:"Manrope";font-size:31px;letter-spacing:-.06em}.auth-card>p{margin-top:9px;color:var(--muted);font-size:13px;line-height:1.65}
+    .login-features{display:grid;gap:9px;margin:19px 0 21px}
+    .login-feature{padding:11px 12px;border-radius:13px;border:1px solid #e8eef9;background:#f8faff}
+    .login-feature b{display:block;color:#23468f;font-size:12px}.login-feature span{display:block;margin-top:4px;color:var(--muted);font-size:11px;line-height:1.55}
+    .stack{display:grid;gap:12px}.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1}.message{min-height:17px;color:var(--red);font-size:12px}
+
+    /* APP */
+    .app-shell{max-width:1440px;margin:auto;padding:24px}
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+    .app-brand{display:flex;align-items:center;gap:12px}.app-brand h1{font-size:25px}.app-brand p{max-width:600px;margin-top:4px;color:var(--muted);font-size:12px;line-height:1.5}
+    .user-area{display:flex;align-items:center;gap:10px}.user-text{text-align:right}.user-text b{display:block;font-size:12px}.user-text span{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+    .user-badge{width:37px;height:37px;display:grid;place-items:center;border-radius:50%;background:var(--blue-soft);color:var(--blue);font-weight:800}
+    .shell{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px}
+    .sidebar,.panel{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+    .sidebar{position:sticky;top:20px;align-self:start;padding:16px}.sidebar-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.sidebar h3,.panel-title{font-family:"Manrope";font-size:14px;letter-spacing:-.025em}.divider{height:1px;background:var(--line);margin:17px 0}
+    .book-list{display:grid;gap:7px;margin-top:14px}.book-item{padding:12px;border:1px solid transparent;border-radius:12px;cursor:pointer;transition:.18s}.book-item:hover{background:#fafbfc}.book-item.active{background:var(--blue-soft);border-color:#cbdcff}.book-item b{display:block;font-size:13px}.book-item span{display:block;overflow:hidden;margin-top:4px;color:var(--muted);font-size:10px;text-overflow:ellipsis}
+    .main{min-width:0}.dashboard-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:17px}.dashboard-head h2{font-family:"Manrope";font-size:29px;letter-spacing:-.06em}.dashboard-head p{max-width:680px;margin-top:7px;color:var(--muted);font-size:13px;line-height:1.55}.book-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:12px}.code-box{padding:8px 10px;border:1px dashed #b9cce9;border-radius:10px;background:#fbfdff;color:#4c6a92;font-size:11px;word-break:break-all}.btn-link{padding:0;background:transparent;color:var(--blue);font-size:12px;font-weight:800}
+    .month-toolbar{display:grid;grid-template-columns:42px minmax(178px,1fr) 42px;align-items:center;gap:7px;width:275px}.month-arrow{width:42px;height:44px;display:grid;place-items:center;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink-soft);font-size:25px;line-height:1}.month-current{min-height:44px;padding:7px 11px;border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left}.month-current span{display:block;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}.month-current b{display:block;margin-top:3px;font-size:13px}
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat{padding:17px;border:1px solid var(--line);border-radius:17px;background:#fff}.stat span{color:var(--muted);font-size:12px}.stat b{display:block;margin-top:8px;font-size:22px;letter-spacing:-.05em}.stat.income b{color:var(--green)}.stat.expense b{color:var(--red)}.stat.balance b{color:var(--blue)}.stat.count b{color:var(--amber)}
+    .content-grid{display:grid;grid-template-columns:minmax(0,1fr) 334px;gap:18px}.panel{padding:18px}.panel-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:15px}.panel-top p{margin-top:5px;color:var(--muted);font-size:12px;line-height:1.5}
+    /* Form giao dịch: chia 3 cột để không bị chật khi đặt cạnh sổ vay mượn. */
+    .transaction-form{
+      display:grid;
+      grid-template-columns:minmax(165px,.9fr) minmax(185px,1.35fr) minmax(150px,.95fr);
+      gap:10px;
+      align-items:start;
+    }
+    .transaction-date{grid-column:1}
+    .transaction-content{grid-column:2 / span 2}
+    .transaction-type{grid-column:1}
+    .transaction-category{grid-column:2}
+    .transaction-amount{grid-column:3}
+    .transaction-form .wide{grid-column:1 / span 2}
+    .transaction-submit{grid-column:3}
+
+    .date-trigger{min-height:45px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left}
+    .date-trigger .date-main{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:800}
+    .date-trigger .date-action{color:var(--blue);font-size:10px;font-weight:800}
+
+    /* Gợi ý tiền là popup nổi, chỉ xuất hiện khi người dùng thực sự gõ 1–3 số. */
+    .amount-stack{position:relative;min-width:0}
+    .amount-stack input{text-align:right;font-weight:800;letter-spacing:.01em}
+    .amount-suggestions{
+      position:absolute;
+      z-index:35;
+      top:calc(100% + 8px);
+      right:0;
+      width:max-content;
+      min-width:232px;
+      max-width:min(300px,calc(100vw - 42px));
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:6px;
+      padding:9px;
+      border:1px solid #dfe6f2;
+      border-radius:12px;
+      background:#fff;
+      box-shadow:0 14px 30px rgba(29,45,75,.14);
+    }
+    .amount-suggestions:empty{display:none}
+    .amount-suggestion-label{grid-column:1 / -1;color:var(--muted);font-size:10px;font-weight:800}
+    .amount-suggestion{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 9px;border:1px solid #dfe6f2;border-radius:9px;background:#f8faff;color:#56709c;font-size:10px;font-weight:800;white-space:nowrap}
+    .amount-suggestion span{color:#7890b4;font-weight:700}
+    .amount-suggestion strong{color:#315eaa;font-size:12px}
+    .amount-suggestion:hover{border-color:#9dbdff;background:var(--blue-soft);color:var(--blue)}
+    .amount-suggestion:hover strong{color:var(--blue)}
+    .debt-amount-stack{margin-bottom:1px}
+    .table-wrap{overflow:auto;margin-top:16px;border:1px solid var(--line);border-radius:14px}table{width:100%;min-width:760px;border-collapse:collapse}th,td{padding:13px;border-bottom:1px solid var(--line);text-align:left;font-size:12px}th{background:#fbfcfe;color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}td{color:#303a4e}tr:last-child td{border-bottom:0}.type{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800}.type.income{background:var(--green-soft);color:var(--green)}.type.expense{background:var(--red-soft);color:var(--red)}
+    .amount-value{font-weight:800;white-space:nowrap}.amount-value.income{color:var(--green)}.amount-value.expense{color:var(--red)}
+    .category-label{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-weight:700;color:var(--ink-soft)}
+    .category-icon{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:7px;background:transparent;transform-origin:center;transition:transform .18s ease}
+    .category-icon img{width:16px;height:16px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.82;transition:transform .18s ease,opacity .18s ease}
+    tr:hover .category-icon{animation:categoryIconPop .42s ease both}
+    tr:hover .category-icon img{opacity:1}
+    @keyframes categoryIconPop{0%{transform:translateY(0) scale(1)}45%{transform:translateY(-2px) scale(1.12)}100%{transform:translateY(0) scale(1)}}
+    .month-note{margin-top:18px}.month-note textarea{margin-top:10px;border-color:#eee6d7;background:#fffef9}.note-save{margin-top:10px}
+    /* Sổ vay mượn: bố cục riêng, có thể thu gọn khi không dùng. */
+    .debt-panel{padding:0;overflow:hidden}
+    .debt-panel-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:18px 18px 15px;border-bottom:1px solid var(--line)}
+    .debt-panel-header .panel-top{margin:0}
+    .debt-collapse-button{display:inline-flex;align-items:center;gap:7px;flex:none;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink-soft);font-size:11px;font-weight:800}
+    .debt-collapse-chevron{font-size:14px;line-height:1;transition:transform .2s ease}
+    .debt-panel.is-collapsed .debt-collapse-chevron{transform:rotate(180deg)}
+    .debt-panel.is-collapsed .debt-panel-header{border-bottom:0}
+    .debt-panel-content{padding:15px 18px 18px}
+    .debt-overview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:13px}
+    .debt-overview-card{min-width:0;padding:11px;border:1px solid #e8edf5;border-radius:13px;background:#fbfcff;color:var(--ink-soft);text-align:left}
+    .debt-overview-card:hover{border-color:#c8d9fb;background:#f8fbff}
+    .debt-overview-card.active{border-color:#adc7fb;background:var(--blue-soft)}
+    .debt-overview-card span{display:block;color:var(--muted);font-size:10px;font-weight:700}
+    .debt-overview-card b{display:block;overflow:hidden;margin-top:5px;color:var(--ink);font-size:14px;font-weight:800;letter-spacing:-.04em;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .debt-overview-card small{display:block;margin-top:4px;color:var(--muted);font-size:9px}
+    .debt-tabs{display:flex;gap:7px;margin-bottom:10px;padding:4px;border:1px solid #edf0f5;border-radius:12px;background:#fafbfc}
+    .debt-tab{flex:1;padding:9px 8px;border-radius:8px;background:transparent;color:var(--muted);font-size:11px;font-weight:800}
+    .debt-tab.active{background:#fff;box-shadow:0 3px 9px rgba(31,49,80,.08);color:var(--blue)}
+    .debt-intro{margin:0 0 12px;color:var(--muted);font-size:11px;line-height:1.6}
+    .debt-form{display:grid;gap:9px;padding:12px;border:1px solid #e8edf5;border-radius:15px;background:#fbfcfe}
+    .debt-field{display:grid;gap:6px}
+    .debt-field>span{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:.03em}
+    .debt-field input{padding:11px 12px;border-radius:11px;font-size:12px}
+    .debt-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .debt-date-trigger{min-height:56px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:10px 11px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);text-align:left}
+    .debt-date-trigger span{color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.03em}
+    .debt-date-trigger b{overflow:hidden;width:100%;font-size:11px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}
+    .debt-date-trigger:hover{border-color:#a7c2fa;background:#fbfdff}
+    .debt-form .btn-primary{margin-top:1px}
+    .debt-list{display:grid;gap:9px;margin-top:14px}
+    .debt-card{padding:13px;border:1px solid #e8edf5;border-radius:15px;background:#fff;transition:border-color .18s ease,box-shadow .18s ease}
+    .debt-card:hover{border-color:#ceddf8;box-shadow:0 8px 18px rgba(31,49,80,.05)}
+    .debt-card.settled{background:#fafbfc;opacity:.72}
+    .debt-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+    .debt-person{display:flex;align-items:center;min-width:0;gap:9px}
+    .debt-person-mark{width:30px;height:30px;display:grid;place-items:center;flex:none;border:1px solid #e1e8f2;border-radius:10px;background:#f7f9fc;color:#466181;font-size:12px;font-weight:800}
+    .debt-person-copy{min-width:0}
+    .debt-person-copy b{display:block;overflow:hidden;color:var(--ink);font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+    .debt-person-copy span{display:block;overflow:hidden;margin-top:3px;color:var(--muted);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+    .debt-status{padding:5px 7px;border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:9px;font-weight:800;white-space:nowrap}
+    .debt-card.settled .debt-status{background:#eef1f5;color:#7a879a}
+    .debt-balance-row{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-top:13px;padding-top:11px;border-top:1px dashed #e5eaf1}
+    .debt-balance-row span{color:var(--muted);font-size:10px}
+    .debt-amount{color:var(--ink);font-size:15px;font-weight:800;letter-spacing:-.035em;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .debt-card-dates{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+    .debt-card-dates div{min-width:0;padding:8px 9px;border-radius:10px;background:#fafbfd}
+    .debt-card-dates span{display:block;color:var(--muted);font-size:9px}
+    .debt-card-dates b{display:block;overflow:hidden;margin-top:4px;color:var(--ink-soft);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+    .debt-meta{margin-top:10px;color:var(--muted);font-size:10px;line-height:1.55}
+    .debt-actions{display:flex;gap:7px;margin-top:11px}
+    .empty{padding:24px 10px;color:var(--muted);text-align:center;font-size:12px}
+
+    /* FOOTER */
+    .site-footer{
+      max-width:1180px;
+      margin:0 auto;
+      padding:21px 24px 30px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+    .site-footer strong{
+      color:var(--ink-soft);
+      font-weight:800;
+    }
+    .footer-right{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:8px;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .footer-dot{opacity:.55}
+    .app-footer{
+      max-width:none;
+      margin-top:24px;
+      padding:19px 0 4px;
+    }
+
+    /* MODALS */
+    .modal-overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;padding:18px;background:rgba(16,27,46,.38);backdrop-filter:blur(5px)}
+    .modal{width:min(570px,100%);max-height:90vh;overflow:auto;padding:22px;border-radius:23px;background:#fff;box-shadow:var(--shadow-lg)}
+    .modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}.modal-header h3{font-family:"Manrope";font-size:21px;letter-spacing:-.055em}.modal-header p{margin-top:5px;color:var(--muted);font-size:12px;line-height:1.55}.close-modal{width:35px;height:35px;display:grid;place-items:center;border-radius:10px;background:#f5f7fa;color:var(--ink-soft);font-size:18px}
+    .form-label{display:block;margin:14px 0 7px;color:var(--ink-soft);font-size:12px;font-weight:800}.logo-setting-row{display:flex;align-items:center;gap:14px;margin-top:9px}.logo-preview{width:72px;height:72px;overflow:hidden;border:1px solid var(--line);border-radius:19px;background:var(--blue-soft);flex:none}.logo-preview img{width:100%;height:100%;object-fit:cover;display:block}.help-text{color:var(--muted);font-size:11px;line-height:1.6}.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:20px}.danger-zone{margin-top:22px;padding:14px;border:1px solid #ffd7dc;border-radius:14px;background:#fff8f8}.danger-zone b{display:block;color:#b42332;font-size:12px}.danger-zone p{margin-top:5px;color:#8b6570;font-size:11px;line-height:1.55}.danger-zone button{margin-top:10px}.btn-danger-solid{padding:10px 13px;border-radius:10px;background:#dc4d5a;color:#fff;font-size:12px;font-weight:800}.btn-danger-solid:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+    /* Enhanced calendar */
+    .calendar-modal{width:min(600px,100%)}
+    .selected-date-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0;padding:13px 14px;border:1px solid #d8e5ff;border-radius:15px;background:var(--blue-soft)}
+    .selected-date-banner span{color:#46628f;font-size:11px;font-weight:700}.selected-date-banner b{display:block;margin-top:4px;color:#254981;font-size:14px}
+    .calendar-controls{display:grid;grid-template-columns:38px 1fr 1fr 38px;gap:8px;align-items:center;margin:13px 0}.calendar-nav{width:38px;height:41px;display:grid;place-items:center;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink-soft);font-size:22px}
+    .calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.calendar-weekdays{margin:9px 0 7px}.calendar-weekdays span{padding:5px 0;color:var(--muted);text-align:center;font-size:10px;font-weight:800}.calendar-day{aspect-ratio:1;display:grid;place-items:center;border-radius:10px;background:#fff;color:#33435c;font-size:12px;font-weight:800}.calendar-day:hover{background:var(--blue-soft);color:var(--blue)}.calendar-day.outside{color:#bdc5d1}.calendar-day.today{outline:1px solid #93b7ff;outline-offset:-1px}.calendar-day.selected{background:var(--blue);color:#fff}.calendar-quick{display:flex;gap:7px;flex-wrap:wrap;margin-top:14px}.calendar-quick button{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink-soft);font-size:11px;font-weight:800}.calendar-footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px}
+    .month-modal{width:min(450px,100%)}.month-modal-controls{display:flex;align-items:center;gap:9px;margin-bottom:16px}.month-modal-controls select{max-width:160px}.month-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.month-choice{padding:13px 7px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink-soft);font-size:12px;font-weight:800}.month-choice.active{border-color:var(--blue);background:var(--blue);color:#fff}
+
+    .stat b,.amount-value,.debt-amount{font-variant-numeric:tabular-nums}
+    @media(max-width:520px){
+      .debt-panel-header{padding:15px}
+      .debt-panel-content{padding:13px 15px 15px}
+      .debt-date-grid{grid-template-columns:1fr}
+      .debt-collapse-button{padding:7px 8px}
+      .debt-collapse-button span:first-child{display:none}
+    }
+
+    @media(max-width:1080px){.hero{grid-template-columns:1fr}.hero-card{max-width:560px;transform:none}.feature-grid,.how-grid{grid-template-columns:1fr}.content-grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:840px){
+      .app,.app-shell{padding:13px}.public-nav{padding:17px}.hero,.intro-section{padding-left:17px;padding-right:17px}.shell{grid-template-columns:1fr}.sidebar{position:static}.user-text{display:none}.dashboard-head{flex-direction:column}.month-toolbar{width:100%;max-width:360px}.topbar{align-items:flex-start}
+      .transaction-form{grid-template-columns:1fr 1fr}
+      .transaction-date{grid-column:1}.transaction-content{grid-column:2}.transaction-type{grid-column:1}.transaction-category{grid-column:2}.transaction-amount{grid-column:1 / span 2}.transaction-form .wide{grid-column:1}.transaction-submit{grid-column:2}
+    }
+    @media(max-width:540px){
+      .public-nav .btn-quiet{display:none}.hero{padding-top:35px;padding-bottom:48px}.hero h1{font-size:42px}.intro-cta{display:block}.intro-cta .btn-primary{margin-top:16px}.auth-card{padding:23px 18px}.summary{grid-template-columns:1fr 1fr}.stat{padding:14px}.stat b{font-size:18px}
+      .transaction-form{grid-template-columns:1fr}
+      .transaction-date,.transaction-content,.transaction-type,.transaction-category,.transaction-amount,.transaction-form .wide,.transaction-submit{grid-column:1}
+      .amount-suggestions{left:0;right:auto;min-width:min(260px,calc(100vw - 54px))}
+      .calendar-controls{grid-template-columns:36px 1fr 36px}.calendar-controls select:last-of-type{grid-column:2}.calendar-controls .calendar-nav:last-child{grid-column:3;grid-row:1 / span 2}.calendar-controls .calendar-nav:first-child{grid-row:1 / span 2}.calendar-grid{gap:3px}.calendar-day{font-size:11px}.modal{padding:18px}.row>*{flex-basis:100%}
+      .site-footer{padding:18px 17px 24px;flex-direction:column;text-align:center}.footer-right{justify-content:center;white-space:normal}
+    }
+
+
+    /* CUSTOM CATEGORY PICKER */
+    .category-picker{position:relative;min-width:0}
+    .category-trigger{
+      width:100%;min-height:45px;display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:8px 10px;border:1px solid var(--line);border-radius:13px;background:#fff;color:var(--ink);
+      text-align:left;font-weight:800;
+    }
+    .category-trigger:hover{border-color:#b7caf0;background:#fbfdff}
+    .category-picker.is-open .category-trigger{border-color:#8dafef;box-shadow:0 0 0 4px rgba(47,111,237,.1)}
+    .category-trigger-main{min-width:0;display:flex;align-items:center;gap:9px}
+    .category-trigger-icon{width:27px;height:27px;display:grid;place-items:center;border:1px solid #e8edf4;border-radius:9px;background:#f9fbfd;flex:none}
+    .category-trigger-icon img{width:16px;height:16px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.86}
+    #categoryTriggerName{overflow:hidden;font-size:12px;text-overflow:ellipsis;white-space:nowrap}
+    .category-chevron{color:#52637d;font-size:17px;line-height:1;transition:transform .18s ease}
+    .category-picker.is-open .category-chevron{transform:rotate(180deg)}
+    .category-menu{
+      position:absolute;z-index:75;top:calc(100% + 8px);left:0;width:min(420px,calc(100vw - 44px));
+      padding:11px;border:1px solid #dfe6f1;border-radius:16px;background:#fff;box-shadow:0 20px 45px rgba(28,45,76,.15);
+    }
+    .category-menu-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:4px 4px 10px}
+    .category-menu-head b{display:block;font-family:"Manrope";font-size:13px;letter-spacing:-.025em}
+    .category-menu-head span{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+    .category-manage-link{padding:7px 8px;border-radius:9px;background:#f4f7fc;color:var(--blue);font-size:11px;font-weight:800}
+    .category-manage-link:hover{background:var(--blue-soft)}
+    .category-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:256px;overflow:auto;padding:1px}
+    .category-option{
+      min-width:0;display:flex;align-items:center;gap:8px;padding:9px;border:1px solid #e8edf4;border-radius:11px;background:#fff;color:var(--ink-soft);text-align:left;
+    }
+    .category-option:hover{border-color:#b7caf0;background:#fbfdff}
+    .category-option.selected{border-color:#98b9fc;background:var(--blue-soft);color:var(--blue)}
+    .category-option-icon{width:26px;height:26px;display:grid;place-items:center;border:1px solid #e7ecf4;border-radius:8px;background:#fafbfd;flex:none}
+    .category-option-icon img{width:15px;height:15px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.8}
+    .category-option.selected .category-option-icon{border-color:#c6d9ff;background:#fff}
+    .category-option-name{overflow:hidden;font-size:11px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+    .category-add-link{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:10px;padding:10px;border:1px dashed #bcd0f6;border-radius:11px;background:#fbfdff;color:var(--blue);font-size:11px;font-weight:800}
+    .category-add-link span{font-size:16px;line-height:.8}
+    .category-add-link:hover{background:var(--blue-soft);border-color:#8dafef}
+
+    /* CATEGORY MANAGER */
+    .category-manager-modal{width:min(650px,100%)}
+    .category-create-card{padding:15px;border:1px solid #e5ebf5;border-radius:16px;background:#fafcff}
+    .category-create-title{font-family:"Manrope";font-size:13px;font-weight:800;letter-spacing:-.02em}
+    .category-create-card input{margin-top:10px;background:#fff}
+    .category-icon-label{margin-top:12px;color:var(--muted);font-size:11px;font-weight:800}
+    .category-icon-palette{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+    .category-icon-choice{width:38px;height:38px;display:grid;place-items:center;border:1px solid #e1e8f2;border-radius:11px;background:#fff}
+    .category-icon-choice img{width:18px;height:18px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.78}
+    .category-icon-choice:hover{border-color:#b7caf0;background:#fbfdff}
+    .category-icon-choice.active{border-color:#8dafef;background:var(--blue-soft);box-shadow:0 0 0 3px rgba(47,111,237,.09)}
+    .category-icon-choice.active img{opacity:1}
+    .category-create-button{width:100%;margin-top:12px}
+    .category-manager-heading{display:flex;align-items:flex-end;justify-content:space-between;margin:20px 0 9px}
+    .category-manager-heading b{display:block;font-family:"Manrope";font-size:13px;letter-spacing:-.02em}
+    .category-manager-heading span{display:block;margin-top:4px;color:var(--muted);font-size:10px}
+    .category-manager-list{display:grid;gap:8px;max-height:330px;overflow:auto;padding-right:2px}
+    .category-manager-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto auto;align-items:center;gap:8px;padding:9px;border:1px solid var(--line);border-radius:13px;background:#fff}
+    .category-manager-row-icon{width:34px;height:34px;display:grid;place-items:center;border:1px solid #e8edf4;border-radius:10px;background:#fafbfd}
+    .category-manager-row-icon img{width:17px;height:17px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.8}
+    .category-manager-row input{min-width:0;padding:9px 10px;border-radius:10px;font-size:12px;font-weight:700}
+    .category-row-save{padding:9px 10px;border-radius:10px;background:var(--blue-soft);color:var(--blue);font-size:11px;font-weight:800}
+    .category-row-delete{padding:9px 10px;border-radius:10px;background:var(--red-soft);color:var(--red);font-size:11px;font-weight:800}
+    .category-manager-note{margin-top:10px;color:var(--muted);font-size:10px;line-height:1.55}
+
+    @media(max-width:620px){
+      .category-menu{width:min(100%,calc(100vw - 44px))}
+      .category-options{grid-template-columns:1fr}
+      .category-manager-row{grid-template-columns:34px minmax(0,1fr) auto}
+      .category-row-delete{grid-column:2 / -1;justify-self:stretch}
+    }
+  </style>
 </head>
-
 <body>
-<div class="app">
+  <!-- PUBLIC INTRODUCTION PAGE -->
+  <section id="introView" class="public-view">
+    <header class="public-nav">
+      <div class="public-brand">
+        <div class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></div>
+        <div class="brand-name">SoChiTieu</div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-quiet" onclick="document.getElementById('gioi-thieu').scrollIntoView({behavior:'smooth'})">Giới thiệu</button>
+        <button id="publicActionButton" class="btn-primary" onclick="showAuth()">Đăng nhập / Đăng ký</button>
+      </div>
+    </header>
 
-  <div id="authView" class="auth-wrap">
+    <main>
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Sổ tài chính cá nhân</div>
+          <h1>Giữ tiền bạc <span>gọn gàng</span>, để cuộc sống nhẹ đầu hơn.</h1>
+          <p>SoChiTieu là nơi bạn ghi lại thu nhập, chi tiêu, ghi chú theo từng tháng và các khoản vay mượn riêng mà không làm rối báo cáo tài chính.</p>
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="showAuth()">Bắt đầu sử dụng</button>
+            <button class="btn-secondary" onclick="document.getElementById('gioi-thieu').scrollIntoView({behavior:'smooth'})">Xem cách hoạt động</button>
+          </div>
+          <div class="hero-note">Dùng trên điện thoại hoặc máy tính. Dữ liệu được lưu sau khi đăng nhập.</div>
+        </div>
+
+        <div class="hero-card" aria-label="Minh họa giao diện SoChiTieu">
+          <div class="mock-top">
+            <div class="mock-title">Tổng quan tháng này</div>
+            <div class="mock-dot"></div>
+          </div>
+          <div class="mock-stats">
+            <div class="mock-stat"><span>Tổng thu</span><b style="color:var(--green)">12.500.000đ</b></div>
+            <div class="mock-stat"><span>Tổng chi</span><b style="color:var(--red)">4.260.000đ</b></div>
+            <div class="mock-stat"><span>Số dư</span><b style="color:var(--blue)">8.240.000đ</b></div>
+          </div>
+          <div class="mock-list">
+            <div class="mock-line"><div class="mock-line-left"><div class="mock-icon"><img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt=""></div><div><b>Ăn uống</b><span>Hôm nay</span></div></div><div class="mock-money red">- 95.000đ</div></div>
+            <div class="mock-line"><div class="mock-line-left"><div class="mock-icon"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt=""></div><div><b>Khách chuyển khoản</b><span>Hôm qua</span></div></div><div class="mock-money green">+ 1.200.000đ</div></div>
+            <div class="mock-line"><div class="mock-line-left"><div class="mock-icon"><img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt=""></div><div><b>Khoản vay mượn</b><span>Không tính vào chi tiêu</span></div></div><div class="mock-money">300.000đ</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="gioi-thieu" class="intro-section">
+        <div class="section-heading">
+          <div class="eyebrow">Giới thiệu</div>
+          <h2>Một cuốn sổ rõ ràng, không phải một bảng tính rối mắt.</h2>
+          <p>Ứng dụng tách riêng phần thu chi hằng tháng và các khoản vay mượn để bạn luôn biết chính xác tiền của mình đang đi đâu.</p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon"><img src="https://cdn-icons-png.flaticon.com/512/2693/2693507.png" alt="Lịch theo tháng"></div>
+            <div class="feature-no">01 / THÁNG</div>
+            <h3>Xem lại từng tháng</h3>
+            <p>Chọn bất kỳ tháng nào để xem giao dịch, tổng thu, tổng chi, số dư và ghi chú đã lưu.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Ghi chú"></div>
+            <div class="feature-no">02 / GHI CHÚ</div>
+            <h3>Nhớ những điều quan trọng</h3>
+            <p>Lưu mục tiêu tiết kiệm, lịch trả góp, kế hoạch chi tiêu hoặc tổng kết cuối tháng.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Quản lý vay mượn"></div>
+            <div class="feature-no">03 / VAY MƯỢN</div>
+            <h3>Quản lý nợ riêng biệt</h3>
+            <p>Theo dõi ai đang nợ bạn hoặc bạn đang nợ ai mà không ảnh hưởng tổng thu chi tháng.</p>
+          </article>
+        </div>
+
+        <div class="how-grid">
+          <div class="how-step"><div class="how-icon"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Tạo tài khoản"></div><b>1. Tạo tài khoản</b><span>Đăng ký bằng email để có không gian dữ liệu của riêng bạn.</span></div>
+          <div class="how-step"><div class="how-icon"><img src="https://cdn-icons-png.flaticon.com/512/2991/2991108.png" alt="Tạo sổ"></div><b>2. Tạo sổ hoặc tham gia sổ chung</b><span>Dùng mã sổ để những người được mời có thể cùng cập nhật.</span></div>
+          <div class="how-step"><div class="how-icon"><img src="https://cdn-icons-png.flaticon.com/512/2693/2693507.png" alt="Ghi chép hằng ngày"></div><b>3. Ghi chép mỗi ngày</b><span>Thêm giao dịch, ghi chú và theo dõi tình hình tài chính rõ ràng hơn.</span></div>
+        </div>
+
+        <div class="intro-cta">
+          <div>
+            <h3>Bắt đầu sắp xếp tài chính của bạn.</h3>
+            <p>Tạo sổ đầu tiên chỉ trong vài phút, sau đó truy cập ở bất cứ thiết bị nào bạn đăng nhập.</p>
+          </div>
+          <button class="btn-primary" onclick="showAuth()">Tạo tài khoản</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer public-footer">
+      <div>© <strong>2026 - Văn Mạnh</strong></div>
+      <div class="footer-right">
+        <span>SoChiTieu</span>
+        <span class="footer-dot" aria-hidden="true">•</span>
+        <span>Quản lý tài chính cá nhân</span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- AUTH -->
+  <section id="authView" class="auth-view hidden">
     <div class="auth-card">
-      <div class="eyebrow">Personal finance</div>
-      <h1>Sổ chi tiêu</h1>
-      <p>Một nơi gọn gàng để theo dõi chi tiêu hàng tháng và các khoản vay mượn riêng.</p>
+      <div class="auth-top">
+        <div class="auth-logo">
+          <div class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></div>
+          <div class="brand-name">SoChiTieu</div>
+        </div>
+        <button class="btn-quiet" onclick="showIntro()">Giới thiệu</button>
+      </div>
+
+      <h1>Đăng nhập để bắt đầu</h1>
+      <p>Tạo hoặc truy cập sổ chi tiêu của bạn. Dữ liệu có thể đồng bộ trên các thiết bị sau khi đăng nhập.</p>
+
+      <div class="login-features">
+        <div class="login-feature"><b>Quản lý theo tháng</b><span>Xem lại giao dịch, số dư và ghi chú của bất kỳ tháng nào.</span></div>
+        <div class="login-feature"><b>Sổ vay mượn riêng</b><span>Khoản nợ được lưu riêng, không cộng vào báo cáo thu chi.</span></div>
+        <div class="login-feature"><b>Dùng chung sổ</b><span>Mời người khác cùng nhập liệu bằng mã sổ.</span></div>
+      </div>
 
       <div class="stack">
-        <input id="email" type="email" placeholder="Email của bạn">
-        <input id="password" type="password" placeholder="Mật khẩu (ít nhất 6 ký tự)">
+        <input id="email" type="email" placeholder="Email của bạn" autocomplete="email">
+        <input id="password" type="password" placeholder="Mật khẩu ít nhất 6 ký tự" autocomplete="current-password">
         <div class="row">
-          <button class="btn-primary" onclick="login()">Đăng nhập</button>
-          <button class="btn-secondary" onclick="register()">Đăng ký</button>
+          <button class="btn-primary" onclick="register()">Đăng ký</button>
+          <button class="btn-secondary" onclick="login()">Đăng nhập</button>
         </div>
         <div id="authMsg" class="message"></div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div id="mainView" class="hidden">
-    <header class="topbar">
-      <div class="brand">
-        <h1>Sổ chi tiêu</h1>
-        <p>Thu chi theo tháng, quản lý riêng các khoản vay mượn.</p>
-      </div>
-
-      <div class="user-area">
-        <div class="user-name">
-          <b id="userEmail"></b>
-          <span>Tài khoản đang đăng nhập</span>
-        </div>
-        <div class="user-dot">S</div>
-        <button class="btn-secondary btn-small" onclick="logout()">Đăng xuất</button>
-      </div>
-    </header>
-
-    <div class="shell">
-      <aside class="sidebar">
-        <div class="sidebar-head">
-          <h3>Sổ của bạn</h3>
-        </div>
-
-        <div class="stack">
-          <input id="newBookName" placeholder="Tên sổ mới">
-          <button class="btn-primary" onclick="createBook()">Tạo sổ mới</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="sidebar-head">
-          <h3>Tham gia sổ chung</h3>
-        </div>
-
-        <div class="stack">
-          <input id="joinBookId" placeholder="Dán mã sổ">
-          <button class="btn-secondary" onclick="joinBook()">Tham gia</button>
-        </div>
-
-        <div id="bookList" class="book-list"></div>
-      </aside>
-
-      <main id="bookDetail" class="main hidden">
-        <div class="dashboard-head">
+  <!-- APP -->
+  <section id="mainView" class="hidden">
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="app-brand">
+          <div id="headerLogo" class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></div>
           <div>
-            <h2 id="bookTitle">Sổ chi tiêu</h2>
-            <p>Chọn tháng để xem lại toàn bộ giao dịch và ghi chú.</p>
-            <div class="code-box">Mã sổ: <span id="bookCode"></span></div>
-          </div>
-
-          <div class="month-control">
-            <label class="eyebrow" style="display:block;margin-bottom:7px">Tháng đang xem</label>
-            <input id="monthPicker" type="month" onchange="changeMonth()">
+            <h1 class="brand-name">SoChiTieu</h1>
+            <p>Quản lý thu chi, ghi chú theo tháng và khoản vay mượn trong một không gian gọn gàng.</p>
           </div>
         </div>
+        <div class="user-area">
+          <div class="user-text"><b id="userEmail"></b><span>Tài khoản đang đăng nhập</span></div>
+          <div class="user-badge">S</div>
+          <button class="btn-secondary btn-small" onclick="showIntro()">Giới thiệu</button>
+          <button class="btn-secondary btn-small" onclick="logout()">Đăng xuất</button>
+        </div>
+      </header>
 
-        <section class="summary">
-          <div class="stat income">
-            <span>Tổng thu</span>
-            <b id="totalIncome">0đ</b>
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar-head"><h3>Sổ của bạn</h3></div>
+          <div class="stack">
+            <input id="newBookName" placeholder="Tên sổ mới">
+            <button class="btn-primary" onclick="createBook()">Tạo sổ mới</button>
           </div>
-          <div class="stat expense">
-            <span>Tổng chi</span>
-            <b id="totalExpense">0đ</b>
+          <div class="divider"></div>
+          <div class="sidebar-head"><h3>Tham gia sổ chung</h3></div>
+          <div class="stack">
+            <input id="joinBookId" placeholder="Dán mã sổ">
+            <button class="btn-secondary" onclick="joinBook()">Tham gia</button>
           </div>
-          <div class="stat balance">
-            <span>Số dư tháng</span>
-            <b id="balance">0đ</b>
-          </div>
-          <div class="stat count">
-            <span>Giao dịch</span>
-            <b id="totalCount">0</b>
-          </div>
-        </section>
+          <div id="bookList" class="book-list"></div>
+        </aside>
 
-        <div class="content-grid">
-          <section>
-            <div class="panel">
-              <div class="panel-top">
-                <div>
-                  <h3 class="panel-title">Giao dịch trong tháng</h3>
-                  <p>Khoản vay mượn không được tính ở phần này.</p>
-                </div>
-              </div>
-
-              <div class="transaction-form">
-                <input id="date" type="date">
-                <input id="content" placeholder="Nội dung giao dịch">
-
-                <select id="type">
-                  <option value="expense">Chi tiêu</option>
-                  <option value="income">Thu nhập</option>
-                </select>
-
-                <select id="category">
-                  <option>Ăn uống</option>
-                  <option>Đi lại / xăng xe</option>
-                  <option>Tiền nhà</option>
-                  <option>Điện nước / Internet</option>
-                  <option>Mua sắm</option>
-                  <option>Giải trí</option>
-                  <option>Học tập / công việc</option>
-                  <option>Kinh doanh</option>
-                  <option>Trả nợ / trả góp</option>
-                  <option>Gia đình</option>
-                  <option>Sức khỏe</option>
-                  <option>Khác</option>
-                </select>
-
-                <input id="amount" type="number" min="0" placeholder="Số tiền">
-
-                <input id="note" placeholder="Ghi chú (không bắt buộc)">
-                <button class="btn-primary full-action" onclick="addTransaction()">Thêm giao dịch</button>
-              </div>
-
-              <div class="table-wrap">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Ngày</th>
-                      <th>Nội dung</th>
-                      <th>Loại</th>
-                      <th>Danh mục</th>
-                      <th>Số tiền</th>
-                      <th>Ghi chú</th>
-                      <th>Người nhập</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody id="transactionList"></tbody>
-                </table>
+        <main id="bookDetail" class="main hidden">
+          <div class="dashboard-head">
+            <div>
+              <h2 id="bookTitle">Sổ chi tiêu</h2>
+              <p id="bookDescription">Theo dõi giao dịch, ghi chú theo tháng và quản lý khoản vay mượn.</p>
+              <div class="book-meta">
+                <div class="code-box">Mã sổ: <span id="bookCode"></span></div>
+                <button class="btn-link" onclick="openBrandSettings()">Tùy chỉnh sổ</button>
               </div>
             </div>
 
-            <div class="panel month-note">
-              <div class="panel-top">
-                <div>
-                  <h3 class="panel-title">Ghi chú tháng</h3>
-                  <p>Mục tiêu, khoản cần nhớ hoặc tổng kết riêng của tháng này.</p>
-                </div>
-              </div>
-
-              <textarea id="monthNote" placeholder="Ví dụ: Tháng này ưu tiên tiết kiệm 5 triệu, còn tiền trả góp ngày 20..."></textarea>
-              <button class="btn-primary note-save" onclick="saveMonthNote()">Lưu ghi chú</button>
+            <div class="month-toolbar">
+              <button class="month-arrow" title="Tháng trước" onclick="shiftCurrentMonth(-1)">‹</button>
+              <button class="month-current" onclick="openMonthModal()">
+                <span>Tháng đang xem</span>
+                <b id="currentMonthLabel"></b>
+              </button>
+              <button class="month-arrow" title="Tháng sau" onclick="shiftCurrentMonth(1)">›</button>
             </div>
+          </div>
+
+          <section class="summary">
+            <div class="stat income"><span>Tổng thu</span><b id="totalIncome">0đ</b></div>
+            <div class="stat expense"><span>Tổng chi</span><b id="totalExpense">0đ</b></div>
+            <div class="stat balance"><span>Số dư tháng</span><b id="balance">0đ</b></div>
+            <div class="stat count"><span>Giao dịch</span><b id="totalCount">0</b></div>
           </section>
 
-          <aside class="panel">
-            <div class="panel-top">
-              <div>
-                <h3 class="panel-title">Sổ vay mượn</h3>
-                <p>Được lưu riêng, không cộng vào chi tiêu tháng.</p>
+          <div class="content-grid">
+            <section>
+              <div class="panel">
+                <div class="panel-top">
+                  <div>
+                    <h3 class="panel-title">Giao dịch trong tháng</h3>
+                    <p>Khoản vay mượn được quản lý riêng nên không tính vào tổng thu chi.</p>
+                  </div>
+                </div>
+
+                <div class="transaction-form">
+                  <div class="transaction-date">
+                    <input id="date" type="hidden">
+                    <button class="date-trigger" onclick="openDateModal()">
+                      <span id="dateTriggerText" class="date-main">Chọn ngày giao dịch</span>
+                      <span class="date-action">LỊCH</span>
+                    </button>
+                  </div>
+
+                  <input id="content" class="transaction-content" placeholder="Nội dung giao dịch">
+
+                  <select id="type" class="transaction-type"><option value="expense">Chi tiêu</option><option value="income">Thu nhập</option></select>
+
+                  <div class="category-picker transaction-category">
+                    <input id="category" type="hidden" value="Ăn uống">
+
+                    <button id="categoryTrigger" class="category-trigger" type="button" onclick="toggleCategoryMenu()" aria-haspopup="listbox" aria-expanded="false">
+                      <span class="category-trigger-main">
+                        <span class="category-trigger-icon"><img id="categoryTriggerIcon" src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt=""></span>
+                        <span id="categoryTriggerName">Ăn uống</span>
+                      </span>
+                      <span class="category-chevron" aria-hidden="true">⌄</span>
+                    </button>
+
+                    <div id="categoryMenu" class="category-menu hidden" role="listbox" aria-label="Chọn danh mục">
+                      <div class="category-menu-head">
+                        <div>
+                          <b>Danh mục</b>
+                          <span>Chọn nhanh cho giao dịch này</span>
+                        </div>
+                        <button type="button" class="category-manage-link" onclick="openCategoryManager()">Chỉnh sửa</button>
+                      </div>
+
+                      <div id="categoryOptions" class="category-options"></div>
+
+                      <button type="button" class="category-add-link" onclick="openCategoryManager()">
+                        <span>+</span> Thêm hoặc chỉnh sửa danh mục
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="amount-stack transaction-amount">
+                    <input id="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="Số tiền" aria-describedby="amountSuggestions">
+                    <div id="amountSuggestions" class="amount-suggestions" aria-live="polite"></div>
+                  </div>
+
+                  <input id="note" class="wide" placeholder="Ghi chú giao dịch">
+                  <button class="btn-primary transaction-submit" onclick="addTransaction()">Thêm giao dịch</button>
+                </div>
+
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>Ngày</th><th>Nội dung</th><th>Loại</th><th>Danh mục</th><th>Số tiền</th><th>Ghi chú</th><th>Người nhập</th><th></th></tr></thead>
+                    <tbody id="transactionList"></tbody>
+                  </table>
+                </div>
               </div>
-            </div>
 
-            <div class="debt-tabs">
-              <button id="tabOwedToMe" class="debt-tab active" onclick="setDebtMode('owedToMe')">Người nợ tôi</button>
-              <button id="tabIOwe" class="debt-tab" onclick="setDebtMode('iOwe')">Tôi đang nợ</button>
-            </div>
+              <div class="panel month-note">
+                <div class="panel-top"><div><h3 class="panel-title">Ghi chú tháng</h3><p>Mục tiêu tiết kiệm, khoản cần nhớ hoặc kế hoạch tài chính của tháng này.</p></div></div>
+                <textarea id="monthNote" placeholder="Ví dụ: Tháng này ưu tiên tiết kiệm 5 triệu, còn khoản trả góp ngày 20..."></textarea>
+                <button class="btn-primary note-save" onclick="saveMonthNote()">Lưu ghi chú</button>
+              </div>
+            </section>
 
-            <p id="debtModeText" class="debt-intro">Ghi lại người đang mượn tiền của bạn để dễ theo dõi.</p>
+            <aside id="debtPanel" class="panel debt-panel">
+              <div class="debt-panel-header">
+                <div class="panel-top">
+                  <div>
+                    <h3 class="panel-title">Sổ vay mượn</h3>
+                    <p>Các khoản ở đây được lưu riêng, không cộng vào tổng thu chi tháng.</p>
+                  </div>
+                </div>
+                <button id="debtCollapseButton" class="debt-collapse-button" type="button" onclick="toggleDebtPanel()" aria-expanded="true">
+                  <span id="debtCollapseLabel">Thu gọn</span>
+                  <span class="debt-collapse-chevron" aria-hidden="true">⌃</span>
+                </button>
+              </div>
 
-            <div class="debt-form">
-              <input id="debtPerson" placeholder="Tên người">
-              <input id="debtAmount" type="number" min="0" placeholder="Số tiền">
-              <input id="debtDate" type="date">
-              <input id="debtDueDate" type="date">
-              <input id="debtNote" placeholder="Ghi chú / lý do vay">
-              <button class="btn-primary" onclick="addDebt()">Lưu khoản vay</button>
-            </div>
+              <div id="debtPanelContent" class="debt-panel-content">
+                <div class="debt-overview">
+                  <button id="debtOwedOverview" class="debt-overview-card active" type="button" onclick="setDebtMode('owedToMe')">
+                    <span>Người nợ tôi</span>
+                    <b id="debtOwedTotal">0đ</b>
+                    <small id="debtOwedCount">0 khoản đang mở</small>
+                  </button>
+                  <button id="debtIOweOverview" class="debt-overview-card" type="button" onclick="setDebtMode('iOwe')">
+                    <span>Tôi đang nợ</span>
+                    <b id="debtIOweTotal">0đ</b>
+                    <small id="debtIOweCount">0 khoản đang mở</small>
+                  </button>
+                </div>
 
-            <div id="debtList" class="debt-list"></div>
-          </aside>
+                <div class="debt-tabs">
+                  <button id="tabOwedToMe" class="debt-tab active" type="button" onclick="setDebtMode('owedToMe')">Người nợ tôi</button>
+                  <button id="tabIOwe" class="debt-tab" type="button" onclick="setDebtMode('iOwe')">Tôi đang nợ</button>
+                </div>
+
+                <p id="debtModeText" class="debt-intro">Ghi lại người đang mượn tiền của bạn để tiện theo dõi.</p>
+
+                <div class="debt-form">
+                  <label class="debt-field">
+                    <span id="debtPersonLabel">Người đang nợ</span>
+                    <input id="debtPerson" placeholder="Ví dụ: Nguyễn Văn A">
+                  </label>
+
+                  <label class="debt-field">
+                    <span>Số tiền</span>
+                    <div class="amount-stack debt-amount-stack">
+                      <input id="debtAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Nhập số tiền" aria-describedby="debtAmountSuggestions">
+                      <div id="debtAmountSuggestions" class="amount-suggestions" aria-live="polite"></div>
+                    </div>
+                  </label>
+
+                  <div class="debt-date-grid">
+                    <div class="debt-field">
+                      <span id="debtDateLabel">Ngày cho mượn</span>
+                      <input id="debtDate" type="hidden">
+                      <button class="debt-date-trigger" type="button" onclick="openDateModal('debtDate')">
+                        <span>CHỌN LỊCH</span>
+                        <b id="debtDateTriggerText">Chọn ngày</b>
+                      </button>
+                    </div>
+
+                    <div class="debt-field">
+                      <span id="debtDueDateLabel">Hạn cần thu</span>
+                      <input id="debtDueDate" type="hidden">
+                      <button class="debt-date-trigger" type="button" onclick="openDateModal('debtDueDate')">
+                        <span>KHÔNG BẮT BUỘC</span>
+                        <b id="debtDueDateTriggerText">Chưa đặt hạn</b>
+                      </button>
+                    </div>
+                  </div>
+
+                  <label class="debt-field">
+                    <span>Ghi chú</span>
+                    <input id="debtNote" placeholder="Lý do vay, hẹn trả hoặc điều cần nhớ">
+                  </label>
+
+                  <button class="btn-primary" type="button" onclick="addDebt()">Lưu khoản vay</button>
+                </div>
+
+                <div id="debtList" class="debt-list"></div>
+              </div>
+            </aside>
+          </div>
+        </main>
+      </div>
+
+      <footer class="site-footer app-footer">
+        <div>© <strong>2026 - Văn Mạnh</strong></div>
+        <div class="footer-right">
+          <span>SoChiTieu</span>
+          <span class="footer-dot" aria-hidden="true">•</span>
+          <span>Quản lý tài chính cá nhân</span>
         </div>
-      </main>
+      </footer>
+    </div>
+  </section>
+
+  <!-- SETTINGS MODAL -->
+  <div id="brandModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <div><h3>Tùy chỉnh sổ</h3><p>Đổi tên, mô tả và logo hiển thị cho sổ hiện tại.</p></div>
+        <button class="close-modal" onclick="closeBrandSettings()">×</button>
+      </div>
+      <label class="form-label">Tên sổ</label>
+      <input id="brandBookName" placeholder="Tên sổ">
+      <label class="form-label">Mô tả ngắn</label>
+      <textarea id="brandBookDescription" placeholder="Ví dụ: Sổ quản lý chi tiêu gia đình và công việc năm 2026."></textarea>
+      <label class="form-label">Link logo</label>
+      <input id="brandLogoUrl" oninput="previewBrandLogo()" placeholder="https://domain.com/logo.png">
+      <div class="logo-setting-row">
+        <div id="brandLogoPreview" class="logo-preview"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Xem trước logo"></div>
+        <p class="help-text">Dùng link ảnh công khai dạng PNG, JPG hoặc WEBP. Bỏ trống để dùng logo mặc định của SoChiTieu.</p>
+      </div>
+
+      <div id="bookDeleteZone" class="danger-zone hidden">
+        <b>Vùng nguy hiểm</b>
+        <p>Xóa sổ sẽ xóa vĩnh viễn toàn bộ giao dịch, ghi chú tháng và sổ vay mượn bên trong. Thao tác này không thể khôi phục.</p>
+        <button id="deleteBookButton" class="btn-danger-solid" onclick="deleteCurrentBook()">Xóa vĩnh viễn sổ này</button>
+      </div>
+
+      <div class="modal-actions"><button class="btn-secondary" onclick="closeBrandSettings()">Hủy</button><button class="btn-primary" onclick="saveBrandSettings()">Lưu thay đổi</button></div>
     </div>
   </div>
-</div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+  <!-- CATEGORY MANAGER -->
+  <div id="categoryModal" class="modal-overlay hidden">
+    <div class="modal category-manager-modal">
+      <div class="modal-header">
+        <div>
+          <h3>Quản lý danh mục</h3>
+          <p>Thêm mục mới hoặc đổi tên các mục cũ. Danh mục sẽ dùng chung cho mọi người trong sổ này.</p>
+        </div>
+        <button class="close-modal" onclick="closeCategoryManager()">×</button>
+      </div>
 
-import {
-  getFirestore,
-  collection,
-  doc,
-  addDoc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  onSnapshot,
-  query,
-  where,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+      <div class="category-create-card">
+        <div class="category-create-title">Thêm danh mục mới</div>
+        <input id="newCategoryName" placeholder="Ví dụ: Nuôi thú cưng, Du lịch, Làm đẹp..." maxlength="40">
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAtig3mHaaxTW9JgAKXyo9XPKQxe14PJ2M",
-  authDomain: "sochitieu-91497.firebaseapp.com",
-  projectId: "sochitieu-91497",
-  storageBucket: "sochitieu-91497.firebasestorage.app",
-  messagingSenderId: "723862726824",
-  appId: "1:723862726824:web:56d8c59e6963bf3736ba9d",
-  measurementId: "G-F98SPQY4T7"
-};
+        <div class="category-icon-label">Chọn biểu tượng</div>
+        <div id="categoryIconPalette" class="category-icon-palette"></div>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+        <button class="btn-primary category-create-button" onclick="addCustomCategory()">Thêm danh mục</button>
+      </div>
 
-let currentUser = null;
-let currentBookId = null;
-let currentMonth = getCurrentMonth();
-let debtMode = "owedToMe";
+      <div class="category-manager-heading">
+        <div>
+          <b>Danh mục hiện có</b>
+          <span>Đổi tên trực tiếp rồi bấm Lưu.</span>
+        </div>
+      </div>
 
-let unsubscribeBooks = null;
-let unsubscribeTransactions = null;
-let unsubscribeMonthNote = null;
-let unsubscribeDebts = null;
+      <div id="categoryManagerList" class="category-manager-list"></div>
+      <p class="category-manager-note">Xóa danh mục không làm mất các giao dịch cũ. Những giao dịch đó vẫn được giữ nguyên lịch sử.</p>
+    </div>
+  </div>
 
-let allBooks = [];
+  <!-- ENHANCED DATE CALENDAR -->
+  <div id="dateModal" class="modal-overlay hidden">
+    <div class="modal calendar-modal">
+      <div class="modal-header">
+        <div><h3 id="dateModalTitle">Chọn ngày giao dịch</h3><p id="dateModalDescription">Chọn ngày cụ thể hoặc dùng các lựa chọn nhanh bên dưới.</p></div>
+        <button class="close-modal" onclick="closeDateModal()">×</button>
+      </div>
+      <div class="selected-date-banner"><div><span>Ngày đang chọn</span><b id="selectedDateLabel"></b></div><div id="dateModalBadge" class="eyebrow">GIAO DỊCH</div></div>
+      <div class="calendar-controls">
+        <button class="calendar-nav" onclick="moveCalendar(-1)">‹</button>
+        <select id="calendarMonthSelect" onchange="changeCalendarMonth()"></select>
+        <select id="calendarYearSelect" onchange="changeCalendarYear()"></select>
+        <button class="calendar-nav" onclick="moveCalendar(1)">›</button>
+      </div>
+      <div class="calendar-weekdays"><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span></div>
+      <div id="calendarGrid" class="calendar-grid"></div>
+      <div class="calendar-quick">
+        <button onclick="setQuickDate('today')">Hôm nay</button>
+        <button onclick="setQuickDate('yesterday')">Hôm qua</button>
+        <button onclick="setQuickDate('monthStart')">Đầu tháng</button>
+        <button onclick="setQuickDate('monthEnd')">Cuối tháng</button>
+      </div>
+      <div class="calendar-footer"><button class="btn-secondary" onclick="closeDateModal()">Hủy</button><button class="btn-primary" onclick="applySelectedDate()">Áp dụng ngày này</button></div>
+    </div>
+  </div>
 
-const $ = id => document.getElementById(id);
+  <!-- MONTH SELECTOR -->
+  <div id="monthModal" class="modal-overlay hidden">
+    <div class="modal month-modal">
+      <div class="modal-header"><div><h3>Chọn tháng báo cáo</h3><p>Xem lại giao dịch, tổng kết và ghi chú của từng tháng.</p></div><button class="close-modal" onclick="closeMonthModal()">×</button></div>
+      <div class="month-modal-controls">
+        <button class="calendar-nav" onclick="changeMonthModalYear(-1)">‹</button>
+        <select id="monthModalYear" onchange="renderMonthChoices()"></select>
+        <button class="calendar-nav" onclick="changeMonthModalYear(1)">›</button>
+        <button class="btn-secondary btn-small" onclick="goToCurrentMonth()">Tháng này</button>
+      </div>
+      <div id="monthChoices" class="month-grid"></div>
+    </div>
+  </div>
 
-function getCurrentMonth(){
-  return new Date().toISOString().slice(0,7);
-}
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, onSnapshot, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-function today(){
-  return new Date().toISOString().slice(0,10);
-}
+    const firebaseConfig = {
+      apiKey: "AIzaSyAtig3mHaaxTW9JgAKXyo9XPKQxe14PJ2M",
+      authDomain: "sochitieu-91497.firebaseapp.com",
+      projectId: "sochitieu-91497",
+      storageBucket: "sochitieu-91497.firebasestorage.app",
+      messagingSenderId: "723862726824",
+      appId: "1:723862726824:web:56d8c59e6963bf3736ba9d",
+      measurementId: "G-F98SPQY4T7"
+    };
 
-function money(number){
-  return Number(number || 0).toLocaleString("vi-VN") + "đ";
-}
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-function authMessage(text){
-  $("authMsg").innerText = text;
-}
+    const DEFAULT_LOGO_URL = "https://cdn-icons-png.flaticon.com/512/2791/2791984.png";
+    const DEFAULT_TITLE = "SoChiTieu — Quản lý thu chi, ghi chú và vay mượn";
+    const DEFAULT_DESCRIPTION = "Theo dõi thu chi theo từng tháng, lưu ghi chú tài chính và quản lý riêng những khoản vay mượn. Đồng bộ khi đăng nhập trên điện thoại hoặc máy tính.";
+    const $ = id => document.getElementById(id);
 
-function safeText(value){
-  const div = document.createElement("div");
-  div.textContent = value || "";
-  return div.innerHTML;
-}
+    let currentUser = null;
+    let currentBookId = null;
+    let currentMonth = getCurrentMonth();
+    let publicScreen = "intro";
+    let debtMode = "owedToMe";
+    let allBooks = [];
+    let debts = [];
 
-window.register = async function(){
-  try{
-    const email = $("email").value.trim();
-    const password = $("password").value.trim();
+    let unsubscribeBooks = null;
+    let unsubscribeTransactions = null;
+    let unsubscribeMonthNote = null;
+    let unsubscribeDebts = null;
 
-    if(!email || !password){
-      authMessage("Vui lòng nhập email và mật khẩu.");
-      return;
+    let selectedTransactionDate = today();
+    let pendingDate = selectedTransactionDate;
+    let calendarCursor = parseISODate(selectedTransactionDate);
+    let dateModalTarget = "transaction";
+    let debtPanelCollapsed = false;
+
+    function today(){ return formatISODate(new Date()); }
+    function formatISODate(date){
+      return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+    }
+    function parseISODate(value){
+      if(!value) return new Date();
+      const [y,m,d] = value.split("-").map(Number);
+      return new Date(y,m-1,d);
+    }
+    function getCurrentMonth(){
+      const date = new Date();
+      return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}`;
+    }
+    function money(value){ return Number(value || 0).toLocaleString("vi-VN") + "đ"; }
+
+    // Danh mục mặc định: icon đều dùng từ Flaticon và được hiển thị đơn sắc.
+    // Danh mục tùy chỉnh được lưu trong document của từng sổ để mọi người cùng dùng chung.
+    const DEFAULT_CATEGORIES = [
+      {id:"food",name:"Ăn uống",icon:"https://cdn-icons-png.flaticon.com/512/1046/1046784.png"},
+      {id:"transport",name:"Đi lại / xăng xe",icon:"https://cdn-icons-png.flaticon.com/512/7720/7720735.png"},
+      {id:"home",name:"Tiền nhà",icon:"https://cdn-icons-png.flaticon.com/512/1946/1946436.png"},
+      {id:"utilities",name:"Điện nước / Internet",icon:"https://cdn-icons-png.flaticon.com/512/1048/1048312.png"},
+      {id:"shopping",name:"Mua sắm",icon:"https://cdn-icons-png.flaticon.com/512/1832/18321.png"},
+      {id:"entertainment",name:"Giải trí",icon:"https://cdn-icons-png.flaticon.com/512/686/686589.png"},
+      {id:"work",name:"Học tập / công việc",icon:"https://cdn-icons-png.flaticon.com/512/2991/2991108.png"},
+      {id:"business",name:"Kinh doanh",icon:"https://cdn-icons-png.flaticon.com/512/3135/3135715.png"},
+      {id:"installment",name:"Trả nợ / trả góp",icon:"https://cdn-icons-png.flaticon.com/512/2791/2791984.png"},
+      {id:"family",name:"Gia đình",icon:"https://cdn-icons-png.flaticon.com/512/1077/1077012.png"},
+      {id:"health",name:"Sức khỏe",icon:"https://cdn-icons-png.flaticon.com/512/2966/2966483.png"},
+      {id:"other",name:"Khác",icon:"https://cdn-icons-png.flaticon.com/512/2791/2791984.png"}
+    ];
+
+    const CATEGORY_ICON_CHOICES = [
+      "https://cdn-icons-png.flaticon.com/512/1046/1046784.png",
+      "https://cdn-icons-png.flaticon.com/512/7720/7720735.png",
+      "https://cdn-icons-png.flaticon.com/512/1946/1946436.png",
+      "https://cdn-icons-png.flaticon.com/512/1048/1048312.png",
+      "https://cdn-icons-png.flaticon.com/512/1832/18321.png",
+      "https://cdn-icons-png.flaticon.com/512/686/686589.png",
+      "https://cdn-icons-png.flaticon.com/512/2991/2991108.png",
+      "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "https://cdn-icons-png.flaticon.com/512/2791/2791984.png",
+      "https://cdn-icons-png.flaticon.com/512/1077/1077012.png",
+      "https://cdn-icons-png.flaticon.com/512/2966/2966483.png",
+      "https://cdn-icons-png.flaticon.com/512/2693/2693507.png"
+    ];
+
+    let categoryIconDraft = CATEGORY_ICON_CHOICES[0];
+
+    function cloneDefaultCategories(){
+      return DEFAULT_CATEGORIES.map(item => ({...item}));
+    }
+    function normalizeCategoryName(value){
+      return String(value || "").trim().replace(/\s+/g," ");
+    }
+    function sameCategoryName(a,b){
+      return normalizeCategoryName(a).toLocaleLowerCase("vi-VN") === normalizeCategoryName(b).toLocaleLowerCase("vi-VN");
+    }
+    function getBookCategories(book = getBook()){
+      if(Array.isArray(book?.categories) && book.categories.length){
+        return book.categories
+          .filter(item => item && normalizeCategoryName(item.name))
+          .map((item,index) => ({
+            id:String(item.id || `category-${index}`),
+            name:normalizeCategoryName(item.name),
+            icon:CATEGORY_ICON_CHOICES.includes(item.icon) ? item.icon : CATEGORY_ICON_CHOICES[index % CATEGORY_ICON_CHOICES.length]
+          }));
+      }
+      return cloneDefaultCategories();
+    }
+    function getCategoryMeta(categoryName){
+      const current = getBookCategories().find(item => item.name === categoryName);
+      const fallback = DEFAULT_CATEGORIES.find(item => item.name === categoryName);
+      return current || fallback || {id:"unknown",name:categoryName || "Khác",icon:DEFAULT_CATEGORIES.at(-1).icon};
+    }
+    function categoryLabel(category){
+      const meta = getCategoryMeta(category);
+      return `<span class="category-label"><span class="category-icon"><img src="${safeText(meta.icon)}" alt="" loading="lazy" onerror="this.style.display='none'"></span>${safeText(category || "Khác")}</span>`;
     }
 
-    await createUserWithEmailAndPassword(auth,email,password);
-  }catch(error){
-    authMessage("Không thể đăng ký: " + error.message);
-  }
-};
+    function renderCategoryPicker(){
+      const input = $("category");
+      const options = $("categoryOptions");
+      const name = $("categoryTriggerName");
+      const icon = $("categoryTriggerIcon");
+      if(!input || !options || !name || !icon) return;
 
-window.login = async function(){
-  try{
-    const email = $("email").value.trim();
-    const password = $("password").value.trim();
+      const categories = getBookCategories();
+      if(!categories.length) return;
 
-    if(!email || !password){
-      authMessage("Vui lòng nhập email và mật khẩu.");
-      return;
+      if(!categories.some(item => item.name === input.value)) input.value = categories[0].name;
+      const selected = getCategoryMeta(input.value);
+
+      name.textContent = selected.name;
+      icon.src = selected.icon;
+      icon.onerror = () => { icon.src = DEFAULT_CATEGORIES.at(-1).icon; };
+
+      options.innerHTML = "";
+      categories.forEach(category => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "category-option" + (category.name === input.value ? " selected" : "");
+        button.setAttribute("role","option");
+        button.setAttribute("aria-selected",String(category.name === input.value));
+
+        const iconBox = document.createElement("span");
+        iconBox.className = "category-option-icon";
+        const image = document.createElement("img");
+        image.src = category.icon;
+        image.alt = "";
+        image.onerror = () => { image.src = DEFAULT_CATEGORIES.at(-1).icon; };
+        iconBox.appendChild(image);
+
+        const label = document.createElement("span");
+        label.className = "category-option-name";
+        label.textContent = category.name;
+
+        button.append(iconBox,label);
+        button.onclick = () => selectCategory(category.name);
+        options.appendChild(button);
+      });
+    }
+    function toggleCategoryMenu(){
+      const menu = $("categoryMenu");
+      const picker = menu.closest(".category-picker");
+      const open = menu.classList.contains("hidden");
+      menu.classList.toggle("hidden",!open);
+      picker.classList.toggle("is-open",open);
+      $("categoryTrigger").setAttribute("aria-expanded",String(open));
+      if(open) renderCategoryPicker();
+    }
+    function closeCategoryMenu(){
+      const menu = $("categoryMenu");
+      const picker = menu?.closest(".category-picker");
+      if(menu) menu.classList.add("hidden");
+      if(picker) picker.classList.remove("is-open");
+      $("categoryTrigger")?.setAttribute("aria-expanded","false");
+    }
+    function selectCategory(categoryName){
+      $("category").value = categoryName;
+      renderCategoryPicker();
+      closeCategoryMenu();
+    }
+    async function persistCategories(categories){
+      const clean = categories.map(item => ({id:item.id,name:normalizeCategoryName(item.name),icon:item.icon}));
+      const book = getBook();
+      if(book) book.categories = clean;
+      await updateDoc(doc(db,"books",currentBookId),{categories:clean,updatedAt:serverTimestamp()});
+      renderCategoryPicker();
+    }
+    function openCategoryManager(){
+      if(!currentBookId) return;
+      closeCategoryMenu();
+      categoryIconDraft = CATEGORY_ICON_CHOICES[0];
+      $("newCategoryName").value = "";
+      renderCategoryIconPalette();
+      renderCategoryManagerList();
+      $("categoryModal").classList.remove("hidden");
+    }
+    function closeCategoryManager(){
+      $("categoryModal").classList.add("hidden");
+    }
+    function renderCategoryIconPalette(){
+      const palette = $("categoryIconPalette");
+      palette.innerHTML = "";
+      CATEGORY_ICON_CHOICES.forEach(iconUrl => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "category-icon-choice" + (iconUrl === categoryIconDraft ? " active" : "");
+        const image = document.createElement("img");
+        image.src = iconUrl;
+        image.alt = "Chọn biểu tượng";
+        image.onerror = () => { image.style.display = "none"; };
+        button.appendChild(image);
+        button.onclick = () => { categoryIconDraft = iconUrl; renderCategoryIconPalette(); };
+        palette.appendChild(button);
+      });
+    }
+    function renderCategoryManagerList(){
+      const list = $("categoryManagerList");
+      if(!list) return;
+      const categories = getBookCategories();
+      list.innerHTML = "";
+      categories.forEach(category => {
+        const row = document.createElement("div");
+        row.className = "category-manager-row";
+
+        const iconBox = document.createElement("div");
+        iconBox.className = "category-manager-row-icon";
+        const image = document.createElement("img");
+        image.src = category.icon;
+        image.alt = "";
+        image.onerror = () => { image.src = DEFAULT_CATEGORIES.at(-1).icon; };
+        iconBox.appendChild(image);
+
+        const input = document.createElement("input");
+        input.id = `categoryName-${category.id}`;
+        input.value = category.name;
+        input.maxLength = 40;
+        input.setAttribute("aria-label",`Tên danh mục ${category.name}`);
+
+        const save = document.createElement("button");
+        save.type = "button";
+        save.className = "category-row-save";
+        save.textContent = "Lưu";
+        save.onclick = () => saveCategoryName(category.id);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "category-row-delete";
+        remove.textContent = "Xóa";
+        remove.onclick = () => deleteCategory(category.id);
+
+        row.append(iconBox,input,save,remove);
+        list.appendChild(row);
+      });
+    }
+    async function addCustomCategory(){
+      const name = normalizeCategoryName($("newCategoryName").value);
+      const categories = getBookCategories();
+      if(!name){ alert("Nhập tên danh mục trước."); return; }
+      if(categories.some(item => sameCategoryName(item.name,name))){ alert("Danh mục này đã tồn tại."); return; }
+
+      categories.push({id:`custom-${Date.now()}`,name,icon:categoryIconDraft});
+      try{
+        await persistCategories(categories);
+        $("newCategoryName").value = "";
+        renderCategoryManagerList();
+      }catch(error){
+        console.error("Không thể thêm danh mục:",error);
+        alert("Không thể thêm danh mục. Hãy thử lại.");
+      }
+    }
+    async function saveCategoryName(categoryId){
+      const categories = getBookCategories();
+      const category = categories.find(item => item.id === categoryId);
+      const field = $(`categoryName-${categoryId}`);
+      const newName = normalizeCategoryName(field?.value);
+      if(!category || !newName) { alert("Tên danh mục không được để trống."); return; }
+      if(categories.some(item => item.id !== categoryId && sameCategoryName(item.name,newName))){ alert("Tên danh mục này đã tồn tại."); return; }
+
+      const oldName = category.name;
+      if(oldName === newName) return;
+      category.name = newName;
+
+      try{
+        await persistCategories(categories);
+        await renameCategoryInTransactions(oldName,newName);
+        if($("category").value === oldName) $("category").value = newName;
+        renderCategoryPicker();
+        renderCategoryManagerList();
+      }catch(error){
+        console.error("Không thể đổi tên danh mục:",error);
+        alert("Không thể đổi tên danh mục. Hãy thử lại.");
+      }
+    }
+    async function renameCategoryInTransactions(oldName,newName){
+      const snapshot = await getDocs(collection(db,"books",currentBookId,"transactions"));
+      const matches = snapshot.docs.filter(item => item.data().category === oldName);
+      for(let index=0; index<matches.length; index += 450){
+        const batch = writeBatch(db);
+        matches.slice(index,index+450).forEach(item => batch.update(item.ref,{category:newName,updatedAt:serverTimestamp()}));
+        await batch.commit();
+      }
+    }
+    async function deleteCategory(categoryId){
+      const categories = getBookCategories();
+      if(categories.length <= 1){ alert("Cần giữ lại ít nhất một danh mục."); return; }
+      const category = categories.find(item => item.id === categoryId);
+      if(!category) return;
+      const remaining = categories.filter(item => item.id !== categoryId);
+      try{
+        await persistCategories(remaining);
+        if($("category").value === category.name) $("category").value = remaining[0].name;
+        renderCategoryPicker();
+        renderCategoryManagerList();
+      }catch(error){
+        console.error("Không thể xóa danh mục:",error);
+        alert("Không thể xóa danh mục. Hãy thử lại.");
+      }
     }
 
-    await signInWithEmailAndPassword(auth,email,password);
-  }catch(error){
-    authMessage("Không thể đăng nhập: " + error.message);
-  }
-};
 
-window.logout = async function(){
-  await signOut(auth);
-};
-
-onAuthStateChanged(auth,user=>{
-  currentUser = user;
-
-  if(user){
-    $("authView").classList.add("hidden");
-    $("mainView").classList.remove("hidden");
-    $("userEmail").innerText = user.email;
-    $("monthPicker").value = currentMonth;
-    $("date").value = today();
-    $("debtDate").value = today();
-    listenBooks();
-  }else{
-    $("authView").classList.remove("hidden");
-    $("mainView").classList.add("hidden");
-    $("bookDetail").classList.add("hidden");
-
-    currentBookId = null;
-    allBooks = [];
-
-    if(unsubscribeBooks) unsubscribeBooks();
-    if(unsubscribeTransactions) unsubscribeTransactions();
-    if(unsubscribeMonthNote) unsubscribeMonthNote();
-    if(unsubscribeDebts) unsubscribeDebts();
-  }
-});
-
-function listenBooks(){
-  if(unsubscribeBooks) unsubscribeBooks();
-
-  const booksQuery = query(
-    collection(db,"books"),
-    where(`members.${currentUser.uid}`,"==",true)
-  );
-
-  unsubscribeBooks = onSnapshot(booksQuery,snapshot=>{
-    allBooks = [];
-    snapshot.forEach(item=>allBooks.push({id:item.id,...item.data()}));
-
-    renderBooks();
-
-    if(!currentBookId && allBooks.length){
-      selectBook(allBooks[0].id);
+    // Định dạng tiền ngay khi nhập: 3000 → 3.000.
+    // Dữ liệu khi lưu vẫn là số nguyên, không lưu dấu chấm vào Firestore.
+    function parseMoneyInput(value){
+      const digits = String(value || "").replace(/\D/g, "");
+      return digits ? Number(digits) : 0;
     }
-
-    if(currentBookId && !allBooks.find(book=>book.id === currentBookId)){
-      currentBookId = null;
-      $("bookDetail").classList.add("hidden");
+    function formatMoneyInput(input){
+      const digits = String(input.value || "").replace(/\D/g, "");
+      input.value = digits ? Number(digits).toLocaleString("vi-VN") : "";
+      renderAmountSuggestions(input.id);
     }
-  });
-}
-
-function renderBooks(){
-  const list = $("bookList");
-  list.innerHTML = "";
-
-  if(!allBooks.length){
-    list.innerHTML = `<div class="empty">Chưa có sổ nào.<br>Tạo một sổ để bắt đầu.</div>`;
-    return;
-  }
-
-  allBooks.forEach(book=>{
-    const item = document.createElement("div");
-    item.className = "book-item" + (book.id === currentBookId ? " active" : "");
-    item.onclick = () => selectBook(book.id);
-    item.innerHTML = `
-      <b>${safeText(book.name || "Sổ không tên")}</b>
-      <span>${book.id}</span>
-    `;
-    list.appendChild(item);
-  });
-}
-
-window.createBook = async function(){
-  const name = $("newBookName").value.trim();
-
-  if(!name){
-    alert("Bạn chưa nhập tên sổ.");
-    return;
-  }
-
-  const newBook = await addDoc(collection(db,"books"),{
-    name,
-    ownerId:currentUser.uid,
-    ownerEmail:currentUser.email,
-    allowJoin:true,
-    members:{
-      [currentUser.uid]:true
-    },
-    memberEmails:{
-      [currentUser.uid]:currentUser.email
-    },
-    createdAt:serverTimestamp(),
-    updatedAt:serverTimestamp()
-  });
-
-  $("newBookName").value = "";
-  selectBook(newBook.id);
-};
-
-window.joinBook = async function(){
-  const bookId = $("joinBookId").value.trim();
-
-  if(!bookId){
-    alert("Bạn chưa nhập mã sổ.");
-    return;
-  }
-
-  const bookRef = doc(db,"books",bookId);
-  const bookSnap = await getDoc(bookRef);
-
-  if(!bookSnap.exists()){
-    alert("Không tìm thấy sổ này.");
-    return;
-  }
-
-  if(bookSnap.data().allowJoin !== true){
-    alert("Sổ này hiện không mở cho người khác tham gia.");
-    return;
-  }
-
-  await updateDoc(bookRef,{
-    [`members.${currentUser.uid}`]:true,
-    [`memberEmails.${currentUser.uid}`]:currentUser.email,
-    updatedAt:serverTimestamp()
-  });
-
-  $("joinBookId").value = "";
-  selectBook(bookId);
-};
-
-window.selectBook = function(bookId){
-  currentBookId = bookId;
-  const book = allBooks.find(item=>item.id === bookId);
-
-  $("bookDetail").classList.remove("hidden");
-  $("bookTitle").innerText = book?.name || "Sổ chi tiêu";
-  $("bookCode").innerText = bookId;
-
-  renderBooks();
-  listenTransactions();
-  listenMonthNote();
-  listenDebts();
-};
-
-window.changeMonth = function(){
-  currentMonth = $("monthPicker").value || getCurrentMonth();
-  listenTransactions();
-  listenMonthNote();
-};
-
-window.addTransaction = async function(){
-  if(!currentBookId){
-    alert("Hãy chọn sổ trước.");
-    return;
-  }
-
-  const date = $("date").value;
-  const content = $("content").value.trim();
-  const type = $("type").value;
-  const category = $("category").value;
-  const amount = Number($("amount").value);
-  const note = $("note").value.trim();
-
-  if(!date || !content || !amount || amount <= 0){
-    alert("Vui lòng nhập ngày, nội dung và số tiền hợp lệ.");
-    return;
-  }
-
-  await addDoc(collection(db,"books",currentBookId,"transactions"),{
-    date,
-    month:date.slice(0,7),
-    content,
-    type,
-    category,
-    amount,
-    note,
-    createdBy:currentUser.uid,
-    createdByEmail:currentUser.email,
-    createdAt:serverTimestamp()
-  });
-
-  $("content").value = "";
-  $("amount").value = "";
-  $("note").value = "";
-};
-
-window.deleteTransaction = async function(id){
-  if(!confirm("Xóa giao dịch này?")) return;
-  await deleteDoc(doc(db,"books",currentBookId,"transactions",id));
-};
-
-function listenTransactions(){
-  if(!currentBookId) return;
-  if(unsubscribeTransactions) unsubscribeTransactions();
-
-  const transactionQuery = query(
-    collection(db,"books",currentBookId,"transactions"),
-    where("month","==",currentMonth)
-  );
-
-  unsubscribeTransactions = onSnapshot(transactionQuery,snapshot=>{
-    const rows = [];
-    snapshot.forEach(item=>rows.push({id:item.id,...item.data()}));
-    rows.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-
-    let totalIncome = 0;
-    let totalExpense = 0;
-
-    const list = $("transactionList");
-    list.innerHTML = "";
-
-    if(!rows.length){
-      list.innerHTML = `<tr><td colspan="8" class="empty">Chưa có giao dịch trong tháng này.</td></tr>`;
+    function getSuggestionBoxId(inputId){
+      return inputId === "amount" ? "amountSuggestions" : "debtAmountSuggestions";
     }
+    function renderAmountSuggestions(inputId){
+      const input = $(inputId);
+      const box = $(getSuggestionBoxId(inputId));
+      if(!input || !box) return;
 
-    rows.forEach(item=>{
-      if(item.type === "income") totalIncome += Number(item.amount || 0);
-      else totalExpense += Number(item.amount || 0);
+      const digits = String(input.value || "").replace(/\D/g, "");
+      const base = Number(digits);
 
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${safeText(item.date)}</td>
-        <td>${safeText(item.content)}</td>
-        <td>
-          <span class="type ${item.type === "income" ? "income" : "expense"}">
-            ${item.type === "income" ? "Thu" : "Chi"}
-          </span>
-        </td>
-        <td>${safeText(item.category)}</td>
-        <td>${money(item.amount)}</td>
-        <td>${safeText(item.note || "-")}</td>
-        <td>${safeText(item.createdByEmail || "-")}</td>
-        <td><button class="btn-danger btn-small" onclick="deleteTransaction('${item.id}')">Xóa</button></td>
-      `;
-      list.appendChild(row);
-    });
+      // Chỉ gợi ý khi nhập 1–3 chữ số. Từ 4 số trở lên, coi như người dùng đã nhập đúng số tiền.
+      if(!digits || digits.length > 3 || !Number.isSafeInteger(base) || base <= 0){
+        box.innerHTML = "";
+        return;
+      }
 
-    $("totalIncome").innerText = money(totalIncome);
-    $("totalExpense").innerText = money(totalExpense);
-    $("balance").innerText = money(totalIncome - totalExpense);
-    $("totalCount").innerText = rows.length;
-  });
-}
+      const choices = [
+        { value: base * 1000, label: `${base.toLocaleString("vi-VN")}.000` },
+        { value: base * 1000000, label: `${base.toLocaleString("vi-VN")}.000.000` }
+      ];
 
-function listenMonthNote(){
-  if(!currentBookId) return;
-  if(unsubscribeMonthNote) unsubscribeMonthNote();
+      box.innerHTML = "";
 
-  const noteRef = doc(db,"books",currentBookId,"months",currentMonth);
+      const label = document.createElement("span");
+      label.className = "amount-suggestion-label";
+      label.textContent = "Gợi ý:";
+      box.appendChild(label);
 
-  unsubscribeMonthNote = onSnapshot(noteRef,snapshot=>{
-    $("monthNote").value = snapshot.exists() ? (snapshot.data().note || "") : "";
-  });
-}
+      choices.forEach(choice => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "amount-suggestion";
+        button.innerHTML = `<span>Dùng</span><strong>${choice.label}</strong>`;
+        button.onclick = () => applyAmountSuggestion(inputId, choice.value);
+        box.appendChild(button);
+      });
+    }
+    function applyAmountSuggestion(inputId, value){
+      const input = $(inputId);
+      if(!input) return;
 
-window.saveMonthNote = async function(){
-  if(!currentBookId) return;
+      input.value = Number(value).toLocaleString("vi-VN");
+      renderAmountSuggestions(inputId);
+      input.focus();
+    }
+    function clearMoneyInput(inputId){
+      const input = $(inputId);
+      const box = $(getSuggestionBoxId(inputId));
+      if(input) input.value = "";
+      if(box) box.innerHTML = "";
+    }
+    function setupMoneyInputs(){
+      ["amount", "debtAmount"].forEach(id => {
+        const input = $(id);
+        if(!input) return;
 
-  await setDoc(doc(db,"books",currentBookId,"months",currentMonth),{
-    month:currentMonth,
-    note:$("monthNote").value,
-    updatedBy:currentUser.uid,
-    updatedByEmail:currentUser.email,
-    updatedAt:serverTimestamp()
-  },{merge:true});
-
-  alert("Đã lưu ghi chú tháng.");
-};
-
-window.setDebtMode = function(mode){
-  debtMode = mode;
-
-  $("tabOwedToMe").classList.toggle("active",mode === "owedToMe");
-  $("tabIOwe").classList.toggle("active",mode === "iOwe");
-
-  $("debtModeText").innerText = mode === "owedToMe"
-    ? "Ghi lại người đang mượn tiền của bạn để dễ theo dõi."
-    : "Ghi lại các khoản bạn đang mượn hoặc cần trả cho người khác.";
-
-  $("debtPerson").placeholder = mode === "owedToMe"
-    ? "Tên người đang nợ bạn"
-    : "Tên người bạn đang nợ";
-
-  $("debtNote").placeholder = mode === "owedToMe"
-    ? "Ghi chú / lý do họ mượn"
-    : "Ghi chú / lý do bạn mượn";
-
-  renderDebtList();
-};
-
-let debts = [];
-
-window.addDebt = async function(){
-  if(!currentBookId){
-    alert("Hãy chọn sổ trước.");
-    return;
-  }
-
-  const person = $("debtPerson").value.trim();
-  const amount = Number($("debtAmount").value);
-  const debtDate = $("debtDate").value;
-  const dueDate = $("debtDueDate").value;
-  const note = $("debtNote").value.trim();
-
-  if(!person || !amount || amount <= 0){
-    alert("Vui lòng nhập tên người và số tiền hợp lệ.");
-    return;
-  }
-
-  await addDoc(collection(db,"books",currentBookId,"debts"),{
-    type:debtMode,
-    person,
-    amount,
-    debtDate,
-    dueDate,
-    note,
-    settled:false,
-    createdBy:currentUser.uid,
-    createdByEmail:currentUser.email,
-    createdAt:serverTimestamp()
-  });
-
-  $("debtPerson").value = "";
-  $("debtAmount").value = "";
-  $("debtDueDate").value = "";
-  $("debtNote").value = "";
-};
-
-function listenDebts(){
-  if(!currentBookId) return;
-  if(unsubscribeDebts) unsubscribeDebts();
-
-  unsubscribeDebts = onSnapshot(
-    collection(db,"books",currentBookId,"debts"),
-    snapshot=>{
-      debts = [];
-      snapshot.forEach(item=>debts.push({id:item.id,...item.data()}));
-
-      debts.sort((a,b)=>{
-        if(Boolean(a.settled) !== Boolean(b.settled)) return a.settled ? 1 : -1;
-        return String(b.debtDate || "").localeCompare(String(a.debtDate || ""));
+        input.addEventListener("input", () => formatMoneyInput(input));
+        input.addEventListener("paste", () => setTimeout(() => formatMoneyInput(input), 0));
+        input.addEventListener("focus", () => renderAmountSuggestions(id));
+        input.addEventListener("keydown", event => {
+          if(event.key === "Escape") $(getSuggestionBoxId(id)).innerHTML = "";
+        });
       });
 
+      document.addEventListener("click", event => {
+        if(!event.target.closest(".amount-stack")){
+          $("amountSuggestions").innerHTML = "";
+          $("debtAmountSuggestions").innerHTML = "";
+        }
+      });
+    }
+    function safeText(value){ const el = document.createElement("div"); el.textContent = value || ""; return el.innerHTML; }
+    function validHttpUrl(value){
+      if(!value) return false;
+      try{ const url = new URL(value); return url.protocol === "https:" || url.protocol === "http:"; }
+      catch{ return false; }
+    }
+    function formatMonthLabel(monthValue){
+      const [year,month] = monthValue.split("-").map(Number);
+      return `Tháng ${month}, ${year}`;
+    }
+    function formatLongDate(value){
+      return new Intl.DateTimeFormat("vi-VN",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(parseISODate(value));
+    }
+    function getBook(){ return allBooks.find(book => book.id === currentBookId); }
+
+    function setMeta(selector,value){
+      const meta = document.head.querySelector(selector);
+      if(meta) meta.setAttribute("content",value);
+    }
+    function updateBrowserMetadata(book){
+      const title = book?.name ? `${book.name} — SoChiTieu` : DEFAULT_TITLE;
+      const description = book?.description?.trim() || DEFAULT_DESCRIPTION;
+      document.title = title;
+      setMeta('meta[name="description"]',description);
+      setMeta('meta[property="og:title"]',title);
+      setMeta('meta[property="og:description"]',description);
+      setMeta('meta[name="twitter:title"]',title);
+      setMeta('meta[name="twitter:description"]',description);
+    }
+    function setLogo(elementId,url){
+      const target = $(elementId);
+      if(!target) return;
+      const source = validHttpUrl(url) ? url : DEFAULT_LOGO_URL;
+      target.innerHTML = "";
+      const image = document.createElement("img");
+      image.src = source;
+      image.alt = "Logo";
+      image.onerror = () => { image.src = DEFAULT_LOGO_URL; };
+      target.appendChild(image);
+    }
+    function updateBookBrand(book){
+      if(!book) return;
+      $("bookTitle").innerText = book.name || "Sổ chi tiêu";
+      $("bookDescription").innerText = book.description?.trim() || "Theo dõi giao dịch, ghi chú theo tháng và quản lý khoản vay mượn.";
+      $("bookCode").innerText = book.id;
+      setLogo("headerLogo",book.logoUrl);
+      updateBrowserMetadata(book);
+      renderCategoryPicker();
+    }
+    function setAuthMessage(text){ $("authMsg").innerText = text; }
+    function stopAllListeners(){
+      if(unsubscribeBooks) unsubscribeBooks();
+      if(unsubscribeTransactions) unsubscribeTransactions();
+      if(unsubscribeMonthNote) unsubscribeMonthNote();
+      if(unsubscribeDebts) unsubscribeDebts();
+      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = null;
+    }
+
+    /* PUBLIC / AUTH VIEWS */
+    function renderPublicView(){
+      $("introView").classList.toggle("hidden",publicScreen !== "intro");
+      $("authView").classList.toggle("hidden",publicScreen !== "auth");
+      $("mainView").classList.add("hidden");
+      $("publicActionButton").innerText = currentUser ? "Vào sổ chi tiêu" : "Đăng nhập / Đăng ký";
+      $("publicActionButton").onclick = currentUser ? openApp : showAuth;
+      updateBrowserMetadata(null);
+    }
+    function showIntro(){ publicScreen = "intro"; renderPublicView(); }
+    function showAuth(){ publicScreen = "auth"; renderPublicView(); }
+    function openApp(){
+      if(!currentUser){ showAuth(); return; }
+      $("introView").classList.add("hidden");
+      $("authView").classList.add("hidden");
+      $("mainView").classList.remove("hidden");
+    }
+    window.showIntro = showIntro;
+    window.showAuth = showAuth;
+
+    /* AUTH */
+    async function register(){
+      try{
+        const email = $("email").value.trim();
+        const password = $("password").value.trim();
+        if(!email || !password){ setAuthMessage("Vui lòng nhập email và mật khẩu."); return; }
+        await createUserWithEmailAndPassword(auth,email,password);
+      }catch(error){ setAuthMessage("Không thể đăng ký: " + error.message); }
+    }
+    async function login(){
+      try{
+        const email = $("email").value.trim();
+        const password = $("password").value.trim();
+        if(!email || !password){ setAuthMessage("Vui lòng nhập email và mật khẩu."); return; }
+        await signInWithEmailAndPassword(auth,email,password);
+      }catch(error){ setAuthMessage("Không thể đăng nhập: " + error.message); }
+    }
+    async function logout(){ await signOut(auth); }
+    window.register = register;
+    window.login = login;
+    window.logout = logout;
+
+    onAuthStateChanged(auth,user=>{
+      currentUser = user;
+      if(user){
+        $("userEmail").innerText = user.email;
+        setTransactionDate(today());
+        setDebtDate("debtDate",today());
+        setDebtDate("debtDueDate","");
+        updateDebtFormLabels();
+        openApp();
+        updateMonthUI();
+        listenBooks();
+      }else{
+        currentBookId = null;
+        allBooks = [];
+        debts = [];
+        stopAllListeners();
+        $("bookDetail").classList.add("hidden");
+        publicScreen = "intro";
+        renderPublicView();
+        setLogo("headerLogo","");
+      }
+    });
+
+    /* BOOKS */
+    function listenBooks(){
+      if(unsubscribeBooks) unsubscribeBooks();
+      const booksQuery = query(collection(db,"books"),where(`members.${currentUser.uid}`,"==",true));
+      unsubscribeBooks = onSnapshot(booksQuery,snapshot=>{
+        allBooks = [];
+        snapshot.forEach(item=>allBooks.push({id:item.id,...item.data()}));
+        renderBooks();
+        if(!currentBookId && allBooks.length){ selectBook(allBooks[0].id); return; }
+        if(currentBookId){
+          const book = getBook();
+          if(book) updateBookBrand(book);
+          else{ currentBookId = null; $("bookDetail").classList.add("hidden"); }
+        }
+      });
+    }
+    function renderBooks(){
+      const list = $("bookList");
+      list.innerHTML = "";
+      if(!allBooks.length){ list.innerHTML = '<div class="empty">Chưa có sổ nào.<br>Tạo một sổ để bắt đầu.</div>'; return; }
+      allBooks.forEach(book=>{
+        const item = document.createElement("div");
+        item.className = "book-item" + (book.id === currentBookId ? " active" : "");
+        item.onclick = () => selectBook(book.id);
+        item.innerHTML = `<b>${safeText(book.name || "Sổ không tên")}</b><span>${book.id}</span>`;
+        list.appendChild(item);
+      });
+    }
+    async function createBook(){
+      const name = $("newBookName").value.trim();
+      if(!name){ alert("Bạn chưa nhập tên sổ."); return; }
+      const ref = await addDoc(collection(db,"books"),{
+        name,description:"",logoUrl:"",categories:cloneDefaultCategories(),ownerId:currentUser.uid,ownerEmail:currentUser.email,allowJoin:true,
+        members:{[currentUser.uid]:true},memberEmails:{[currentUser.uid]:currentUser.email},createdAt:serverTimestamp(),updatedAt:serverTimestamp()
+      });
+      $("newBookName").value = "";
+      selectBook(ref.id);
+    }
+    async function joinBook(){
+      const bookId = $("joinBookId").value.trim();
+      if(!bookId){ alert("Bạn chưa nhập mã sổ."); return; }
+      const ref = doc(db,"books",bookId);
+      const snapshot = await getDoc(ref);
+      if(!snapshot.exists()){ alert("Không tìm thấy sổ này."); return; }
+      if(snapshot.data().allowJoin !== true){ alert("Sổ này hiện không mở tham gia."); return; }
+      await updateDoc(ref,{[`members.${currentUser.uid}`]:true,[`memberEmails.${currentUser.uid}`]:currentUser.email,updatedAt:serverTimestamp()});
+      $("joinBookId").value = "";
+      selectBook(bookId);
+    }
+    function selectBook(bookId){
+      currentBookId = bookId;
+      $("bookDetail").classList.remove("hidden");
+      updateBookBrand(getBook());
+      renderBooks();
+      loadDebtPanelPreference();
+      listenTransactions();
+      listenMonthNote();
+      listenDebts();
+    }
+    window.createBook = createBook;
+    window.joinBook = joinBook;
+
+    /* MONTH REPORT SELECTOR */
+    function updateMonthUI(){ $("currentMonthLabel").innerText = formatMonthLabel(currentMonth); }
+    function openMonthModal(){
+      const [year] = currentMonth.split("-").map(Number);
+      buildMonthYearOptions(year);
+      $("monthModal").classList.remove("hidden");
+      renderMonthChoices();
+    }
+    function closeMonthModal(){ $("monthModal").classList.add("hidden"); }
+    function buildMonthYearOptions(selectedYear){
+      const select = $("monthModalYear");
+      const nowYear = new Date().getFullYear();
+      select.innerHTML = "";
+      for(let year = nowYear + 5; year >= 2020; year--){
+        const option = document.createElement("option");
+        option.value = year; option.textContent = `Năm ${year}`;
+        if(year === selectedYear) option.selected = true;
+        select.appendChild(option);
+      }
+    }
+    function renderMonthChoices(){
+      const year = Number($("monthModalYear").value);
+      const [currentYear,currentMonthNumber] = currentMonth.split("-").map(Number);
+      const names = ["Tháng 1","Tháng 2","Tháng 3","Tháng 4","Tháng 5","Tháng 6","Tháng 7","Tháng 8","Tháng 9","Tháng 10","Tháng 11","Tháng 12"];
+      const box = $("monthChoices"); box.innerHTML = "";
+      names.forEach((name,index)=>{
+        const month = index + 1;
+        const button = document.createElement("button");
+        button.className = "month-choice" + (year === currentYear && month === currentMonthNumber ? " active" : "");
+        button.textContent = name;
+        button.onclick = () => chooseMonth(year,month);
+        box.appendChild(button);
+      });
+    }
+    function chooseMonth(year,month){
+      currentMonth = `${year}-${String(month).padStart(2,"0")}`;
+      updateMonthUI();
+      closeMonthModal();
+      if(currentBookId){ listenTransactions(); listenMonthNote(); }
+    }
+    function shiftCurrentMonth(direction){
+      const [year,month] = currentMonth.split("-").map(Number);
+      const date = new Date(year,month - 1 + direction,1);
+      chooseMonth(date.getFullYear(),date.getMonth()+1);
+    }
+    function changeMonthModalYear(direction){
+      const select = $("monthModalYear");
+      const current = Number(select.value);
+      const next = current + direction;
+      if([...select.options].some(item=>Number(item.value) === next)){ select.value = String(next); renderMonthChoices(); }
+    }
+    function goToCurrentMonth(){ const date = new Date(); chooseMonth(date.getFullYear(),date.getMonth()+1); }
+    window.openMonthModal = openMonthModal;
+    window.closeMonthModal = closeMonthModal;
+    window.renderMonthChoices = renderMonthChoices;
+    window.changeMonthModalYear = changeMonthModalYear;
+    window.goToCurrentMonth = goToCurrentMonth;
+    window.shiftCurrentMonth = shiftCurrentMonth;
+
+    /* ENHANCED DATE CALENDAR — dùng chung cho giao dịch và sổ vay mượn. */
+    const DATE_MODAL_COPY = {
+      transaction:{title:"Chọn ngày giao dịch",description:"Chọn ngày cụ thể hoặc dùng các lựa chọn nhanh bên dưới.",badge:"GIAO DỊCH"},
+      debtDate:{title:"Chọn ngày vay mượn",description:"Đây là ngày khoản vay hoặc khoản cho mượn bắt đầu.",badge:"VAY MƯỢN"},
+      debtDueDate:{title:"Chọn hạn thanh toán",description:"Chọn hạn cần thu hoặc hạn bạn cần trả. Có thể để trống nếu chưa có hẹn.",badge:"HẠN TRẢ"}
+    };
+    function formatCompactDate(value){
+      if(!value) return "Chưa đặt hạn";
+      return new Intl.DateTimeFormat("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"}).format(parseISODate(value));
+    }
+    function setTransactionDate(value){
+      selectedTransactionDate = value;
+      $("date").value = value;
+      $("dateTriggerText").innerText = formatLongDate(value);
+    }
+    function setDebtDate(field,value){
+      const input = $(field);
+      if(!input) return;
+      input.value = value || "";
+      const triggerText = field === "debtDate" ? $("debtDateTriggerText") : $("debtDueDateTriggerText");
+      if(triggerText) triggerText.innerText = value ? formatCompactDate(value) : "Chưa đặt hạn";
+    }
+    function updateDebtFormLabels(){
+      const owedToMe = debtMode === "owedToMe";
+      $("debtModeText").innerText = owedToMe ? "Ghi lại người đang mượn tiền của bạn, hạn cần thu và các ghi chú liên quan." : "Ghi lại khoản bạn đang mượn, hạn cần trả và các ghi chú liên quan.";
+      $("debtPersonLabel").innerText = owedToMe ? "Người đang nợ" : "Người bạn đang nợ";
+      $("debtPerson").placeholder = owedToMe ? "Ví dụ: Nguyễn Văn A" : "Ví dụ: Nguyễn Văn B";
+      $("debtDateLabel").innerText = owedToMe ? "Ngày cho mượn" : "Ngày vay";
+      $("debtDueDateLabel").innerText = owedToMe ? "Hạn cần thu" : "Hạn cần trả";
+      $("debtNote").placeholder = owedToMe ? "Lý do cho mượn, hẹn thu hoặc điều cần nhớ" : "Lý do vay, hẹn trả hoặc điều cần nhớ";
+    }
+    function updateDateModalCopy(){
+      const copy = DATE_MODAL_COPY[dateModalTarget] || DATE_MODAL_COPY.transaction;
+      $("dateModalTitle").innerText = copy.title;
+      $("dateModalDescription").innerText = copy.description;
+      $("dateModalBadge").innerText = copy.badge;
+    }
+    function openDateModal(target="transaction"){
+      dateModalTarget = target;
+      const fieldValue = target === "transaction" ? selectedTransactionDate : ($("" + target)?.value || today());
+      pendingDate = fieldValue;
+      calendarCursor = parseISODate(pendingDate);
+      updateDateModalCopy();
+      $("dateModal").classList.remove("hidden");
+      renderCalendar();
+    }
+    function closeDateModal(){ $("dateModal").classList.add("hidden"); }
+    function buildCalendarSelects(){
+      const monthSelect = $("calendarMonthSelect");
+      const yearSelect = $("calendarYearSelect");
+      const monthNames = ["Tháng 1","Tháng 2","Tháng 3","Tháng 4","Tháng 5","Tháng 6","Tháng 7","Tháng 8","Tháng 9","Tháng 10","Tháng 11","Tháng 12"];
+      monthSelect.innerHTML = "";
+      monthNames.forEach((name,index)=>{
+        const option = document.createElement("option"); option.value = index; option.textContent = name;
+        if(index === calendarCursor.getMonth()) option.selected = true;
+        monthSelect.appendChild(option);
+      });
+      const currentYear = new Date().getFullYear();
+      yearSelect.innerHTML = "";
+      for(let year = currentYear + 5; year >= 2020; year--){
+        const option = document.createElement("option"); option.value = year; option.textContent = year;
+        if(year === calendarCursor.getFullYear()) option.selected = true;
+        yearSelect.appendChild(option);
+      }
+    }
+    function renderCalendar(){
+      buildCalendarSelects();
+      $("selectedDateLabel").innerText = formatLongDate(pendingDate);
+      const year = calendarCursor.getFullYear();
+      const month = calendarCursor.getMonth();
+      const first = new Date(year,month,1);
+      const startOffset = (first.getDay()+6)%7;
+      const start = new Date(year,month,1-startOffset);
+      const grid = $("calendarGrid"); grid.innerHTML = "";
+      for(let index=0; index<42; index++){
+        const date = new Date(start.getFullYear(),start.getMonth(),start.getDate()+index);
+        const value = formatISODate(date);
+        const button = document.createElement("button");
+        button.className = "calendar-day";
+        if(date.getMonth() !== month) button.classList.add("outside");
+        if(value === today()) button.classList.add("today");
+        if(value === pendingDate) button.classList.add("selected");
+        button.textContent = date.getDate();
+        button.onclick = () => { pendingDate = value; calendarCursor = new Date(date.getFullYear(),date.getMonth(),1); renderCalendar(); };
+        grid.appendChild(button);
+      }
+    }
+    function moveCalendar(direction){ calendarCursor = new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+direction,1); renderCalendar(); }
+    function changeCalendarMonth(){ calendarCursor = new Date(calendarCursor.getFullYear(),Number($("calendarMonthSelect").value),1); renderCalendar(); }
+    function changeCalendarYear(){ calendarCursor = new Date(Number($("calendarYearSelect").value),calendarCursor.getMonth(),1); renderCalendar(); }
+    function setQuickDate(kind){
+      let date = new Date();
+      if(kind === "yesterday") date.setDate(date.getDate()-1);
+      if(kind === "monthStart") date = new Date(calendarCursor.getFullYear(),calendarCursor.getMonth(),1);
+      if(kind === "monthEnd") date = new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+1,0);
+      pendingDate = formatISODate(date);
+      calendarCursor = new Date(date.getFullYear(),date.getMonth(),1);
+      renderCalendar();
+    }
+    function applySelectedDate(){
+      if(dateModalTarget === "transaction") setTransactionDate(pendingDate);
+      else setDebtDate(dateModalTarget,pendingDate);
+      closeDateModal();
+    }
+    window.openDateModal = openDateModal;
+    window.closeDateModal = closeDateModal;
+    window.moveCalendar = moveCalendar;
+    window.changeCalendarMonth = changeCalendarMonth;
+    window.changeCalendarYear = changeCalendarYear;
+    window.setQuickDate = setQuickDate;
+    window.applySelectedDate = applySelectedDate;
+
+    /* TRANSACTIONS */
+    async function addTransaction(){
+      if(!currentBookId){ alert("Hãy chọn sổ trước."); return; }
+      const date = $("date").value;
+      const content = $("content").value.trim();
+      const type = $("type").value;
+      const category = $("category").value;
+      const amount = parseMoneyInput($("amount").value);
+      const note = $("note").value.trim();
+      if(!date || !content || !amount || amount <= 0){ alert("Vui lòng nhập ngày, nội dung và số tiền hợp lệ."); return; }
+      await addDoc(collection(db,"books",currentBookId,"transactions"),{date,month:date.slice(0,7),content,type,category,amount,note,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdAt:serverTimestamp()});
+      $("content").value = ""; clearMoneyInput("amount"); $("note").value = "";
+    }
+    async function deleteTransaction(id){
+      if(!currentBookId) return;
+      try{
+        await deleteDoc(doc(db,"books",currentBookId,"transactions",id));
+      }catch(error){
+        console.error("Không thể xóa giao dịch:",error);
+        alert("Không thể xóa giao dịch. Hãy thử lại.");
+      }
+    }
+    function listenTransactions(){
+      if(!currentBookId) return;
+      if(unsubscribeTransactions) unsubscribeTransactions();
+      const transQuery = query(collection(db,"books",currentBookId,"transactions"),where("month","==",currentMonth));
+      unsubscribeTransactions = onSnapshot(transQuery,snapshot=>{
+        const rows = []; snapshot.forEach(item=>rows.push({id:item.id,...item.data()}));
+        rows.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+        let totalIncome = 0, totalExpense = 0;
+        const list = $("transactionList"); list.innerHTML = "";
+        if(!rows.length){ list.innerHTML = '<tr><td colspan="8" class="empty">Chưa có giao dịch trong tháng này.</td></tr>'; }
+        rows.forEach(item=>{
+          if(item.type === "income") totalIncome += Number(item.amount||0); else totalExpense += Number(item.amount||0);
+          const row = document.createElement("tr");
+          const kind = item.type === "income" ? "income" : "expense";
+          const sign = kind === "income" ? "+" : "−";
+          row.innerHTML = `<td>${safeText(item.date)}</td><td>${safeText(item.content)}</td><td><span class="type ${kind}">${kind === "income" ? "Thu" : "Chi"}</span></td><td>${categoryLabel(item.category)}</td><td><span class="amount-value ${kind}">${sign}${money(item.amount)}</span></td><td>${safeText(item.note||"-")}</td><td>${safeText(item.createdByEmail||"-")}</td><td><button class="btn-danger" onclick="deleteTransaction('${item.id}')">Xóa</button></td>`;
+          list.appendChild(row);
+        });
+        $("totalIncome").innerText = money(totalIncome);
+        $("totalExpense").innerText = money(totalExpense);
+        $("balance").innerText = money(totalIncome-totalExpense);
+        $("totalCount").innerText = rows.length;
+      });
+    }
+    window.addTransaction = addTransaction;
+    window.deleteTransaction = deleteTransaction;
+
+    /* MONTH NOTE */
+    function listenMonthNote(){
+      if(!currentBookId) return;
+      if(unsubscribeMonthNote) unsubscribeMonthNote();
+      const noteRef = doc(db,"books",currentBookId,"months",currentMonth);
+      unsubscribeMonthNote = onSnapshot(noteRef,snapshot=>{ $("monthNote").value = snapshot.exists() ? (snapshot.data().note || "") : ""; });
+    }
+    async function saveMonthNote(){
+      if(!currentBookId) return;
+      await setDoc(doc(db,"books",currentBookId,"months",currentMonth),{month:currentMonth,note:$("monthNote").value,updatedBy:currentUser.uid,updatedByEmail:currentUser.email,updatedAt:serverTimestamp()},{merge:true});
+      alert("Đã lưu ghi chú tháng.");
+    }
+    window.saveMonthNote = saveMonthNote;
+
+    /* DEBTS */
+    function debtPanelStorageKey(){
+      return currentUser?.uid && currentBookId ? `sochitieu:debt-panel:${currentUser.uid}:${currentBookId}` : "";
+    }
+    function setDebtPanelCollapsed(collapsed,{persist=true}={}){
+      debtPanelCollapsed = Boolean(collapsed);
+      const panel = $("debtPanel");
+      const content = $("debtPanelContent");
+      const button = $("debtCollapseButton");
+      if(!panel || !content || !button) return;
+      panel.classList.toggle("is-collapsed",debtPanelCollapsed);
+      content.classList.toggle("hidden",debtPanelCollapsed);
+      button.setAttribute("aria-expanded",String(!debtPanelCollapsed));
+      $("debtCollapseLabel").innerText = debtPanelCollapsed ? "Mở sổ" : "Thu gọn";
+      if(persist){
+        const key = debtPanelStorageKey();
+        if(key) localStorage.setItem(key,debtPanelCollapsed ? "1" : "0");
+      }
+    }
+    function loadDebtPanelPreference(){
+      const key = debtPanelStorageKey();
+      setDebtPanelCollapsed(key ? localStorage.getItem(key) === "1" : false,{persist:false});
+    }
+    function toggleDebtPanel(){ setDebtPanelCollapsed(!debtPanelCollapsed); }
+    function setDebtMode(mode){
+      debtMode = mode;
+      $("tabOwedToMe").classList.toggle("active",mode === "owedToMe");
+      $("tabIOwe").classList.toggle("active",mode === "iOwe");
+      $("debtOwedOverview").classList.toggle("active",mode === "owedToMe");
+      $("debtIOweOverview").classList.toggle("active",mode === "iOwe");
+      updateDebtFormLabels();
       renderDebtList();
     }
-  );
-}
+    function updateDebtOverview(){
+      const openItems = debts.filter(item=>!item.settled);
+      const owedToMe = openItems.filter(item=>item.type === "owedToMe");
+      const iOwe = openItems.filter(item=>item.type === "iOwe");
+      const sum = items => items.reduce((total,item)=>total + Number(item.amount || 0),0);
+      $("debtOwedTotal").innerText = money(sum(owedToMe));
+      $("debtIOweTotal").innerText = money(sum(iOwe));
+      $("debtOwedCount").innerText = `${owedToMe.length} khoản đang mở`;
+      $("debtIOweCount").innerText = `${iOwe.length} khoản đang mở`;
+    }
+    async function addDebt(){
+      if(!currentBookId){ alert("Hãy chọn sổ trước."); return; }
+      const person = $("debtPerson").value.trim();
+      const amount = parseMoneyInput($("debtAmount").value);
+      const debtDate = $("debtDate").value;
+      const dueDate = $("debtDueDate").value;
+      const note = $("debtNote").value.trim();
+      if(!person || !amount || amount<=0){ alert("Vui lòng nhập tên người và số tiền hợp lệ."); return; }
+      await addDoc(collection(db,"books",currentBookId,"debts"),{type:debtMode,person,amount,debtDate,dueDate,note,settled:false,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdAt:serverTimestamp()});
+      $("debtPerson").value = "";
+      clearMoneyInput("debtAmount");
+      setDebtDate("debtDate",today());
+      setDebtDate("debtDueDate","");
+      $("debtNote").value = "";
+    }
+    function listenDebts(){
+      if(!currentBookId) return;
+      if(unsubscribeDebts) unsubscribeDebts();
+      unsubscribeDebts = onSnapshot(collection(db,"books",currentBookId,"debts"),snapshot=>{
+        debts = []; snapshot.forEach(item=>debts.push({id:item.id,...item.data()}));
+        debts.sort((a,b)=>{ if(Boolean(a.settled)!==Boolean(b.settled)) return a.settled ? 1 : -1; return String(b.debtDate||"").localeCompare(String(a.debtDate||"")); });
+        renderDebtList();
+      });
+    }
+    function renderDebtList(){
+      updateDebtOverview();
+      const list = $("debtList"); list.innerHTML = "";
+      const filtered = debts.filter(item=>item.type === debtMode);
+      if(!filtered.length){
+        list.innerHTML = `<div class="empty">${debtMode === "owedToMe" ? "Chưa có ai đang nợ bạn." : "Bạn chưa có khoản nợ nào cần theo dõi."}</div>`;
+        return;
+      }
+      filtered.forEach(item=>{
+        const card = document.createElement("div");
+        card.className = "debt-card" + (item.settled ? " settled" : "");
+        const person = String(item.person || "?").trim();
+        const initial = person ? person.charAt(0).toLocaleUpperCase("vi-VN") : "?";
+        const relation = item.type === "owedToMe" ? "Người đang nợ bạn" : "Khoản bạn đang nợ";
+        const dateLabel = item.type === "owedToMe" ? "Ngày cho mượn" : "Ngày vay";
+        const dueLabel = item.type === "owedToMe" ? "Hạn cần thu" : "Hạn cần trả";
+        const status = item.settled ? "Đã tất toán" : "Đang theo dõi";
+        const actionLabel = item.type === "owedToMe" ? "Đã thu" : "Đã trả";
+        card.innerHTML = `
+          <div class="debt-card-top">
+            <div class="debt-person">
+              <span class="debt-person-mark">${safeText(initial)}</span>
+              <div class="debt-person-copy">
+                <b>${safeText(person)}</b>
+                <span>${relation}</span>
+              </div>
+            </div>
+            <span class="debt-status">${status}</span>
+          </div>
+          <div class="debt-balance-row">
+            <span>Số tiền cần ${item.type === "owedToMe" ? "thu" : "trả"}</span>
+            <b class="debt-amount">${money(item.amount)}</b>
+          </div>
+          <div class="debt-card-dates">
+            <div><span>${dateLabel}</span><b>${item.debtDate ? formatCompactDate(item.debtDate) : "Chưa ghi ngày"}</b></div>
+            <div><span>${dueLabel}</span><b>${item.dueDate ? formatCompactDate(item.dueDate) : "Chưa đặt hạn"}</b></div>
+          </div>
+          ${item.note ? `<div class="debt-meta">${safeText(item.note)}</div>` : ""}
+          <div class="debt-actions">
+            ${item.settled ? `<button class="btn-secondary btn-small" onclick="toggleDebt('${item.id}',false)">Mở lại</button>` : `<button class="btn-success" onclick="toggleDebt('${item.id}',true)">${actionLabel}</button>`}
+            <button class="btn-danger" onclick="deleteDebt('${item.id}')">Xóa</button>
+          </div>`;
+        list.appendChild(card);
+      });
+    }
+    async function toggleDebt(id,settled){ await updateDoc(doc(db,"books",currentBookId,"debts",id),{settled,settledAt:settled?serverTimestamp():null,updatedAt:serverTimestamp()}); }
+    async function deleteDebt(id){
+      if(!currentBookId) return;
+      try{
+        await deleteDoc(doc(db,"books",currentBookId,"debts",id));
+      }catch(error){
+        console.error("Không thể xóa khoản vay mượn:",error);
+        alert("Không thể xóa khoản vay mượn. Hãy thử lại.");
+      }
+    }
+    window.toggleDebtPanel = toggleDebtPanel;
+    window.setDebtMode = setDebtMode;
+    window.addDebt = addDebt;
+    window.toggleDebt = toggleDebt;
+    window.deleteDebt = deleteDebt;
 
-function renderDebtList(){
-  const list = $("debtList");
-  list.innerHTML = "";
+    /* BRAND SETTINGS + DELETE BOOK */
+    function openBrandSettings(){
+      const book = getBook();
+      if(!book) return;
 
-  const filtered = debts.filter(item=>item.type === debtMode);
+      $("brandBookName").value = book.name || "";
+      $("brandBookDescription").value = book.description || "";
+      $("brandLogoUrl").value = book.logoUrl || "";
+      setLogo("brandLogoPreview",book.logoUrl);
 
-  if(!filtered.length){
-    list.innerHTML = `<div class="empty">Chưa có khoản nào ở mục này.</div>`;
-    return;
-  }
+      const isOwner = book.ownerId === currentUser?.uid;
+      $("bookDeleteZone").classList.toggle("hidden",!isOwner);
 
-  filtered.forEach(item=>{
-    const card = document.createElement("div");
-    card.className = "debt-card" + (item.settled ? " settled" : "");
+      $("brandModal").classList.remove("hidden");
+    }
 
-    const dateText = item.debtDate ? `Ngày ghi: ${item.debtDate}` : "Chưa ghi ngày";
-    const dueText = item.dueDate ? `Hạn trả: ${item.dueDate}` : "Chưa có hạn trả";
+    function closeBrandSettings(){
+      $("brandModal").classList.add("hidden");
+    }
 
-    card.innerHTML = `
-      <div class="debt-card-top">
-        <div>
-          <b>${safeText(item.person)}</b>
-          <div class="debt-meta">${safeText(item.note || "Không có ghi chú")}</div>
-        </div>
-        <div class="debt-amount">${money(item.amount)}</div>
-      </div>
+    function previewBrandLogo(){
+      setLogo("brandLogoPreview",$("brandLogoUrl").value.trim());
+    }
 
-      <div class="debt-meta">${dateText}<br>${dueText}</div>
+    async function saveBrandSettings(){
+      const name = $("brandBookName").value.trim();
+      const description = $("brandBookDescription").value.trim();
+      const logoUrl = $("brandLogoUrl").value.trim();
 
-      <div class="debt-actions">
-        ${
-          item.settled
-            ? `<button class="btn-secondary btn-small" onclick="toggleDebt('${item.id}',false)">Mở lại</button>`
-            : `<button class="btn-success btn-small" onclick="toggleDebt('${item.id}',true)">${debtMode === "owedToMe" ? "Đã thu" : "Đã trả"}</button>`
+      if(!name){
+        alert("Tên sổ không được để trống.");
+        return;
+      }
+
+      if(logoUrl && !validHttpUrl(logoUrl)){
+        alert("Link logo chưa hợp lệ. Hãy dùng link bắt đầu bằng https:// hoặc http://");
+        return;
+      }
+
+      await updateDoc(doc(db,"books",currentBookId),{
+        name,
+        description,
+        logoUrl,
+        updatedAt:serverTimestamp()
+      });
+
+      closeBrandSettings();
+    }
+
+    async function deleteSubcollectionInBatches(bookId,subcollectionName){
+      const snapshot = await getDocs(collection(db,"books",bookId,subcollectionName));
+      const docs = snapshot.docs;
+
+      // Firestore cho tối đa 500 thao tác trong một batch. Dùng 450 để có dư an toàn.
+      for(let index = 0; index < docs.length; index += 450){
+        const batch = writeBatch(db);
+        docs.slice(index,index + 450).forEach(item => batch.delete(item.ref));
+        await batch.commit();
+      }
+    }
+
+    async function deleteCurrentBook(){
+      const book = getBook();
+
+      if(!book || !currentUser || !currentBookId) return;
+
+      if(book.ownerId !== currentUser.uid){
+        alert("Chỉ chủ sổ mới có quyền xóa sổ này.");
+        return;
+      }
+
+      const bookId = currentBookId;
+      const deleteButton = $("deleteBookButton");
+      const originalLabel = deleteButton.innerText;
+
+      deleteButton.disabled = true;
+      deleteButton.innerText = "Đang xóa...";
+
+      try{
+        // Xóa dữ liệu con trước, sau đó xóa sổ. Không yêu cầu gõ “XÓA”.
+        await deleteSubcollectionInBatches(bookId,"transactions");
+        await deleteSubcollectionInBatches(bookId,"months");
+        await deleteSubcollectionInBatches(bookId,"debts");
+
+        await deleteDoc(doc(db,"books",bookId));
+
+        if(unsubscribeTransactions) unsubscribeTransactions();
+        if(unsubscribeMonthNote) unsubscribeMonthNote();
+        if(unsubscribeDebts) unsubscribeDebts();
+
+        unsubscribeTransactions = null;
+        unsubscribeMonthNote = null;
+        unsubscribeDebts = null;
+
+        currentBookId = null;
+        debts = [];
+        $("bookDetail").classList.add("hidden");
+        closeBrandSettings();
+      }catch(error){
+        console.error("Không thể xóa sổ:",error);
+
+        // Nếu chỉ lỗi ở bước dọn subcollection, vẫn thử xóa sổ để sổ biến mất khỏi danh sách.
+        try{
+          await deleteDoc(doc(db,"books",bookId));
+          currentBookId = null;
+          debts = [];
+          $("bookDetail").classList.add("hidden");
+          closeBrandSettings();
+        }catch(rootError){
+          console.error("Không thể xóa sổ gốc:",rootError);
+          alert("Không thể xóa sổ. Hãy kiểm tra Firestore Rules rồi thử lại.");
         }
-        <button class="btn-danger btn-small" onclick="deleteDebt('${item.id}')">Xóa</button>
-      </div>
-    `;
+      }finally{
+        deleteButton.disabled = false;
+        deleteButton.innerText = originalLabel;
+      }
+    }
 
-    list.appendChild(card);
-  });
-}
+    window.openBrandSettings = openBrandSettings;
+    window.closeBrandSettings = closeBrandSettings;
+    window.previewBrandLogo = previewBrandLogo;
+    window.saveBrandSettings = saveBrandSettings;
+    window.deleteCurrentBook = deleteCurrentBook;
 
-window.toggleDebt = async function(id,settled){
-  await updateDoc(doc(db,"books",currentBookId,"debts",id),{
-    settled,
-    settledAt:settled ? serverTimestamp() : null,
-    updatedAt:serverTimestamp()
-  });
-};
+    window.toggleCategoryMenu = toggleCategoryMenu;
+    window.closeCategoryMenu = closeCategoryMenu;
+    window.openCategoryManager = openCategoryManager;
+    window.closeCategoryManager = closeCategoryManager;
+    window.addCustomCategory = addCustomCategory;
+    window.saveCategoryName = saveCategoryName;
+    window.deleteCategory = deleteCategory;
 
-window.deleteDebt = async function(id){
-  if(!confirm("Xóa khoản vay mượn này?")) return;
-  await deleteDoc(doc(db,"books",currentBookId,"debts",id));
-};
-</script>
+    updateDebtFormLabels();
+    setDebtDate("debtDate",$("debtDate").value || today());
+    setDebtDate("debtDueDate",$("debtDueDate").value || "");
+    setupMoneyInputs();
+    window.applyAmountSuggestion = applyAmountSuggestion;
+
+    document.addEventListener("click",event=>{
+      if(!event.target.closest(".category-picker")) closeCategoryMenu();
+    });
+
+    // Close modal by clicking its dark background
+    ["brandModal","categoryModal","dateModal","monthModal"].forEach(id=>{
+      $(id).addEventListener("click",event=>{ if(event.target.id === id) $(id).classList.add("hidden"); });
+    });
+  </script>
 </body>
 </html>

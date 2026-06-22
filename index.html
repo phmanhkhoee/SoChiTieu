@@ -315,7 +315,46 @@
     .debt-card-dates span{display:block;color:var(--muted);font-size:9px}
     .debt-card-dates b{display:block;overflow:hidden;margin-top:4px;color:var(--ink-soft);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
     .debt-meta{margin-top:10px;color:var(--muted);font-size:10px;line-height:1.55}
-    .debt-actions{display:flex;gap:7px;margin-top:11px}
+    .debt-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+    .debt-history{margin-top:11px;padding-top:10px;border-top:1px dashed #e5eaf1}
+    .debt-history-head{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:7px;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.03em;text-transform:uppercase}
+    .debt-history-list{display:grid;gap:6px}
+    .debt-history-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:10px;background:#fafbfd}
+    .debt-history-sign{width:22px;height:22px;display:grid;place-items:center;flex:none;border-radius:7px;font-size:13px;font-weight:800}
+    .debt-history-sign.increase{background:var(--blue-soft);color:var(--blue)}
+    .debt-history-sign.decrease{background:var(--green-soft);color:var(--green)}
+    .debt-history-copy{min-width:0;flex:1}
+    .debt-history-copy b{display:block;overflow:hidden;color:var(--ink-soft);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+    .debt-history-copy span{display:block;overflow:hidden;margin-top:2px;color:var(--muted);font-size:9px;text-overflow:ellipsis;white-space:nowrap}
+    .debt-history-amount{font-size:10px;font-weight:800;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .debt-history-amount.increase{color:var(--blue)}
+    .debt-history-amount.decrease{color:var(--green)}
+
+    /* Cập nhật khoản vay: tăng/giảm số dư và lưu lịch sử từng lần thay đổi. */
+    .debt-update-modal{width:min(570px,100%)}
+    .debt-update-summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:1px solid #d7e4fa;border-radius:16px;background:#f5f8ff}
+    .debt-update-person{display:flex;align-items:center;min-width:0;gap:10px}
+    .debt-update-person-mark{width:38px;height:38px;display:grid;place-items:center;flex:none;border-radius:12px;background:#fff;border:1px solid #d8e3f6;color:#42618b;font-size:14px;font-weight:800}
+    .debt-update-person-copy{min-width:0}
+    .debt-update-person-copy b{display:block;overflow:hidden;color:var(--ink);font-family:"Manrope";font-size:14px;text-overflow:ellipsis;white-space:nowrap}
+    .debt-update-person-copy span{display:block;overflow:hidden;margin-top:3px;color:var(--muted);font-size:10px;text-overflow:ellipsis;white-space:nowrap}
+    .debt-update-balance{text-align:right;white-space:nowrap}
+    .debt-update-balance span{display:block;color:var(--muted);font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+    .debt-update-balance b{display:block;margin-top:4px;color:var(--blue);font-size:18px;font-weight:800;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
+    .debt-adjustment-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:17px 0 10px}
+    .debt-adjustment-choice{padding:11px 10px;border:1px solid #e1e7f1;border-radius:12px;background:#fff;color:var(--ink-soft);font-size:11px;font-weight:800;text-align:left}
+    .debt-adjustment-choice span{display:block;margin-top:3px;color:var(--muted);font-size:9px;font-weight:600}
+    .debt-adjustment-choice.active.decrease{border-color:#93d5b5;background:var(--green-soft);color:var(--green)}
+    .debt-adjustment-choice.active.increase{border-color:#afc8fb;background:var(--blue-soft);color:var(--blue)}
+    .debt-adjustment-hint{min-height:19px;margin:0 0 13px;color:var(--muted);font-size:11px;line-height:1.5}
+    .debt-update-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .debt-update-grid .debt-field{min-width:0}
+    .debt-update-history{margin-top:17px;padding-top:15px;border-top:1px solid var(--line)}
+    .debt-update-history h4{font-family:"Manrope";font-size:13px;letter-spacing:-.03em}
+    .debt-update-history p{margin-top:4px;color:var(--muted);font-size:10px;line-height:1.5}
+    .debt-update-history-list{display:grid;gap:7px;margin-top:10px;max-height:185px;overflow:auto}
+    .debt-update-history-empty{padding:12px;border:1px dashed #dce3ee;border-radius:11px;color:var(--muted);font-size:10px;text-align:center}
+
     .empty{padding:24px 10px;color:var(--muted);text-align:center;font-size:12px}
 
     /* FOOTER */
@@ -369,7 +408,8 @@
     @media(max-width:520px){
       .debt-panel-header{padding:15px}
       .debt-panel-content{padding:13px 15px 15px}
-      .debt-date-grid{grid-template-columns:1fr}
+      .debt-date-grid,.debt-update-grid{grid-template-columns:1fr}
+      .debt-adjustment-switch{grid-template-columns:1fr}
       .debt-collapse-button{padding:7px 8px}
       .debt-collapse-button span:first-child{display:none}
     }
@@ -913,6 +953,15 @@
     body.dark-mode .debt-overview-card:hover{background:#20252d;border-color:#415069}
     body.dark-mode .debt-panel-header,
     body.dark-mode .profile-section{border-color:#292f39}
+    body.dark-mode .debt-history-item{background:#1d2129}
+    body.dark-mode .debt-history{border-color:#323944}
+    body.dark-mode .debt-update-summary{background:#1e2b41;border-color:#3e5681}
+    body.dark-mode .debt-update-person-mark{background:#171a20;border-color:#3b4960;color:#c4d5fb}
+    body.dark-mode .debt-adjustment-choice{background:#151820;border-color:#2c333e;color:var(--ink)}
+    body.dark-mode .debt-adjustment-choice.active.decrease{background:#173529;border-color:#40785f;color:#70d7a5}
+    body.dark-mode .debt-adjustment-choice.active.increase{background:#202b40;border-color:#5673ab;color:#bdd0ff}
+    body.dark-mode .debt-update-history{border-color:#292f39}
+    body.dark-mode .debt-update-history-empty{border-color:#37404e}
 
     body.dark-mode .selected-date-banner{
       background:#1f2c43;
@@ -993,7 +1042,79 @@
     .app-brand.app-brand-home:hover .brand-name,.public-brand.brand-home-link:hover .brand-name,.auth-logo.brand-home-link:hover .brand-name{color:var(--blue)}
     .app-brand.app-brand-home:focus-visible,.public-brand.brand-home-link:focus-visible,.auth-logo.brand-home-link:focus-visible{outline:3px solid rgba(47,111,237,.26);outline-offset:6px;border-radius:12px}
 
-  </style>
+  
+
+    /* MOBILE APP LAYOUT — tối ưu dùng bằng một tay trên điện thoại */
+    @media(max-width:680px){
+      html,body{max-width:100%;overflow-x:hidden}
+      .app,.app-shell{padding:12px}
+      .topbar{align-items:center;margin-bottom:14px}
+      .app-brand{gap:9px;min-width:0}
+      .app-brand .brand-mark{width:40px;height:40px;border-radius:13px}
+      .app-brand h1{font-size:20px}
+      .app-brand p{display:none}
+      .user-area{gap:6px}
+      .user-area .btn-secondary{padding:8px 9px;font-size:11px}
+      .shell{gap:14px}
+      .sidebar{padding:13px;border-radius:17px}
+      .sidebar .stack{gap:9px}
+      .sidebar .divider{margin:13px 0}
+      .book-list{display:flex;overflow-x:auto;gap:8px;margin-top:12px;padding:2px 1px 6px;scroll-snap-type:x proximity}
+      .book-list::-webkit-scrollbar{height:4px}
+      .book-item{min-width:154px;scroll-snap-align:start;padding:11px}
+      .dashboard-head{margin-bottom:13px}
+      .dashboard-head h2{font-size:24px}
+      .dashboard-head p{font-size:12px}
+      .book-meta{gap:7px}
+      .code-box{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .month-toolbar{max-width:none;width:100%}
+      .summary{gap:9px}
+      .stat{padding:13px;border-radius:15px}
+      .stat span{font-size:10px}
+      .stat b{font-size:17px}
+      .panel{padding:14px;border-radius:17px}
+      .panel-top{margin-bottom:12px}
+      .panel-top p{font-size:11px}
+      .transaction-form{gap:9px}
+      .date-trigger,.category-trigger,.type-picker,.amount-stack input{min-height:47px}
+      .type-picker{padding:4px}
+      .type-choice{font-size:11px}
+      .category-menu{
+        position:fixed;z-index:180;left:10px;right:10px;top:auto;bottom:10px;width:auto;max-height:min(72dvh,560px);
+        padding:13px;border-radius:20px;box-shadow:0 20px 56px rgba(12,24,46,.24)
+      }
+      .category-options{grid-template-columns:1fr;max-height:calc(min(72dvh,560px) - 145px)}
+      .category-option{min-height:44px}
+      .category-add-link{position:sticky;bottom:0;background:#fff}
+      .table-wrap{overflow:visible;border:0;background:transparent}
+      .table-wrap table,.table-wrap tbody,.table-wrap tr,.table-wrap td{display:block;width:100%;min-width:0}
+      .table-wrap thead{display:none}
+      .table-wrap tr{margin-top:10px;padding:5px 12px;border:1px solid var(--line);border-radius:14px;background:var(--paper)}
+      .table-wrap td{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);text-align:right;font-size:12px}
+      .table-wrap td::before{content:attr(data-label);flex:0 0 82px;color:var(--muted);font-size:10px;font-weight:800;text-align:left;text-transform:uppercase;letter-spacing:.04em}
+      .table-wrap td:last-child{border-bottom:0}
+      .table-wrap td.transaction-action{justify-content:flex-end;padding-top:11px}
+      .table-wrap td.transaction-action::before{display:none}
+      .table-wrap td.empty{display:block;padding:20px 8px;border:0;text-align:center}
+      .table-wrap td.empty::before{display:none}
+      .table-wrap .category-label{justify-content:flex-end;white-space:normal;text-align:right}
+      .month-note{margin-top:14px}
+      .debt-panel-header{padding:14px}
+      .debt-panel-content{padding:13px 14px 14px}
+      .support-float{right:12px;bottom:12px;padding:11px 13px}
+      .site-footer{margin-top:16px}
+    }
+    @media(max-width:420px){
+      .summary{grid-template-columns:1fr 1fr}
+      .book-item{min-width:138px}
+      .table-wrap td::before{flex-basis:74px}
+      .category-menu{left:7px;right:7px;bottom:7px}
+      .modal-overlay{padding:8px}
+      .modal{max-height:calc(100dvh - 16px);padding:16px;border-radius:18px}
+      .calendar-modal{max-height:calc(100dvh - 16px)}
+    }
+
+</style>
 </head>
 <body>
   <!-- PUBLIC INTRODUCTION PAGE -->
@@ -1510,6 +1631,81 @@
     </div>
   </div>
 
+  <!-- DEBT UPDATE MODAL -->
+  <div id="debtUpdateModal" class="modal-overlay hidden">
+    <div class="modal debt-update-modal">
+      <div class="modal-header">
+        <div>
+          <h3>Cập nhật khoản vay</h3>
+          <p>Ghi nhận khoản đã trả hoặc phát sinh thêm. Số dư và lịch sử sẽ được cập nhật riêng, không tính vào chi tiêu tháng.</p>
+        </div>
+        <button type="button" class="close-modal" onclick="closeDebtUpdateModal()">×</button>
+      </div>
+
+      <div class="debt-update-summary">
+        <div class="debt-update-person">
+          <span id="debtUpdatePersonInitial" class="debt-update-person-mark">?</span>
+          <div class="debt-update-person-copy">
+            <b id="debtUpdatePersonName">Khoản vay</b>
+            <span id="debtUpdateRelation">Đang theo dõi</span>
+          </div>
+        </div>
+        <div class="debt-update-balance">
+          <span id="debtUpdateBalanceLabel">Còn phải thu</span>
+          <b id="debtUpdateCurrentAmount">0đ</b>
+        </div>
+      </div>
+
+      <div class="debt-adjustment-switch">
+        <button id="debtAdjustDecreaseButton" type="button" class="debt-adjustment-choice decrease active" onclick="selectDebtAdjustmentMode('decrease')">
+          <b id="debtAdjustDecreaseTitle">Ghi nhận đã thu</b>
+          <span id="debtAdjustDecreaseCaption">Trừ vào số dư hiện tại</span>
+        </button>
+        <button id="debtAdjustIncreaseButton" type="button" class="debt-adjustment-choice increase" onclick="selectDebtAdjustmentMode('increase')">
+          <b id="debtAdjustIncreaseTitle">Cho mượn thêm</b>
+          <span id="debtAdjustIncreaseCaption">Cộng thêm vào số dư</span>
+        </button>
+      </div>
+
+      <p id="debtAdjustmentHint" class="debt-adjustment-hint"></p>
+
+      <div class="debt-update-grid">
+        <label class="debt-field">
+          <span id="debtAdjustmentAmountLabel">Số tiền đã thu</span>
+          <div class="amount-stack debt-amount-stack">
+            <input id="debtAdjustmentAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Nhập số tiền" aria-describedby="debtAdjustmentAmountSuggestions">
+            <div id="debtAdjustmentAmountSuggestions" class="amount-suggestions" aria-live="polite"></div>
+          </div>
+        </label>
+
+        <div class="debt-field">
+          <span id="debtAdjustmentDateLabel">Ngày đã thu</span>
+          <input id="debtAdjustmentDate" type="hidden">
+          <button class="debt-date-trigger" type="button" onclick="openDateModal('debtAdjustmentDate')">
+            <span>CHỌN LỊCH</span>
+            <b id="debtAdjustmentDateTriggerText">Chọn ngày</b>
+          </button>
+        </div>
+      </div>
+
+      <label class="debt-field" style="margin-top:10px">
+        <span>Ghi chú lần cập nhật</span>
+        <input id="debtAdjustmentNote" placeholder="Ví dụ: Đã nhận chuyển khoản, cho mượn thêm...">
+      </label>
+
+      <section class="debt-update-history">
+        <h4>Lịch sử thay đổi</h4>
+        <p>Hiển thị các lần phát sinh, trả bớt hoặc vay thêm gần đây.</p>
+        <div id="debtUpdateHistoryList" class="debt-update-history-list"></div>
+      </section>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="closeDebtUpdateModal()">Hủy</button>
+        <button id="applyDebtUpdateButton" type="button" class="btn-primary" onclick="applyDebtUpdate()">Cập nhật số dư</button>
+      </div>
+    </div>
+  </div>
+
   <!-- SETTINGS MODAL -->
   <div id="brandModal" class="modal-overlay hidden">
     <div class="modal">
@@ -1544,7 +1740,7 @@
       <div class="modal-header">
         <div>
           <h3>Quản lý danh mục</h3>
-          <p>Thêm mục mới hoặc đổi tên các mục cũ. Danh mục sẽ dùng chung cho mọi người trong sổ này.</p>
+          <p>Danh mục này chỉ áp dụng cho tài khoản của bạn trong sổ hiện tại. Mỗi thành viên có bộ danh mục riêng.</p>
         </div>
         <button class="close-modal" onclick="closeCategoryManager()">×</button>
       </div>
@@ -1567,7 +1763,7 @@
       </div>
 
       <div id="categoryManagerList" class="category-manager-list"></div>
-      <p class="category-manager-note">Xóa danh mục không làm mất các giao dịch cũ. Những giao dịch đó vẫn được giữ nguyên lịch sử.</p>
+      <p class="category-manager-note">Danh mục của bạn là riêng tư trong sổ này. Đổi tên hoặc xóa danh mục không làm thay đổi giao dịch của thành viên khác; giao dịch cũ vẫn được giữ nguyên lịch sử.</p>
     </div>
   </div>
 
@@ -1614,7 +1810,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-    import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, onSnapshot, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+    import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, onSnapshot, query, where, serverTimestamp, arrayUnion } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAtig3mHaaxTW9JgAKXyo9XPKQxe14PJ2M",
@@ -1642,6 +1838,10 @@
     let debtMode = "owedToMe";
     let allBooks = [];
     let adminBooks = [];
+    // Danh mục là riêng theo từng tài khoản trong từng sổ.
+    // Không dùng chung với các thành viên khác của cùng một sổ.
+    let personalCategories = null;
+    let personalCategoryBookId = null;
     let debts = [];
     let adminProfile = null;
     let hasAdminAccess = false;
@@ -1652,12 +1852,15 @@
     let unsubscribeMonthNote = null;
     let unsubscribeDebts = null;
     let unsubscribeAdminBooks = null;
+    let unsubscribePersonalCategories = null;
 
     let selectedTransactionDate = today();
     let pendingDate = selectedTransactionDate;
     let calendarCursor = parseISODate(selectedTransactionDate);
     let dateModalTarget = "transaction";
     let debtPanelCollapsed = false;
+    let debtUpdateId = null;
+    let debtAdjustmentMode = "decrease";
     let selectedAvatarStyle = "blue";
     const AVATAR_STYLES = [
       {id:"blue",label:"Xanh dương",background:"#2f6fed",foreground:"#ffffff"},
@@ -1686,7 +1889,7 @@
     function money(value){ return Number(value || 0).toLocaleString("vi-VN") + "đ"; }
 
     // Danh mục mặc định: icon đều dùng từ Flaticon và được hiển thị đơn sắc.
-    // Danh mục tùy chỉnh được lưu trong document của từng sổ để mọi người cùng dùng chung.
+    // Danh mục tùy chỉnh được lưu RIÊNG cho từng tài khoản trong từng sổ.
     const DEFAULT_CATEGORIES = [
       {id:"food",name:"Ăn uống",icon:"https://cdn-icons-png.flaticon.com/512/1046/1046784.png"},
       {id:"transport",name:"Đi lại / xăng xe",icon:"https://cdn-icons-png.flaticon.com/512/7720/7720735.png"},
@@ -1745,26 +1948,87 @@
     function sameCategoryName(a,b){
       return normalizeCategoryName(a).toLocaleLowerCase("vi-VN") === normalizeCategoryName(b).toLocaleLowerCase("vi-VN");
     }
-    function getBookCategories(book = getBook()){
-      if(Array.isArray(book?.categories) && book.categories.length){
-        return book.categories
-          .filter(item => item && normalizeCategoryName(item.name))
-          .map((item,index) => ({
-            id:String(item.id || `category-${index}`),
-            name:normalizeCategoryName(item.name),
-            icon:CATEGORY_ICON_URLS.includes(item.icon) ? item.icon : CATEGORY_ICON_URLS[index % CATEGORY_ICON_URLS.length]
-          }));
-      }
-      return cloneDefaultCategories();
+    function normalizeCategoryList(raw){
+      const items = Array.isArray(raw) ? raw : [];
+      return items
+        .filter(item => item && normalizeCategoryName(item.name))
+        .map((item,index) => ({
+          id:String(item.id || `category-${index}`),
+          name:normalizeCategoryName(item.name),
+          icon:CATEGORY_ICON_URLS.includes(item.icon)
+            ? item.icon
+            : CATEGORY_ICON_URLS[index % CATEGORY_ICON_URLS.length]
+        }));
     }
-    function getCategoryMeta(categoryName){
+    function getBookCategories(){
+      const normalized = personalCategoryBookId === currentBookId
+        ? normalizeCategoryList(personalCategories)
+        : [];
+      return normalized.length ? normalized : cloneDefaultCategories();
+    }
+    function getCategoryMeta(categoryName, savedIcon = ""){
       const current = getBookCategories().find(item => item.name === categoryName);
       const fallback = DEFAULT_CATEGORIES.find(item => item.name === categoryName);
-      return current || fallback || {id:"unknown",name:categoryName || "Khác",icon:DEFAULT_CATEGORIES.at(-1).icon};
+      const fallbackMeta = current || fallback || {id:"unknown",name:categoryName || "Khác",icon:DEFAULT_CATEGORIES.at(-1).icon};
+      return {
+        ...fallbackMeta,
+        icon: CATEGORY_ICON_URLS.includes(savedIcon) ? savedIcon : fallbackMeta.icon
+      };
     }
-    function categoryLabel(category){
-      const meta = getCategoryMeta(category);
+    function categoryLabel(category, savedIcon = ""){
+      const meta = getCategoryMeta(category,savedIcon);
       return `<span class="category-label"><span class="category-icon"><img src="${safeText(meta.icon)}" alt="" loading="lazy" onerror="this.style.display='none'"></span>${safeText(category || "Khác")}</span>`;
+    }
+    function personalCategorySettingsRef(bookId = currentBookId, userId = currentUser?.uid){
+      if(!bookId || !userId) return null;
+      return doc(db,"books",bookId,"memberSettings",userId);
+    }
+    function listenPersonalCategories(){
+      if(unsubscribePersonalCategories) unsubscribePersonalCategories();
+      unsubscribePersonalCategories = null;
+      personalCategories = null;
+      personalCategoryBookId = currentBookId;
+
+      const bookId = currentBookId;
+      const userId = currentUser?.uid;
+      const ref = personalCategorySettingsRef(bookId,userId);
+      if(!ref) {
+        renderCategoryPicker();
+        return;
+      }
+
+      unsubscribePersonalCategories = onSnapshot(ref, async snapshot => {
+        // Bỏ qua callback cũ khi người dùng đã chuyển sang sổ khác.
+        if(currentBookId !== bookId || currentUser?.uid !== userId) return;
+
+        const stored = snapshot.exists() ? normalizeCategoryList(snapshot.data().categories) : [];
+        // Chuyển bộ danh mục cũ của chủ sổ sang bộ riêng của chính chủ sổ một lần.
+        // Thành viên khác bắt đầu với bộ mặc định của riêng họ.
+        const legacyBookCategories = currentUser?.uid === getBook()?.ownerId
+          ? normalizeCategoryList(getBook()?.categories)
+          : [];
+        personalCategories = stored.length
+          ? stored
+          : (legacyBookCategories.length ? legacyBookCategories : cloneDefaultCategories());
+        personalCategoryBookId = bookId;
+        renderCategoryPicker();
+
+        // Lần đầu vào một sổ: tạo bộ danh mục riêng cho người dùng này.
+        if(!snapshot.exists()){
+          try{
+            await setDoc(ref,{
+              categories: personalCategories,
+              updatedAt: serverTimestamp()
+            },{merge:true});
+          }catch(error){
+            console.warn("Không thể khởi tạo danh mục riêng:",error);
+          }
+        }
+      },error => {
+        console.warn("Không thể tải danh mục riêng:",error);
+        personalCategories = cloneDefaultCategories();
+        renderCategoryPicker();
+      });
     }
 
     function renderCategoryPicker(){
@@ -1831,10 +2095,14 @@
       closeCategoryMenu();
     }
     async function persistCategories(categories){
-      const clean = categories.map(item => ({id:item.id,name:normalizeCategoryName(item.name),icon:item.icon}));
-      const book = getBook();
-      if(book) book.categories = clean;
-      await updateDoc(doc(db,"books",currentBookId),{categories:clean,updatedAt:serverTimestamp()});
+      const clean = normalizeCategoryList(categories);
+      if(!currentBookId || !currentUser) return;
+      personalCategories = clean;
+      const ref = personalCategorySettingsRef();
+      await setDoc(ref,{
+        categories:clean,
+        updatedAt:serverTimestamp()
+      },{merge:true});
       renderCategoryPicker();
     }
     function openCategoryManager(){
@@ -1938,7 +2206,7 @@
 
       try{
         await persistCategories(categories);
-        await renameCategoryInTransactions(oldName,newName);
+        // Danh mục là riêng theo user; giữ nguyên lịch sử giao dịch cũ.
         if($("category").value === oldName) $("category").value = newName;
         renderCategoryPicker();
         renderCategoryManagerList();
@@ -1986,7 +2254,12 @@
       renderAmountSuggestions(input.id);
     }
     function getSuggestionBoxId(inputId){
-      return inputId === "amount" ? "amountSuggestions" : "debtAmountSuggestions";
+      const map = {
+        amount:"amountSuggestions",
+        debtAmount:"debtAmountSuggestions",
+        debtAdjustmentAmount:"debtAdjustmentAmountSuggestions"
+      };
+      return map[inputId] || "amountSuggestions";
     }
     function renderAmountSuggestions(inputId){
       const input = $(inputId);
@@ -2038,7 +2311,7 @@
       if(box) box.innerHTML = "";
     }
     function setupMoneyInputs(){
-      ["amount", "debtAmount"].forEach(id => {
+      ["amount", "debtAmount", "debtAdjustmentAmount"].forEach(id => {
         const input = $(id);
         if(!input) return;
 
@@ -2052,8 +2325,10 @@
 
       document.addEventListener("click", event => {
         if(!event.target.closest(".amount-stack")){
-          $("amountSuggestions").innerHTML = "";
-          $("debtAmountSuggestions").innerHTML = "";
+          ["amountSuggestions","debtAmountSuggestions","debtAdjustmentAmountSuggestions"].forEach(id => {
+            const box = $(id);
+            if(box) box.innerHTML = "";
+          });
         }
       });
     }
@@ -2197,7 +2472,10 @@
       if(unsubscribeMonthNote) unsubscribeMonthNote();
       if(unsubscribeDebts) unsubscribeDebts();
       if(unsubscribeAdminBooks) unsubscribeAdminBooks();
-      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = unsubscribeAdminBooks = null;
+      if(unsubscribePersonalCategories) unsubscribePersonalCategories();
+      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = unsubscribeAdminBooks = unsubscribePersonalCategories = null;
+      personalCategories = null;
+      personalCategoryBookId = null;
     }
 
     /* PUBLIC / AUTH VIEWS */
@@ -2651,7 +2929,7 @@
       const name = $("newBookName").value.trim();
       if(!name){ alert("Bạn chưa nhập tên sổ."); return; }
       const ref = await addDoc(collection(db,"books"),{
-        name,description:"",logoUrl:"",categories:cloneDefaultCategories(),ownerId:currentUser.uid,ownerEmail:currentUser.email,allowJoin:true,
+        name,description:"",logoUrl:"",ownerId:currentUser.uid,ownerEmail:currentUser.email,allowJoin:true,
         members:{[currentUser.uid]:true},memberEmails:{[currentUser.uid]:currentUser.email},createdAt:serverTimestamp(),updatedAt:serverTimestamp()
       });
       $("newBookName").value = "";
@@ -2675,6 +2953,7 @@
       updateBookBrand(getBook());
       renderBooks();
       loadDebtPanelPreference();
+      listenPersonalCategories();
       listenTransactions();
       listenMonthNote();
       listenDebts();
@@ -2745,7 +3024,8 @@
     const DATE_MODAL_COPY = {
       transaction:{title:"Chọn ngày giao dịch",description:"Chọn ngày cụ thể hoặc dùng các lựa chọn nhanh bên dưới.",badge:"GIAO DỊCH"},
       debtDate:{title:"Chọn ngày vay mượn",description:"Đây là ngày khoản vay hoặc khoản cho mượn bắt đầu.",badge:"VAY MƯỢN"},
-      debtDueDate:{title:"Chọn hạn thanh toán",description:"Chọn hạn cần thu hoặc hạn bạn cần trả. Có thể để trống nếu chưa có hẹn.",badge:"HẠN TRẢ"}
+      debtDueDate:{title:"Chọn hạn thanh toán",description:"Chọn hạn cần thu hoặc hạn bạn cần trả. Có thể để trống nếu chưa có hẹn.",badge:"HẠN TRẢ"},
+      debtAdjustmentDate:{title:"Chọn ngày cập nhật",description:"Ghi nhận ngày thanh toán hoặc ngày phát sinh thêm cho khoản vay này.",badge:"CẬP NHẬT"}
     };
     function formatCompactDate(value){
       if(!value) return "Chưa đặt hạn";
@@ -2760,8 +3040,13 @@
       const input = $(field);
       if(!input) return;
       input.value = value || "";
-      const triggerText = field === "debtDate" ? $("debtDateTriggerText") : $("debtDueDateTriggerText");
-      if(triggerText) triggerText.innerText = value ? formatCompactDate(value) : "Chưa đặt hạn";
+      const triggerMap = {
+        debtDate:"debtDateTriggerText",
+        debtDueDate:"debtDueDateTriggerText",
+        debtAdjustmentDate:"debtAdjustmentDateTriggerText"
+      };
+      const triggerText = $(triggerMap[field]);
+      if(triggerText) triggerText.innerText = value ? formatCompactDate(value) : (field === "debtDueDate" ? "Chưa đặt hạn" : "Chọn ngày");
     }
     function updateDebtFormLabels(){
       const owedToMe = debtMode === "owedToMe";
@@ -2892,10 +3177,21 @@
       const content = $("content").value.trim();
       const type = $("type").value;
       const category = $("category").value;
+      const categoryMeta = getCategoryMeta(category);
       const amount = parseMoneyInput($("amount").value);
       const note = $("note").value.trim();
       if(!date || !content || !amount || amount <= 0){ alert("Vui lòng nhập ngày, nội dung và số tiền hợp lệ."); return; }
-      await addDoc(collection(db,"books",currentBookId,"transactions"),{date,month:date.slice(0,7),content,type,category,amount,note,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdByName:getUserDisplayName(),createdByAvatar:currentUser.photoURL || "",createdAt:serverTimestamp()});
+      await addDoc(collection(db,"books",currentBookId,"transactions"),{
+        date,month:date.slice(0,7),content,type,category,
+        categoryId:categoryMeta.id,
+        categoryIcon:categoryMeta.icon,
+        amount,note,
+        createdBy:currentUser.uid,
+        createdByEmail:currentUser.email,
+        createdByName:getUserDisplayName(),
+        createdByAvatar:currentUser.photoURL || "",
+        createdAt:serverTimestamp()
+      });
       $("content").value = ""; clearMoneyInput("amount"); $("note").value = "";
     }
     async function deleteTransaction(id){
@@ -2916,13 +3212,13 @@
         rows.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
         let totalIncome = 0, totalExpense = 0;
         const list = $("transactionList"); list.innerHTML = "";
-        if(!rows.length){ list.innerHTML = '<tr><td colspan="8" class="empty">Chưa có giao dịch trong tháng này.</td></tr>'; }
+        if(!rows.length){ list.innerHTML = '<tr><td colspan="8" data-label="" class="empty">Chưa có giao dịch trong tháng này.</td></tr>'; }
         rows.forEach(item=>{
           if(item.type === "income") totalIncome += Number(item.amount||0); else totalExpense += Number(item.amount||0);
           const row = document.createElement("tr");
           const kind = item.type === "income" ? "income" : "expense";
           const sign = kind === "income" ? "+" : "−";
-          row.innerHTML = `<td>${safeText(item.date)}</td><td>${safeText(item.content)}</td><td><span class="type ${kind}">${kind === "income" ? "Thu" : "Chi"}</span></td><td>${categoryLabel(item.category)}</td><td><span class="amount-value ${kind}">${sign}${money(item.amount)}</span></td><td>${safeText(item.note||"-")}</td><td>${safeText(item.createdByName || item.createdByEmail || "-")}</td><td><button class="btn-danger" onclick="deleteTransaction('${item.id}')">Xóa</button></td>`;
+          row.innerHTML = `<td data-label="Ngày">${safeText(item.date)}</td><td data-label="Nội dung">${safeText(item.content)}</td><td data-label="Loại"><span class="type ${kind}">${kind === "income" ? "Thu" : "Chi"}</span></td><td data-label="Danh mục">${categoryLabel(item.category,item.categoryIcon)}</td><td data-label="Số tiền"><span class="amount-value ${kind}">${sign}${money(item.amount)}</span></td><td data-label="Ghi chú">${safeText(item.note||"-")}</td><td data-label="Người nhập">${safeText(item.createdByName || item.createdByEmail || "-")}</td><td data-label="Thao tác" class="transaction-action"><button class="btn-danger" onclick="deleteTransaction('${item.id}')">Xóa</button></td>`;
           list.appendChild(row);
         });
         $("totalIncome").innerText = money(totalIncome);
@@ -2992,6 +3288,21 @@
       $("debtOwedCount").innerText = `${owedToMe.length} khoản đang mở`;
       $("debtIOweCount").innerText = `${iOwe.length} khoản đang mở`;
     }
+    function createDebtHistoryEntry({direction,amount,previousAmount,newAmount,date,note,kind="adjustment"}){
+      return {
+        kind,
+        direction,
+        amount:Number(amount || 0),
+        previousAmount:Number(previousAmount || 0),
+        newAmount:Number(newAmount || 0),
+        date:date || today(),
+        note:note || "",
+        createdBy:currentUser?.uid || "",
+        createdByName:getUserDisplayName(),
+        createdByEmail:currentUser?.email || "",
+        createdAt:new Date().toISOString()
+      };
+    }
     async function addDebt(){
       if(!currentBookId){ alert("Hãy chọn sổ trước."); return; }
       const person = $("debtPerson").value.trim();
@@ -3000,7 +3311,30 @@
       const dueDate = $("debtDueDate").value;
       const note = $("debtNote").value.trim();
       if(!person || !amount || amount<=0){ alert("Vui lòng nhập tên người và số tiền hợp lệ."); return; }
-      await addDoc(collection(db,"books",currentBookId,"debts"),{type:debtMode,person,amount,debtDate,dueDate,note,settled:false,createdBy:currentUser.uid,createdByEmail:currentUser.email,createdByName:getUserDisplayName(),createdByAvatar:currentUser.photoURL || "",createdAt:serverTimestamp()});
+      await addDoc(collection(db,"books",currentBookId,"debts"),{
+        type:debtMode,
+        person,
+        amount,
+        originalAmount:amount,
+        debtDate,
+        dueDate,
+        note,
+        settled:false,
+        history:[createDebtHistoryEntry({
+          kind:"created",
+          direction:"increase",
+          amount,
+          previousAmount:0,
+          newAmount:amount,
+          date:debtDate || today(),
+          note
+        })],
+        createdBy:currentUser.uid,
+        createdByEmail:currentUser.email,
+        createdByName:getUserDisplayName(),
+        createdByAvatar:currentUser.photoURL || "",
+        createdAt:serverTimestamp()
+      });
       $("debtPerson").value = "";
       clearMoneyInput("debtAmount");
       setDebtDate("debtDate",today());
@@ -3015,6 +3349,39 @@
         debts.sort((a,b)=>{ if(Boolean(a.settled)!==Boolean(b.settled)) return a.settled ? 1 : -1; return String(b.debtDate||"").localeCompare(String(a.debtDate||"")); });
         renderDebtList();
       });
+    }
+    function debtActionLabel(item,direction){
+      if(direction === "increase") return item.type === "owedToMe" ? "Cho mượn thêm" : "Vay thêm";
+      return item.type === "owedToMe" ? "Đã thu" : "Đã trả";
+    }
+    function debtHistoryEntries(item){
+      return Array.isArray(item.history) ? item.history : [];
+    }
+    function renderDebtHistoryItems(item,{limit=2,container}={}){
+      const target = container || document.createElement("div");
+      const entries = debtHistoryEntries(item).slice(-limit).reverse();
+      target.innerHTML = "";
+      if(!entries.length){
+        target.innerHTML = `<div class="debt-update-history-empty">Chưa có lịch sử cập nhật. Lần điều chỉnh đầu tiên sẽ được lưu tại đây.</div>`;
+        return target;
+      }
+      entries.forEach(entry=>{
+        const direction = entry.direction === "decrease" ? "decrease" : "increase";
+        const row = document.createElement("div");
+        row.className = "debt-history-item";
+        const label = entry.kind === "created" ? "Tạo khoản vay" : debtActionLabel(item,direction);
+        const when = entry.date ? formatCompactDate(entry.date) : "Chưa ghi ngày";
+        const note = entry.note ? ` • ${safeText(entry.note)}` : "";
+        row.innerHTML = `
+          <span class="debt-history-sign ${direction}">${direction === "increase" ? "+" : "−"}</span>
+          <div class="debt-history-copy">
+            <b>${safeText(label)}</b>
+            <span>${when}${note}</span>
+          </div>
+          <span class="debt-history-amount ${direction}">${direction === "increase" ? "+" : "−"}${money(entry.amount)}</span>`;
+        target.appendChild(row);
+      });
+      return target;
     }
     function renderDebtList(){
       updateDebtOverview();
@@ -3033,7 +3400,8 @@
         const dateLabel = item.type === "owedToMe" ? "Ngày cho mượn" : "Ngày vay";
         const dueLabel = item.type === "owedToMe" ? "Hạn cần thu" : "Hạn cần trả";
         const status = item.settled ? "Đã tất toán" : "Đang theo dõi";
-        const actionLabel = item.type === "owedToMe" ? "Đã thu" : "Đã trả";
+        const balanceLabel = item.type === "owedToMe" ? "Số tiền còn phải thu" : "Số tiền còn phải trả";
+        const settleLabel = item.type === "owedToMe" ? "Thu hết" : "Trả hết";
         card.innerHTML = `
           <div class="debt-card-top">
             <div class="debt-person">
@@ -3046,7 +3414,7 @@
             <span class="debt-status">${status}</span>
           </div>
           <div class="debt-balance-row">
-            <span>Số tiền cần ${item.type === "owedToMe" ? "thu" : "trả"}</span>
+            <span>${balanceLabel}</span>
             <b class="debt-amount">${money(item.amount)}</b>
           </div>
           <div class="debt-card-dates">
@@ -3054,14 +3422,122 @@
             <div><span>${dueLabel}</span><b>${item.dueDate ? formatCompactDate(item.dueDate) : "Chưa đặt hạn"}</b></div>
           </div>
           ${item.note ? `<div class="debt-meta">${safeText(item.note)}</div>` : ""}
+          <div class="debt-history"><div class="debt-history-head"><span>Lần cập nhật gần đây</span><span>${debtHistoryEntries(item).length} lần</span></div><div id="debtHistory-${item.id}" class="debt-history-list"></div></div>
           <div class="debt-actions">
-            ${item.settled ? `<button class="btn-secondary btn-small" onclick="toggleDebt('${item.id}',false)">Mở lại</button>` : `<button class="btn-success" onclick="toggleDebt('${item.id}',true)">${actionLabel}</button>`}
-            <button class="btn-danger" onclick="deleteDebt('${item.id}')">Xóa</button>
+            <button class="btn-secondary btn-small" type="button" onclick="openDebtUpdate('${item.id}')">Cập nhật</button>
+            ${item.settled ? `<button class="btn-success" type="button" onclick="openDebtUpdate('${item.id}','increase')">Phát sinh mới</button>` : `<button class="btn-success" type="button" onclick="openDebtUpdate('${item.id}','decrease',true)">${settleLabel}</button>`}
+            <button class="btn-danger" type="button" onclick="deleteDebt('${item.id}')">Xóa</button>
           </div>`;
         list.appendChild(card);
+        renderDebtHistoryItems(item,{limit:2,container:$("debtHistory-" + item.id)});
       });
     }
-    async function toggleDebt(id,settled){ await updateDoc(doc(db,"books",currentBookId,"debts",id),{settled,settledAt:settled?serverTimestamp():null,updatedAt:serverTimestamp()}); }
+    function getDebtForUpdate(){
+      return debts.find(item=>item.id === debtUpdateId);
+    }
+    function closeDebtUpdateModal(){
+      $("debtUpdateModal").classList.add("hidden");
+      debtUpdateId = null;
+      clearMoneyInput("debtAdjustmentAmount");
+    }
+    function updateDebtAdjustmentModeUI(){
+      const debt = getDebtForUpdate();
+      if(!debt) return;
+      const isOwed = debt.type === "owedToMe";
+      const isDecrease = debtAdjustmentMode === "decrease";
+      const current = Number(debt.amount || 0);
+      $("debtAdjustDecreaseButton").classList.toggle("active",isDecrease);
+      $("debtAdjustIncreaseButton").classList.toggle("active",!isDecrease);
+      $("debtAdjustDecreaseButton").setAttribute("aria-pressed",String(isDecrease));
+      $("debtAdjustIncreaseButton").setAttribute("aria-pressed",String(!isDecrease));
+      $("debtAdjustDecreaseTitle").innerText = isOwed ? "Ghi nhận đã thu" : "Ghi nhận đã trả";
+      $("debtAdjustDecreaseCaption").innerText = "Trừ vào số dư hiện tại";
+      $("debtAdjustIncreaseTitle").innerText = isOwed ? "Cho mượn thêm" : "Vay thêm";
+      $("debtAdjustIncreaseCaption").innerText = "Cộng thêm vào số dư";
+      $("debtAdjustmentAmountLabel").innerText = isDecrease ? (isOwed ? "Số tiền đã thu" : "Số tiền đã trả") : (isOwed ? "Số tiền cho mượn thêm" : "Số tiền vay thêm");
+      $("debtAdjustmentDateLabel").innerText = isDecrease ? (isOwed ? "Ngày đã thu" : "Ngày đã trả") : (isOwed ? "Ngày cho mượn thêm" : "Ngày vay thêm");
+      $("debtAdjustmentHint").innerText = isDecrease
+        ? `Số dư hiện tại là ${money(current)}. Nhập số tiền đã ${isOwed ? "thu" : "trả"}; hệ thống sẽ tự trừ phần còn lại.`
+        : `Nhập khoản phát sinh thêm; hệ thống sẽ cộng vào số dư hiện tại là ${money(current)}.`;
+      $("applyDebtUpdateButton").innerText = isDecrease ? "Lưu khoản đã thanh toán" : "Lưu khoản phát sinh thêm";
+    }
+    function selectDebtAdjustmentMode(mode){
+      debtAdjustmentMode = mode === "increase" ? "increase" : "decrease";
+      updateDebtAdjustmentModeUI();
+    }
+    function openDebtUpdate(id,mode="decrease",fillFullAmount=false){
+      const debt = debts.find(item=>item.id === id);
+      if(!debt) return;
+      debtUpdateId = id;
+      debtAdjustmentMode = mode === "increase" ? "increase" : "decrease";
+      const person = String(debt.person || "Khoản vay").trim();
+      $("debtUpdatePersonInitial").innerText = person.charAt(0).toLocaleUpperCase("vi-VN") || "?";
+      $("debtUpdatePersonName").innerText = person;
+      $("debtUpdateRelation").innerText = debt.type === "owedToMe" ? "Người đang nợ bạn" : "Khoản bạn đang nợ";
+      $("debtUpdateBalanceLabel").innerText = debt.type === "owedToMe" ? "Còn phải thu" : "Còn phải trả";
+      $("debtUpdateCurrentAmount").innerText = money(debt.amount);
+      setDebtDate("debtAdjustmentDate",today());
+      $("debtAdjustmentNote").value = "";
+      clearMoneyInput("debtAdjustmentAmount");
+      if(fillFullAmount && Number(debt.amount || 0) > 0){
+        $("debtAdjustmentAmount").value = Number(debt.amount).toLocaleString("vi-VN");
+      }
+      updateDebtAdjustmentModeUI();
+      renderDebtHistoryItems(debt,{limit:8,container:$("debtUpdateHistoryList")});
+      $("debtUpdateModal").classList.remove("hidden");
+      setTimeout(()=>$("debtAdjustmentAmount").focus(),0);
+    }
+    async function applyDebtUpdate(){
+      if(!currentBookId || !debtUpdateId) return;
+      const debt = getDebtForUpdate();
+      if(!debt){ closeDebtUpdateModal(); return; }
+      const changeAmount = parseMoneyInput($("debtAdjustmentAmount").value);
+      const date = $("debtAdjustmentDate").value || today();
+      const note = $("debtAdjustmentNote").value.trim();
+      const currentAmount = Number(debt.amount || 0);
+      if(!changeAmount || changeAmount <= 0){
+        alert("Vui lòng nhập số tiền cần cập nhật.");
+        return;
+      }
+      if(debtAdjustmentMode === "decrease" && changeAmount > currentAmount){
+        alert(`Số tiền thanh toán không thể lớn hơn số dư hiện tại (${money(currentAmount)}).`);
+        return;
+      }
+      const nextAmount = debtAdjustmentMode === "increase"
+        ? currentAmount + changeAmount
+        : Math.max(0,currentAmount - changeAmount);
+      const historyEntry = createDebtHistoryEntry({
+        direction:debtAdjustmentMode,
+        amount:changeAmount,
+        previousAmount:currentAmount,
+        newAmount:nextAmount,
+        date,
+        note
+      });
+      try{
+        await updateDoc(doc(db,"books",currentBookId,"debts",debtUpdateId),{
+          amount:nextAmount,
+          originalAmount:Number(debt.originalAmount || currentAmount),
+          settled:nextAmount === 0,
+          settledAt:nextAmount === 0 ? serverTimestamp() : null,
+          lastAdjustment:historyEntry,
+          history:arrayUnion(historyEntry),
+          updatedAt:serverTimestamp(),
+          updatedBy:currentUser.uid,
+          updatedByName:getUserDisplayName()
+        });
+        closeDebtUpdateModal();
+      }catch(error){
+        console.error("Không thể cập nhật khoản vay:",error);
+        alert("Không thể cập nhật khoản vay. Hãy thử lại.");
+      }
+    }
+    async function toggleDebt(id,settled){
+      const debt = debts.find(item=>item.id === id);
+      if(!debt) return;
+      if(settled){ openDebtUpdate(id,"decrease",true); return; }
+      openDebtUpdate(id,"increase");
+    }
     async function deleteDebt(id){
       if(!currentBookId) return;
       try{
@@ -3075,6 +3551,10 @@
     window.setDebtMode = setDebtMode;
     window.addDebt = addDebt;
     window.toggleDebt = toggleDebt;
+    window.openDebtUpdate = openDebtUpdate;
+    window.closeDebtUpdateModal = closeDebtUpdateModal;
+    window.selectDebtAdjustmentMode = selectDebtAdjustmentMode;
+    window.applyDebtUpdate = applyDebtUpdate;
     window.deleteDebt = deleteDebt;
 
     /* BRAND SETTINGS + DELETE BOOK */

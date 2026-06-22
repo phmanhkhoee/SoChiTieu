@@ -97,6 +97,19 @@
       border:1px solid #d6e3ff;
     }
     .brand-mark img{width:100%;height:100%;object-fit:cover;display:block}
+    .brand-home-button{
+      padding:0;
+      cursor:pointer;
+    }
+    .brand-home-button:hover{
+      transform:translateY(-1px) scale(1.02);
+      border-color:#9dbbfa;
+      box-shadow:0 8px 18px rgba(47,111,237,.14);
+    }
+    .brand-home-button:focus-visible{
+      outline:3px solid rgba(47,111,237,.28);
+      outline-offset:3px;
+    }
     .brand-name{font-family:"Manrope",sans-serif;font-weight:800;letter-spacing:-.05em}
 
     /* PUBLIC INTRODUCTION */
@@ -368,7 +381,7 @@
       .transaction-date{grid-column:1}.transaction-content{grid-column:2}.transaction-type{grid-column:1}.transaction-category{grid-column:2}.transaction-amount{grid-column:1 / span 2}.transaction-form .wide{grid-column:1}.transaction-submit{grid-column:2}
     }
     @media(max-width:540px){
-      .public-nav .btn-quiet{display:none}.hero{padding-top:35px;padding-bottom:48px}.hero h1{font-size:42px}.intro-cta{display:block}.intro-cta .btn-primary{margin-top:16px}.auth-card{padding:23px 18px}.summary{grid-template-columns:1fr 1fr}.stat{padding:14px}.stat b{font-size:18px}
+      .hero{padding-top:35px;padding-bottom:48px}.hero h1{font-size:42px}.intro-cta{display:block}.intro-cta .btn-primary{margin-top:16px}.auth-card{padding:23px 18px}.summary{grid-template-columns:1fr 1fr}.stat{padding:14px}.stat b{font-size:18px}
       .transaction-form{grid-template-columns:1fr}
       .transaction-date,.transaction-content,.transaction-type,.transaction-category,.transaction-amount,.transaction-form .wide,.transaction-submit{grid-column:1}
       .amount-suggestions{left:0;right:auto;min-width:min(260px,calc(100vw - 54px))}
@@ -376,6 +389,165 @@
       .site-footer{padding:18px 17px 24px;flex-direction:column;text-align:center}.footer-right{justify-content:center;white-space:normal}
     }
 
+
+
+
+    /* POLISHED PUBLIC NAVIGATION */
+    .public-nav{
+      max-width:1220px;
+      min-height:82px;
+      margin:0 auto;
+      padding:16px 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      border-bottom:1px solid rgba(231,235,241,.92);
+    }
+    .public-brand{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:0;
+      border:0;
+      background:transparent;
+      color:var(--ink);
+      cursor:pointer;
+      text-align:left;
+    }
+    .public-brand:hover{transform:none}
+    .public-brand .brand-mark{
+      width:40px;
+      height:40px;
+      border-radius:13px;
+      background:#f7f9fc;
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
+    .public-brand .brand-mark img{
+      width:100%;
+      height:100%;
+      padding:8px;
+      object-fit:contain;
+      filter:grayscale(1) brightness(.28) contrast(1.05);
+      opacity:.9;
+    }
+    .public-brand .brand-name{
+      font-size:21px;
+      letter-spacing:-.055em;
+    }
+    .public-nav-right{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:12px;
+    }
+    .public-nav-links{
+      display:flex;
+      align-items:center;
+      gap:3px;
+      padding:4px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#f7f9fc;
+    }
+    .public-nav-link{
+      min-height:36px;
+      padding:0 11px;
+      border:0;
+      border-radius:10px;
+      background:transparent;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .public-nav-link:hover{background:#fff;color:var(--ink);transform:none}
+    .public-nav-link.is-active{
+      background:#fff;
+      color:var(--ink);
+      box-shadow:0 2px 7px rgba(27,43,70,.08);
+    }
+    .public-open-button{
+      min-height:44px;
+      padding:0 16px;
+      white-space:nowrap;
+    }
+
+    /* TRANSACTION TYPE SEGMENTED CONTROL */
+    .type-picker{
+      min-height:45px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:4px;
+      padding:4px;
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:#f7f9fc;
+    }
+    .type-choice{
+      min-width:0;
+      min-height:35px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:7px 8px;
+      border:1px solid transparent;
+      border-radius:9px;
+      background:transparent;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .type-choice:hover{transform:none;background:#fff;color:var(--ink-soft)}
+    .type-choice-sign{
+      width:17px;
+      height:17px;
+      display:grid;
+      place-items:center;
+      border-radius:6px;
+      background:#eef1f5;
+      color:#738096;
+      font-size:15px;
+      font-weight:800;
+      line-height:1;
+    }
+    .type-choice.active{
+      background:#fff;
+      box-shadow:0 2px 7px rgba(29,44,72,.09);
+    }
+    .type-choice.expense.active{color:var(--red)}
+    .type-choice.expense.active .type-choice-sign{background:var(--red-soft);color:var(--red)}
+    .type-choice.income.active{color:var(--green)}
+    .type-choice.income.active .type-choice-sign{background:var(--green-soft);color:var(--green)}
+
+    body.dark-mode .public-nav{border-color:#262d38}
+    body.dark-mode .public-brand{color:#e9eef7}
+    body.dark-mode .public-brand .brand-mark{background:#191f29;border-color:#303947}
+    body.dark-mode .public-brand .brand-mark img{filter:grayscale(1) brightness(2.05) contrast(.92);opacity:.8}
+    body.dark-mode .public-nav-links{background:#171c24;border-color:#303846}
+    body.dark-mode .public-nav-link{color:#a6b0c0}
+    body.dark-mode .public-nav-link:hover{background:#202733;color:#f1f5fb}
+    body.dark-mode .public-nav-link.is-active{background:#242d3b;color:#f3f6fd;box-shadow:none}
+    body.dark-mode .type-picker{background:#181e27;border-color:#323b49}
+    body.dark-mode .type-choice{color:#aeb8c8}
+    body.dark-mode .type-choice:hover{background:#222a36;color:#edf2fb}
+    body.dark-mode .type-choice-sign{background:#252e3b;color:#aab5c5}
+    body.dark-mode .type-choice.active{background:#242d3a;box-shadow:none}
+    body.dark-mode .type-choice.expense.active{color:#ff9ba3}
+    body.dark-mode .type-choice.expense.active .type-choice-sign{background:#3b252c;color:#ff9ba3}
+    body.dark-mode .type-choice.income.active{color:#71d7a4}
+    body.dark-mode .type-choice.income.active .type-choice-sign{background:#173529;color:#71d7a4}
+
+    @media(max-width:700px){
+      .public-nav{min-height:72px;padding:13px 17px}
+      .public-brand .brand-mark{width:37px;height:37px;border-radius:12px}
+      .public-brand .brand-name{font-size:19px}
+      .public-nav-links{display:none}
+      .public-open-button{min-height:40px;padding:0 13px;font-size:12px}
+    }
 
     /* CUSTOM CATEGORY PICKER */
     .category-picker{position:relative;min-width:0}
@@ -489,7 +661,7 @@
     .category-icon-choice:hover::after{display:block}
 
     @media(max-width:840px){
-      .user-profile-caret,.user-profile-button .user-text{display:none}
+      .user-profile-caret{display:none}
       .avatar-style-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
     }
     @media(max-width:540px){
@@ -501,19 +673,343 @@
       .category-icon-palette{grid-template-columns:repeat(6,minmax(0,1fr));max-height:250px}
     }
 
+
+    /* ADMIN, SUPPORT & NIGHT MODE */
+    .content-grid.debt-collapsed{grid-template-columns:minmax(0,1fr)}
+    .content-grid.debt-collapsed>section,.content-grid.debt-collapsed .debt-panel{grid-column:1}
+    .content-grid.debt-collapsed .debt-panel{margin-top:0}
+
+    .support-float{
+      position:fixed;z-index:90;right:22px;bottom:22px;display:inline-flex;align-items:center;gap:8px;
+      padding:12px 15px;border-radius:999px;background:#0a7cff;color:#fff;text-decoration:none;
+      box-shadow:0 14px 28px rgba(10,124,255,.28);font-size:12px;font-weight:800;
+    }
+    .support-float::before{content:"?";width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.18);font-size:12px}
+    .support-float:hover{color:#fff;background:#086fe4;transform:translateY(-2px)}
+
+    .admin-view{min-height:100vh;background:var(--page)}
+    .admin-hero{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:23px;border:1px solid var(--line);border-radius:21px;background:#fff;box-shadow:var(--shadow)}
+    .admin-hero h2{margin-top:7px;font-family:"Manrope";font-size:28px;letter-spacing:-.06em}
+    .admin-hero p{max-width:680px;margin-top:9px;color:var(--muted);font-size:13px;line-height:1.6}
+    .admin-badge{display:inline-flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #bcd1ff;border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:11px;font-weight:800;white-space:nowrap}
+    .admin-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+    .admin-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:17px 0}
+    .admin-stat{padding:16px;border:1px solid var(--line);border-radius:17px;background:#fff}
+    .admin-stat span{display:block;color:var(--muted);font-size:11px}.admin-stat b{display:block;margin-top:7px;font-family:"Manrope";font-size:22px;letter-spacing:-.055em}
+    .admin-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+    .admin-toolbar h3{font-family:"Manrope";font-size:17px;letter-spacing:-.04em}.admin-toolbar p{margin-top:4px;color:var(--muted);font-size:11px}
+    .admin-search{max-width:320px}
+    .admin-book-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .admin-book-card{padding:16px;border:1px solid var(--line);border-radius:17px;background:#fff;transition:border-color .18s ease,box-shadow .18s ease}
+    .admin-book-card:hover{border-color:#b8cdf5;box-shadow:0 10px 22px rgba(31,49,80,.06)}
+    .admin-book-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.admin-book-card h4{font-family:"Manrope";font-size:15px;letter-spacing:-.035em}.admin-book-card p{margin-top:5px;color:var(--muted);font-size:11px;line-height:1.55}
+    .admin-book-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}.admin-book-meta div{padding:9px;border-radius:11px;background:#f8faff}.admin-book-meta span{display:block;color:var(--muted);font-size:9px}.admin-book-meta b{display:block;overflow:hidden;margin-top:4px;color:var(--ink-soft);font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+    .admin-book-actions{display:flex;justify-content:flex-end;margin-top:14px}
+    .admin-empty{padding:32px 16px;border:1px dashed #cbd6e8;border-radius:17px;color:var(--muted);text-align:center;font-size:12px}
+    .admin-error{margin-top:12px;color:var(--red);font-size:12px;line-height:1.55}
+
+    body.dark-mode{
+      --ink:#e8eef8;--ink-soft:#c2cede;--muted:#94a4ba;--line:#25334a;--page:#0d1422;--paper:#111b2d;
+      --blue:#6fa0ff;--blue-dark:#8ab2ff;--blue-soft:#172a4d;--green:#45d294;--green-soft:#112f2a;
+      --red:#ff8993;--red-soft:#3a2028;--amber:#f1c36f;--amber-soft:#3d3018;
+      --shadow:0 18px 42px rgba(0,0,0,.27);--shadow-lg:0 28px 80px rgba(0,0,0,.42);
+    }
+    body.dark-mode .public-view,body.dark-mode .auth-view,body.dark-mode .admin-view{background:linear-gradient(180deg,#0d1422 0,#101a2b 100%)}
+    body.dark-mode input,body.dark-mode select,body.dark-mode textarea,
+    body.dark-mode .btn-secondary,body.dark-mode .month-arrow,body.dark-mode .month-current,body.dark-mode .date-trigger,
+    body.dark-mode .category-trigger,body.dark-mode .category-menu,body.dark-mode .amount-suggestions,body.dark-mode .category-option,
+    body.dark-mode .calendar-day,body.dark-mode .calendar-nav,body.dark-mode .month-choice,body.dark-mode .debt-date-trigger,
+    body.dark-mode .close-modal,body.dark-mode .category-manager-row,body.dark-mode .avatar-style-choice{background:#111b2d;color:var(--ink);border-color:var(--line)}
+    body.dark-mode .sidebar,body.dark-mode .panel,body.dark-mode .auth-card,body.dark-mode .modal,body.dark-mode .hero-card,
+    body.dark-mode .feature-card,body.dark-mode .how-step,body.dark-mode .admin-hero,body.dark-mode .admin-stat,body.dark-mode .admin-book-card{background:#111b2d;border-color:var(--line)}
+    body.dark-mode .mock-stat,body.dark-mode .mock-line,body.dark-mode .debt-form,body.dark-mode .debt-card,
+    body.dark-mode .debt-overview-card,body.dark-mode .debt-tabs,body.dark-mode .admin-book-meta div,body.dark-mode .profile-overview-card,
+    body.dark-mode .login-feature,body.dark-mode .category-create-card,body.dark-mode .category-manager-row-icon,body.dark-mode .category-trigger-icon,
+    body.dark-mode .category-option-icon,body.dark-mode .feature-icon,body.dark-mode .how-icon,body.dark-mode .danger-zone{background:#142033;border-color:#263750}
+    body.dark-mode .table-wrap,body.dark-mode th{border-color:var(--line)}
+    body.dark-mode th{background:#0e1726;color:var(--muted)}
+    body.dark-mode td{color:var(--ink)}
+    body.dark-mode .code-box{background:#111c30;border-color:#355080;color:#a8c5ff}
+    body.dark-mode .month-note textarea{background:#151c29;border-color:#3d3829}
+    body.dark-mode .category-menu-head b,body.dark-mode .modal-header h3,body.dark-mode .panel-title,body.dark-mode .dashboard-head h2,body.dark-mode .brand-name{color:var(--ink)}
+    body.dark-mode .category-icon img,body.dark-mode .category-trigger-icon img,body.dark-mode .feature-icon img,body.dark-mode .how-icon img,
+    body.dark-mode .mock-icon img,body.dark-mode .category-option-icon img,body.dark-mode .category-manager-row-icon img{filter:grayscale(1) brightness(2.6) contrast(.8);opacity:.82}
+    body.dark-mode .modal-overlay{background:rgba(2,7,16,.68)}
+    body.dark-mode .site-footer{border-color:var(--line)}
+    body.dark-mode .intro-cta{background:#1a376f}
+    body.dark-mode .admin-book-meta b{color:var(--ink)}
+
+    @media(max-width:840px){
+      .admin-stats,.admin-book-list{grid-template-columns:1fr}
+      .admin-hero,.admin-toolbar{flex-direction:column}
+      .admin-search{max-width:none;width:100%}
+      .support-float{right:14px;bottom:14px}
+    }
+
+    /* REFINED NIGHT MODE — graphite / soft indigo, lower contrast and cleaner hierarchy */
+    body.dark-mode{
+      color-scheme:dark;
+      --ink:#f2f4f7;
+      --ink-soft:#c4cad5;
+      --muted:#9099a9;
+      --line:#2a303a;
+      --page:#0e1014;
+      --paper:#171a20;
+      --blue:#91b0f6;
+      --blue-dark:#acc4ff;
+      --blue-soft:#202b40;
+      --green:#64d39e;
+      --green-soft:#173529;
+      --red:#f28a95;
+      --red-soft:#3b252c;
+      --amber:#e4c17b;
+      --amber-soft:#372d1b;
+      --shadow:0 16px 40px rgba(0,0,0,.28);
+      --shadow-lg:0 28px 78px rgba(0,0,0,.48);
+      background:
+        radial-gradient(900px 480px at 14% -12%,rgba(77,110,170,.17),transparent 58%),
+        radial-gradient(820px 440px at 96% 0%,rgba(76,96,137,.11),transparent 56%),
+        #0e1014;
+    }
+
+    body.dark-mode::selection{background:#415d94;color:#fff}
+    body.dark-mode .public-view,
+    body.dark-mode .auth-view,
+    body.dark-mode .admin-view{
+      background:
+        radial-gradient(900px 480px at 14% -12%,rgba(77,110,170,.16),transparent 58%),
+        linear-gradient(180deg,#101217 0%,#0d0f13 100%);
+    }
+
+    body.dark-mode .public-nav{border-color:transparent}
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea,
+    body.dark-mode .btn-secondary,
+    body.dark-mode .month-arrow,
+    body.dark-mode .month-current,
+    body.dark-mode .date-trigger,
+    body.dark-mode .category-trigger,
+    body.dark-mode .category-menu,
+    body.dark-mode .amount-suggestions,
+    body.dark-mode .category-option,
+    body.dark-mode .calendar-day,
+    body.dark-mode .calendar-nav,
+    body.dark-mode .calendar-quick button,
+    body.dark-mode .month-choice,
+    body.dark-mode .debt-date-trigger,
+    body.dark-mode .close-modal,
+    body.dark-mode .category-manager-row,
+    body.dark-mode .avatar-style-choice,
+    body.dark-mode .debt-collapse-button{
+      background:#151820;
+      color:var(--ink);
+      border-color:#2c333e;
+    }
+
+    body.dark-mode input::placeholder,
+    body.dark-mode textarea::placeholder{color:#717b8c}
+    body.dark-mode select option{background:#171a20;color:#f2f4f7}
+    body.dark-mode input:focus,
+    body.dark-mode select:focus,
+    body.dark-mode textarea:focus{
+      border-color:#6f8fcf;
+      box-shadow:0 0 0 4px rgba(112,144,204,.16);
+    }
+
+    body.dark-mode .btn-primary{
+      background:#8caaf0;
+      color:#101827;
+      box-shadow:0 9px 20px rgba(70,98,156,.22);
+    }
+    body.dark-mode .btn-primary:hover{background:#a3bcf6;color:#0e1625}
+    body.dark-mode .btn-secondary:hover,
+    body.dark-mode .month-arrow:hover,
+    body.dark-mode .calendar-nav:hover,
+    body.dark-mode .calendar-quick button:hover,
+    body.dark-mode .debt-collapse-button:hover{
+      background:#1c212a;
+      border-color:#3a4453;
+    }
+    body.dark-mode .btn-quiet{color:#c0c8d5}
+    body.dark-mode .btn-quiet:hover{background:#171b22;color:#fff}
+
+    body.dark-mode .sidebar,
+    body.dark-mode .panel,
+    body.dark-mode .auth-card,
+    body.dark-mode .modal,
+    body.dark-mode .hero-card,
+    body.dark-mode .feature-card,
+    body.dark-mode .how-step,
+    body.dark-mode .admin-hero,
+    body.dark-mode .admin-stat,
+    body.dark-mode .admin-book-card{
+      background:#171a20;
+      border-color:#292f39;
+    }
+    body.dark-mode .hero-card{
+      background:linear-gradient(150deg,#1b1f27 0%,#15181e 100%);
+      box-shadow:0 26px 70px rgba(0,0,0,.4);
+    }
+    body.dark-mode .feature-card:hover,
+    body.dark-mode .admin-book-card:hover{border-color:#43526a;box-shadow:0 16px 32px rgba(0,0,0,.24)}
+
+    body.dark-mode .mock-stat,
+    body.dark-mode .mock-line,
+    body.dark-mode .debt-form,
+    body.dark-mode .debt-card,
+    body.dark-mode .debt-overview-card,
+    body.dark-mode .debt-tabs,
+    body.dark-mode .admin-book-meta div,
+    body.dark-mode .profile-overview-card,
+    body.dark-mode .login-feature,
+    body.dark-mode .category-create-card,
+    body.dark-mode .category-manager-row-icon,
+    body.dark-mode .category-trigger-icon,
+    body.dark-mode .category-option-icon,
+    body.dark-mode .feature-icon,
+    body.dark-mode .how-icon,
+    body.dark-mode .danger-zone,
+    body.dark-mode .mock-icon,
+    body.dark-mode .logo-preview{
+      background:#1d2129;
+      border-color:#303744;
+    }
+
+    body.dark-mode .stat{background:#171a20;border-color:#292f39}
+    body.dark-mode .table-wrap{border-color:#292f39;background:#151820}
+    body.dark-mode th{background:#12151a;color:#98a3b5;border-color:#2a303a}
+    body.dark-mode td{color:#dbe1ea;border-color:#292f39}
+    body.dark-mode tbody tr:hover td{background:#1a1e26}
+
+    body.dark-mode .book-item:hover{background:#1b1f27}
+    body.dark-mode .book-item.active{background:#202b40;border-color:#3d5481}
+    body.dark-mode .code-box{background:#171e2b;border-color:#3d5378;color:#b8ccfa}
+    body.dark-mode .month-note textarea{background:#1b1c1b;border-color:#484334}
+
+    body.dark-mode .category-trigger:hover,
+    body.dark-mode .category-option:hover,
+    body.dark-mode .category-icon-choice:hover,
+    body.dark-mode .category-manage-link:hover{
+      background:#1d2532;
+      border-color:#455776;
+    }
+    body.dark-mode .category-picker.is-open .category-trigger{
+      border-color:#7697d5;
+      box-shadow:0 0 0 4px rgba(112,144,204,.16);
+    }
+    body.dark-mode .category-option.selected,
+    body.dark-mode .category-icon-choice.active,
+    body.dark-mode .debt-overview-card.active{
+      background:#202b40;
+      border-color:#5673ab;
+      color:#bcd0ff;
+    }
+    body.dark-mode .category-option.selected .category-option-icon{background:#1b2030;border-color:#465f90}
+    body.dark-mode .category-add-link{background:#182131;border-color:#49628e;color:#b4c9f6}
+
+    body.dark-mode .debt-tab{color:#aeb8c7}
+    body.dark-mode .debt-tab.active{background:#202b40;color:#bdd0ff;box-shadow:none}
+    body.dark-mode .debt-overview-card:hover{background:#20252d;border-color:#415069}
+    body.dark-mode .debt-panel-header,
+    body.dark-mode .profile-section{border-color:#292f39}
+
+    body.dark-mode .selected-date-banner{
+      background:#1f2c43;
+      border-color:#425e91;
+    }
+    body.dark-mode .selected-date-banner span{color:#b6c8e9}
+    body.dark-mode .selected-date-banner b{color:#e3ebff}
+    body.dark-mode .calendar-day:hover{background:#202b40;color:#c6d7ff}
+    body.dark-mode .calendar-day.outside{color:#5c6574}
+    body.dark-mode .calendar-day.today{outline-color:#698bd0}
+    body.dark-mode .calendar-day.selected,
+    body.dark-mode .month-choice.active{background:#8caaf0;color:#101827;border-color:#8caaf0}
+
+    body.dark-mode .user-profile-button:hover{background:#1a1e26;border-color:#323946;box-shadow:none}
+    body.dark-mode .user-avatar,
+    body.dark-mode .profile-avatar-large{background:#202b40;border-color:#425a84;color:#bdd0ff}
+    body.dark-mode .avatar-style-choice.active{border-color:#7799da;box-shadow:0 0 0 3px rgba(112,144,204,.15)}
+
+    body.dark-mode .modal-overlay{background:rgba(3,5,8,.72);backdrop-filter:blur(7px)}
+    body.dark-mode .danger-zone{background:#2a1e23;border-color:#5a343d}
+    body.dark-mode .danger-zone b{color:#ffa1aa}
+    body.dark-mode .danger-zone p{color:#d2a5aa}
+    body.dark-mode .btn-danger{background:#3b252c;color:#f59aa3}
+    body.dark-mode .btn-success{background:#173529;color:#70d7a5}
+
+    body.dark-mode .intro-cta{
+      background:linear-gradient(135deg,#25395e,#1b2a45);
+      border:1px solid #334c78;
+    }
+    body.dark-mode .intro-cta p{color:#c3d2ec}
+    body.dark-mode .intro-cta .btn-primary{background:#c5d6ff;color:#17233a}
+    body.dark-mode .site-footer{border-color:#252b35;color:#98a3b4}
+
+    body.dark-mode .support-float{
+      background:#5577bd;
+      color:#f6f8ff;
+      box-shadow:0 14px 28px rgba(0,0,0,.34);
+    }
+    body.dark-mode .support-float:hover{background:#6688d2;color:#fff}
+    body.dark-mode .admin-book-meta b{color:#d9e0ea}
+    body.dark-mode .admin-empty{border-color:#3a4351;color:#9ba6b6}
+
+    body.dark-mode .category-icon img,
+    body.dark-mode .category-trigger-icon img,
+    body.dark-mode .feature-icon img,
+    body.dark-mode .how-icon img,
+    body.dark-mode .mock-icon img,
+    body.dark-mode .category-option-icon img,
+    body.dark-mode .category-manager-row-icon img{
+      filter:grayscale(1) brightness(2.05) contrast(.9);
+      opacity:.78;
+    }
+
+    body.dark-mode ::-webkit-scrollbar{width:10px;height:10px}
+    body.dark-mode ::-webkit-scrollbar-track{background:#12151a}
+    body.dark-mode ::-webkit-scrollbar-thumb{background:#3a4350;border:2px solid #12151a;border-radius:99px}
+    body.dark-mode ::-webkit-scrollbar-thumb:hover{background:#4a5565}
+
+  
+
+    /* FINAL LAYOUT FIXES: footer stays at the visual end of each page */
+    html,body{min-height:100%}
+    .public-view{min-height:100vh;display:flex;flex-direction:column}
+    .public-view > main{flex:1;width:100%}
+    .public-footer{margin-top:auto}
+    #mainView,#adminView{min-height:100vh}
+    #mainView .app-shell,#adminView .app-shell{min-height:100vh;display:flex;flex-direction:column}
+    #mainView .shell,#adminView .admin-page{flex:1}
+    #mainView .app-footer,#adminView .app-footer{margin-top:auto}
+
+    /* Make the entire brand area a reliable link back to the introduction */
+    .app-brand.app-brand-home,.public-brand.brand-home-link,.auth-logo.brand-home-link{
+      cursor:pointer;
+      user-select:none;
+    }
+    .app-brand.app-brand-home{padding:0;border:0;background:transparent;text-align:left}
+    .app-brand.app-brand-home:hover,.public-brand.brand-home-link:hover,.auth-logo.brand-home-link:hover{transform:none}
+    .app-brand.app-brand-home:hover .brand-name,.public-brand.brand-home-link:hover .brand-name,.auth-logo.brand-home-link:hover .brand-name{color:var(--blue)}
+    .app-brand.app-brand-home:focus-visible,.public-brand.brand-home-link:focus-visible,.auth-logo.brand-home-link:focus-visible{outline:3px solid rgba(47,111,237,.26);outline-offset:6px;border-radius:12px}
+
   </style>
 </head>
 <body>
   <!-- PUBLIC INTRODUCTION PAGE -->
   <section id="introView" class="public-view">
     <header class="public-nav">
-      <div class="public-brand">
-        <div class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></div>
-        <div class="brand-name">SoChiTieu</div>
-      </div>
-      <div class="nav-actions">
-        <button class="btn-quiet" onclick="document.getElementById('gioi-thieu').scrollIntoView({behavior:'smooth'})">Giới thiệu</button>
-        <button id="publicActionButton" class="btn-primary" onclick="showAuth()">Đăng nhập / Đăng ký</button>
+      <button class="public-brand brand-home-link" type="button" onclick="showIntro()" title="Về trang giới thiệu">
+        <span class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></span>
+        <span class="brand-name">SoChiTieu</span>
+      </button>
+
+      <div class="public-nav-right">
+        <nav class="public-nav-links" aria-label="Điều hướng trang giới thiệu">
+          <button class="public-nav-link is-active" type="button" onclick="document.getElementById('gioi-thieu').scrollIntoView({behavior:'smooth'})">Giới thiệu</button>
+          <button id="publicThemeButton" class="public-nav-link" type="button" onclick="toggleTheme()">Giao diện tối</button>
+        </nav>
+        <button id="publicActionButton" class="btn-primary public-open-button" onclick="showAuth()">Đăng nhập / Đăng ký</button>
       </div>
     </header>
 
@@ -606,7 +1102,7 @@
   <section id="authView" class="auth-view hidden">
     <div class="auth-card">
       <div class="auth-top">
-        <div class="auth-logo">
+        <div class="auth-logo brand-home-link" role="button" tabindex="0" onclick="showIntro()" onkeydown="activateIntroFromKey(event)" title="Về trang giới thiệu">
           <div class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></div>
           <div class="brand-name">SoChiTieu</div>
         </div>
@@ -638,8 +1134,8 @@
   <section id="mainView" class="hidden">
     <div class="app-shell">
       <header class="topbar">
-        <div class="app-brand">
-          <div id="headerLogo" class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></div>
+        <div class="app-brand app-brand-home" role="button" tabindex="0" onclick="showIntro()" onkeydown="activateIntroFromKey(event)" title="Về trang giới thiệu">
+          <span id="headerLogo" class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></span>
           <div>
             <h1 class="brand-name">SoChiTieu</h1>
             <p>Quản lý thu chi, ghi chú theo tháng và khoản vay mượn trong một không gian gọn gàng.</p>
@@ -654,6 +1150,8 @@
             </span>
             <span class="user-profile-caret" aria-hidden="true">⌄</span>
           </button>
+          <button id="adminPanelButton" class="btn-secondary btn-small hidden" type="button" onclick="openAdminPanel()">Quản trị</button>
+          <button id="appThemeButton" class="btn-secondary btn-small" type="button" onclick="toggleTheme()">Giao diện tối</button>
           <button class="btn-secondary btn-small" onclick="showIntro()">Giới thiệu</button>
           <button class="btn-secondary btn-small" onclick="logout()">Đăng xuất</button>
         </div>
@@ -724,7 +1222,17 @@
 
                   <input id="content" class="transaction-content" placeholder="Nội dung giao dịch">
 
-                  <select id="type" class="transaction-type"><option value="expense">Chi tiêu</option><option value="income">Thu nhập</option></select>
+                  <div id="transactionTypePicker" class="transaction-type type-picker" role="group" aria-label="Loại giao dịch">
+                    <input id="type" type="hidden" value="expense">
+                    <button class="type-choice expense active" type="button" data-type="expense" onclick="selectTransactionType('expense')" aria-pressed="true">
+                      <span class="type-choice-sign" aria-hidden="true">−</span>
+                      <span>Chi tiêu</span>
+                    </button>
+                    <button class="type-choice income" type="button" data-type="income" onclick="selectTransactionType('income')" aria-pressed="false">
+                      <span class="type-choice-sign" aria-hidden="true">+</span>
+                      <span>Thu nhập</span>
+                    </button>
+                  </div>
 
                   <div class="category-picker transaction-category">
                     <input id="category" type="hidden" value="Ăn uống">
@@ -874,6 +1382,63 @@
       </footer>
     </div>
   </section>
+
+
+  <!-- ADMIN VIEW: chỉ hiển thị khi UID có role admin trong Firestore -->
+  <section id="adminView" class="admin-view hidden">
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="app-brand app-brand-home" role="button" tabindex="0" onclick="showIntro()" onkeydown="activateIntroFromKey(event)" title="Về trang giới thiệu">
+          <span class="brand-mark"><img src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt="Logo SoChiTieu"></span>
+          <div>
+            <h1 class="brand-name">SoChiTieu</h1>
+            <p>Khu vực quản trị theo dõi các sổ được tạo trong hệ thống.</p>
+          </div>
+        </div>
+        <div class="user-area">
+          <button id="adminThemeButton" class="btn-secondary btn-small" type="button" onclick="toggleTheme()">Giao diện tối</button>
+          <button id="returnToBooksButton" class="btn-secondary btn-small" type="button" onclick="returnToMyBooks()">Quay lại sổ của tôi</button>
+          <button class="btn-secondary btn-small" type="button" onclick="logout()">Đăng xuất</button>
+        </div>
+      </header>
+
+      <main class="admin-page">
+        <section class="admin-hero">
+          <div>
+            <div class="eyebrow">Administrator</div>
+            <h2>Bảng quản trị</h2>
+            <p>Theo dõi danh sách sổ của thành viên, chủ sở hữu, số người cùng dùng và thời gian cập nhật gần nhất. Bạn có thể mở bất kỳ sổ nào để kiểm tra nội dung.</p>
+          </div>
+          <span id="adminIdentityBadge" class="admin-badge">Quản trị viên</span>
+        </section>
+
+        <section class="admin-stats">
+          <article class="admin-stat"><span>Tổng số sổ</span><b id="adminBookCount">0</b></article>
+          <article class="admin-stat"><span>Chủ sổ khác nhau</span><b id="adminOwnerCount">0</b></article>
+          <article class="admin-stat"><span>Thành viên được ghi nhận</span><b id="adminMemberCount">0</b></article>
+        </section>
+
+        <section class="panel">
+          <div class="admin-toolbar">
+            <div>
+              <h3>Danh sách sổ</h3>
+              <p id="adminBookHint">Dữ liệu cập nhật theo thời gian thực.</p>
+            </div>
+            <input id="adminBookSearch" class="admin-search" type="search" oninput="renderAdminBooks()" placeholder="Tìm tên sổ, chủ sổ hoặc mã sổ">
+          </div>
+          <div id="adminError" class="admin-error hidden"></div>
+          <div id="adminBookList" class="admin-book-list"></div>
+        </section>
+      </main>
+
+      <footer class="site-footer app-footer">
+        <div><strong>© 2026 - Văn Mạnh</strong></div>
+        <div class="footer-right"><span>SoChiTieu</span><span class="footer-dot" aria-hidden="true">•</span><span>Khu vực quản trị</span></div>
+      </footer>
+    </div>
+  </section>
+
+  <a class="support-float" href="https://zalo.me/0332420815" target="_blank" rel="noopener" aria-label="Liên hệ hỗ trợ qua Zalo 0332420815">Hỗ trợ Zalo</a>
 
 
   <!-- USER PROFILE -->
@@ -1076,12 +1641,17 @@
     let publicScreen = "intro";
     let debtMode = "owedToMe";
     let allBooks = [];
+    let adminBooks = [];
     let debts = [];
+    let adminProfile = null;
+    let hasAdminAccess = false;
+    let themeMode = localStorage.getItem("sochitieu:theme") || "light";
 
     let unsubscribeBooks = null;
     let unsubscribeTransactions = null;
     let unsubscribeMonthNote = null;
     let unsubscribeDebts = null;
+    let unsubscribeAdminBooks = null;
 
     let selectedTransactionDate = today();
     let pendingDate = selectedTransactionDate;
@@ -1500,8 +2070,40 @@
     function formatLongDate(value){
       return new Intl.DateTimeFormat("vi-VN",{weekday:"long",day:"2-digit",month:"long",year:"numeric"}).format(parseISODate(value));
     }
-    function getBook(){ return allBooks.find(book => book.id === currentBookId); }
+    function isAdminUser(){
+      return hasAdminAccess === true;
+    }
+    function getAdminDisplayName(){
+      return String(adminProfile?.displayName || "Quản trị viên").trim() || "Quản trị viên";
+    }
+    async function loadAdminAccess(){
+      hasAdminAccess = false;
+      adminProfile = null;
+
+      if(!currentUser) return false;
+
+      try{
+        const adminSnap = await getDoc(doc(db,"admins",currentUser.uid));
+        const data = adminSnap.exists() ? adminSnap.data() : null;
+
+        if(data?.role === "admin"){
+          hasAdminAccess = true;
+          adminProfile = { id: adminSnap.id, ...data };
+        }
+      }catch(error){
+        // Không coi lỗi tải role là quyền admin. Rules vẫn là lớp bảo vệ chính.
+        console.warn("Không thể kiểm tra vai trò quản trị:",error);
+      }
+
+      return hasAdminAccess;
+    }
+    function getBook(){
+      return allBooks.find(book => book.id === currentBookId) || adminBooks.find(book => book.id === currentBookId);
+    }
     function getUserDisplayName(){
+      if(isAdminUser() && adminProfile?.displayName){
+        return getAdminDisplayName();
+      }
       const name = String(currentUser?.displayName || "").trim();
       if(name) return name;
       const email = String(currentUser?.email || "");
@@ -1548,6 +2150,10 @@
       $("userDisplayName").innerText = getUserDisplayName();
       $("userEmail").innerText = currentUser.email || "";
       renderAvatar("userAvatar");
+      $("adminPanelButton")?.classList.toggle("hidden",!isAdminUser());
+      const adminBadge = $("adminIdentityBadge");
+      if(adminBadge) adminBadge.innerText = isAdminUser() ? getAdminDisplayName() : "Quản trị viên";
+      syncThemeButtons();
     }
 
     function setMeta(selector,value){
@@ -1590,7 +2196,8 @@
       if(unsubscribeTransactions) unsubscribeTransactions();
       if(unsubscribeMonthNote) unsubscribeMonthNote();
       if(unsubscribeDebts) unsubscribeDebts();
-      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = null;
+      if(unsubscribeAdminBooks) unsubscribeAdminBooks();
+      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = unsubscribeAdminBooks = null;
     }
 
     /* PUBLIC / AUTH VIEWS */
@@ -1598,20 +2205,30 @@
       $("introView").classList.toggle("hidden",publicScreen !== "intro");
       $("authView").classList.toggle("hidden",publicScreen !== "auth");
       $("mainView").classList.add("hidden");
+      $("adminView").classList.add("hidden");
       $("publicActionButton").innerText = currentUser ? "Vào sổ chi tiêu" : "Đăng nhập / Đăng ký";
       $("publicActionButton").onclick = currentUser ? openApp : showAuth;
+      syncThemeButtons();
       updateBrowserMetadata(null);
     }
     function showIntro(){ publicScreen = "intro"; renderPublicView(); }
     function showAuth(){ publicScreen = "auth"; renderPublicView(); }
+    function activateIntroFromKey(event){
+      if(event.key === "Enter" || event.key === " "){
+        event.preventDefault();
+        showIntro();
+      }
+    }
     function openApp(){
       if(!currentUser){ showAuth(); return; }
       $("introView").classList.add("hidden");
       $("authView").classList.add("hidden");
+      $("adminView").classList.add("hidden");
       $("mainView").classList.remove("hidden");
     }
     window.showIntro = showIntro;
     window.showAuth = showAuth;
+    window.activateIntroFromKey = activateIntroFromKey;
 
     /* AUTH */
     async function register(){
@@ -1635,9 +2252,13 @@
     window.login = login;
     window.logout = logout;
 
-    onAuthStateChanged(auth,user=>{
+    onAuthStateChanged(auth,async user=>{
       currentUser = user;
       if(user){
+        // Vai trò admin được đọc từ admins/{uid} trong Firestore, không dựa vào email hard-code.
+        await loadAdminAccess();
+        themeMode = localStorage.getItem(`sochitieu:theme:${currentUser.uid}`) || localStorage.getItem("sochitieu:theme") || themeMode;
+        applyTheme(themeMode,{persist:false});
         selectedAvatarStyle = localStorage.getItem(avatarStyleStorageKey()) || "blue";
         renderUserAccount();
         setTransactionDate(today());
@@ -1647,12 +2268,17 @@
         openApp();
         updateMonthUI();
         listenBooks();
+        if(isAdminUser()) listenAdminBooks();
       }else{
         currentBookId = null;
         allBooks = [];
+        adminBooks = [];
         debts = [];
+        adminProfile = null;
+        hasAdminAccess = false;
         stopAllListeners();
         $("bookDetail").classList.add("hidden");
+        $("adminView").classList.add("hidden");
         publicScreen = "intro";
         renderPublicView();
         setLogo("headerLogo","");
@@ -1800,7 +2426,200 @@
     window.changeUserPassword = changeUserPassword;
     window.sendPasswordReset = sendPasswordReset;
 
-    /* BOOKS */
+
+
+    /* THEME */
+    function themeStorageKey(){ return currentUser?.uid ? `sochitieu:theme:${currentUser.uid}` : "sochitieu:theme"; }
+    function syncThemeButtons(){
+      const label = themeMode === "dark" ? "Giao diện sáng" : "Giao diện tối";
+      ["publicThemeButton","appThemeButton","adminThemeButton"].forEach(id=>{ if($(id)) $(id).innerText = label; });
+    }
+    function applyTheme(mode,{persist=true}={}){
+      themeMode = mode === "dark" ? "dark" : "light";
+      document.body.classList.toggle("dark-mode",themeMode === "dark");
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if(themeMeta) themeMeta.setAttribute("content",themeMode === "dark" ? "#0d1422" : "#2f6fed");
+      syncThemeButtons();
+      if(persist){
+        localStorage.setItem("sochitieu:theme",themeMode);
+        localStorage.setItem(themeStorageKey(),themeMode);
+      }
+    }
+    function toggleTheme(){ applyTheme(themeMode === "dark" ? "light" : "dark"); }
+    window.toggleTheme = toggleTheme;
+
+    /* ADMIN */
+    function formatAdminTime(value){
+      const date = value?.toDate ? value.toDate() : null;
+      if(!date || Number.isNaN(date.getTime())) return "Chưa có dữ liệu";
+      return new Intl.DateTimeFormat("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(date);
+    }
+    function memberCount(book){ return Object.keys(book?.members || {}).length; }
+    function listenAdminBooks(){
+      if(!isAdminUser()) return;
+      if(unsubscribeAdminBooks) unsubscribeAdminBooks();
+      unsubscribeAdminBooks = onSnapshot(collection(db,"books"),snapshot=>{
+        adminBooks = [];
+        snapshot.forEach(item=>adminBooks.push({id:item.id,...item.data()}));
+        adminBooks.sort((a,b)=>{
+          const left = a.updatedAt?.toMillis?.() || a.createdAt?.toMillis?.() || 0;
+          const right = b.updatedAt?.toMillis?.() || b.createdAt?.toMillis?.() || 0;
+          return right-left;
+        });
+        renderAdminBooks();
+      },error=>{
+        console.error("Không thể tải danh sách sổ admin:",error);
+        $("adminError").innerText = "Không thể tải toàn bộ sổ. Hãy kiểm tra Firestore Rules cho tài khoản admin.";
+        $("adminError").classList.remove("hidden");
+      });
+    }
+    function renderAdminBooks(){
+      if(!isAdminUser()) return;
+      const list = $("adminBookList");
+      const queryText = String($("adminBookSearch")?.value || "").trim().toLocaleLowerCase("vi-VN");
+      const visible = adminBooks.filter(book=>{
+        const content = `${book.name || ""} ${book.ownerEmail || ""} ${book.id || ""}`.toLocaleLowerCase("vi-VN");
+        return !queryText || content.includes(queryText);
+      });
+      const owners = new Set(adminBooks.map(book=>book.ownerId || book.ownerEmail).filter(Boolean));
+      const members = new Set();
+      adminBooks.forEach(book=>Object.keys(book.members || {}).forEach(uid=>members.add(uid)));
+      $("adminBookCount").innerText = adminBooks.length;
+      $("adminOwnerCount").innerText = owners.size;
+      $("adminMemberCount").innerText = members.size;
+      $("adminBookHint").innerText = `Đang hiển thị ${visible.length}/${adminBooks.length} sổ • dữ liệu cập nhật theo thời gian thực.`;
+      list.innerHTML = "";
+      if(!visible.length){
+        list.innerHTML = `<div class="admin-empty">Chưa tìm thấy sổ phù hợp.</div>`;
+        return;
+      }
+      visible.forEach(book=>{
+        const card = document.createElement("article");
+        card.className = "admin-book-card";
+        card.innerHTML = `
+          <div class="admin-book-card-top">
+            <div>
+              <h4>${safeText(book.name || "Sổ không tên")}</h4>
+              <p>${safeText(book.description || "Chưa có mô tả")}</p>
+            </div>
+            <span class="admin-badge">${book.allowJoin === false ? "Kín" : "Mở"}</span>
+          </div>
+          <div class="admin-book-meta">
+            <div><span>Chủ sổ</span><b>${safeText(book.ownerEmail || "Không rõ")}</b></div>
+            <div><span>Thành viên</span><b>${memberCount(book)} người</b></div>
+            <div><span>Cập nhật</span><b>${safeText(formatAdminTime(book.updatedAt || book.createdAt))}</b></div>
+            <div><span>Mã sổ</span><b>${safeText(book.id)}</b></div>
+          </div>
+          <div class="admin-book-actions"><button class="btn-primary btn-small" type="button" onclick="openBookFromAdmin('${book.id}')">Mở sổ</button></div>`;
+        list.appendChild(card);
+      });
+    }
+    function isMyBook(book){
+      return Boolean(book) && Boolean(currentUser) && (
+        book.ownerId === currentUser.uid || book.members?.[currentUser.uid] === true
+      );
+    }
+    function myLastBookStorageKey(){
+      return currentUser?.uid ? `sochitieu:last-personal-book:${currentUser.uid}` : "";
+    }
+    function rememberPersonalBook(bookId){
+      const candidate = allBooks.find(book => book.id === bookId);
+      if(!isMyBook(candidate)) return;
+      const key = myLastBookStorageKey();
+      try{ if(key) localStorage.setItem(key,bookId); }catch(error){ /* Storage can be unavailable in private browsing. */ }
+    }
+    function readLastPersonalBookId(){
+      const key = myLastBookStorageKey();
+      try{ return key ? localStorage.getItem(key) : null; }catch(error){ return null; }
+    }
+    async function fetchMyBooksFresh(){
+      if(!currentUser) return [];
+      const snapshot = await getDocs(query(collection(db,"books"),where(`members.${currentUser.uid}`,"==",true)));
+      const freshBooks = [];
+      snapshot.forEach(item => freshBooks.push({id:item.id,...item.data()}));
+      const map = new Map(allBooks.map(book => [book.id,book]));
+      freshBooks.forEach(book => map.set(book.id,book));
+      allBooks = Array.from(map.values());
+      renderBooks();
+      return freshBooks;
+    }
+    function choosePersonalBook(books){
+      const personalBooks = books.filter(isMyBook);
+      const storedId = readLastPersonalBookId();
+      return personalBooks.find(book => book.id === storedId)
+        || personalBooks.find(book => book.id === currentBookId)
+        || personalBooks.find(book => book.ownerId === currentUser?.uid)
+        || personalBooks[0]
+        || null;
+    }
+    function openAdminPanel(){
+      if(!isAdminUser()) return;
+      const currentPersonalBook = allBooks.find(book => book.id === currentBookId);
+      if(isMyBook(currentPersonalBook)) rememberPersonalBook(currentPersonalBook.id);
+      $("introView").classList.add("hidden");
+      $("authView").classList.add("hidden");
+      $("mainView").classList.add("hidden");
+      $("adminView").classList.remove("hidden");
+      $("adminError").classList.add("hidden");
+      renderAdminBooks();
+    }
+    async function returnToMyBooks(){
+      if(!currentUser){
+        showAuth();
+        return;
+      }
+
+      const button = $("returnToBooksButton");
+      const oldLabel = button?.innerText || "Quay lại sổ của tôi";
+      if(button){
+        button.disabled = true;
+        button.innerText = "Đang mở...";
+      }
+
+      try{
+        let preferredBook = choosePersonalBook(allBooks);
+
+        // Fallback when the realtime list has not finished loading yet.
+        if(!preferredBook){
+          const freshBooks = await fetchMyBooksFresh();
+          preferredBook = choosePersonalBook(freshBooks);
+        }
+
+        currentBookId = preferredBook?.id || null;
+        openApp();
+
+        if(preferredBook){
+          rememberPersonalBook(preferredBook.id);
+          selectBook(preferredBook.id);
+        }else{
+          $("bookDetail").classList.add("hidden");
+          renderBooks();
+        }
+      }catch(error){
+        console.error("Không thể quay lại sổ của admin:",error);
+        // Still return to the normal app screen even if a fresh fetch is blocked.
+        openApp();
+        $("bookDetail").classList.add("hidden");
+        renderBooks();
+      }finally{
+        if(button){
+          button.disabled = false;
+          button.innerText = oldLabel;
+        }
+      }
+    }
+    function openBookFromAdmin(bookId){
+      if(!isAdminUser()) return;
+      const currentPersonalBook = allBooks.find(book => book.id === currentBookId);
+      if(isMyBook(currentPersonalBook)) rememberPersonalBook(currentPersonalBook.id);
+      openApp();
+      selectBook(bookId);
+    }
+    window.openAdminPanel = openAdminPanel;
+    window.returnToMyBooks = returnToMyBooks;
+    window.openBookFromAdmin = openBookFromAdmin;
+
+        /* BOOKS */
     function listenBooks(){
       if(unsubscribeBooks) unsubscribeBooks();
       const booksQuery = query(collection(db,"books"),where(`members.${currentUser.uid}`,"==",true));
@@ -1851,6 +2670,7 @@
     }
     function selectBook(bookId){
       currentBookId = bookId;
+      rememberPersonalBook(bookId);
       $("bookDetail").classList.remove("hidden");
       updateBookBrand(getBook());
       renderBooks();
@@ -2033,6 +2853,22 @@
     window.setQuickDate = setQuickDate;
     window.applySelectedDate = applySelectedDate;
 
+
+    /* TRANSACTION TYPE PICKER */
+    function selectTransactionType(nextType){
+      const type = nextType === "income" ? "income" : "expense";
+      const input = $("type");
+      if(!input) return;
+      input.value = type;
+
+      document.querySelectorAll("#transactionTypePicker .type-choice").forEach(button => {
+        const isActive = button.dataset.type === type;
+        button.classList.toggle("active",isActive);
+        button.setAttribute("aria-pressed",String(isActive));
+      });
+    }
+    window.selectTransactionType = selectTransactionType;
+
     /* TRANSACTIONS */
     async function addTransaction(){
       if(!currentBookId){ alert("Hãy chọn sổ trước."); return; }
@@ -2107,6 +2943,7 @@
       const button = $("debtCollapseButton");
       if(!panel || !content || !button) return;
       panel.classList.toggle("is-collapsed",debtPanelCollapsed);
+      panel.closest(".content-grid")?.classList.toggle("debt-collapsed",debtPanelCollapsed);
       content.classList.toggle("hidden",debtPanelCollapsed);
       button.setAttribute("aria-expanded",String(!debtPanelCollapsed));
       $("debtCollapseLabel").innerText = debtPanelCollapsed ? "Mở sổ" : "Thu gọn";
@@ -2356,6 +3193,7 @@
     window.saveCategoryName = saveCategoryName;
     window.deleteCategory = deleteCategory;
 
+    applyTheme(themeMode,{persist:false});
     updateDebtFormLabels();
     setDebtDate("debtDate",$("debtDate").value || today());
     setDebtDate("debtDueDate",$("debtDueDate").value || "");

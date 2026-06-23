@@ -62,7 +62,6 @@
       min-height:100vh;
       background:var(--page);
       color:var(--ink);
-      overflow-x:hidden;
       font-family:"Be Vietnam Pro",Arial,sans-serif;font-synthesis:none;
     }
     button,input,select,textarea{font:inherit}
@@ -84,8 +83,7 @@
     }
     textarea{min-height:112px;resize:vertical}
     .hidden{display:none!important}
-    .app{width:100%;max-width:1440px;margin:auto;padding:24px;overflow-x:clip}
-    .shell,.finance-tools-grid,.content-grid{min-width:0}
+    .app{max-width:1440px;margin:auto;padding:24px}
     .eyebrow{
       color:var(--blue);
       font-size:11px;
@@ -284,7 +282,6 @@
     .debt-overview-card b{display:block;overflow:hidden;margin-top:5px;color:var(--ink);font-size:14px;font-weight:800;letter-spacing:-.04em;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
     .debt-overview-card small{display:block;margin-top:4px;color:var(--muted);font-size:9px}
     .debt-tabs{display:flex;gap:7px;margin-bottom:10px;padding:4px;border:1px solid #edf0f5;border-radius:12px;background:#fafbfc}
-    .debt-tabs-side{margin-bottom:12px}
     .debt-tab{flex:1;padding:9px 8px;border-radius:8px;background:transparent;color:var(--muted);font-size:11px;font-weight:800}
     .debt-tab.active{background:#fff;box-shadow:0 3px 9px rgba(31,49,80,.08);color:var(--blue)}
     .debt-intro{margin:0 0 12px;color:var(--muted);font-size:11px;line-height:1.6}
@@ -417,19 +414,7 @@
       .debt-collapse-button span:first-child{display:none}
     }
 
-    
-    @media(max-width:1360px){
-      .finance-tools-grid{grid-template-columns:1fr;gap:16px}
-      .report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-      .report-apply{grid-column:1 / -1}
-      .debt-wide-workspace{grid-template-columns:1fr}
-      .debt-results-panel .debt-list{max-height:430px}
-    }
-    @media(max-width:920px){
-      .report-filter-grid{grid-template-columns:1fr 1fr}
-      .debt-results-head{align-items:flex-start;flex-direction:column}
-    }
-@media(max-width:1080px){.hero{grid-template-columns:1fr}.hero-card{max-width:560px;transform:none}.feature-grid,.how-grid{grid-template-columns:1fr}.content-grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:1080px){.hero{grid-template-columns:1fr}.hero-card{max-width:560px;transform:none}.feature-grid,.how-grid{grid-template-columns:1fr}.content-grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:840px){
       .app,.app-shell{padding:13px}.public-nav{padding:17px}.hero,.intro-section{padding-left:17px;padding-right:17px}.shell{grid-template-columns:1fr}.sidebar{position:static}.user-text{display:none}.dashboard-head{flex-direction:column}.month-toolbar{width:100%;max-width:360px}.topbar{align-items:flex-start}
       .transaction-form{grid-template-columns:1fr 1fr}
@@ -1156,7 +1141,7 @@
     .transaction-jar{grid-column:3}.transaction-amount{grid-column:1}.transaction-form .wide{grid-column:2}.transaction-submit{grid-column:3}
     .jar-table-label{display:inline-flex;align-items:center;gap:6px;color:#43516a;font-size:11px;font-weight:700}.jar-table-label img{width:15px;height:15px;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.8}
 
-    .report-panel{margin-bottom:18px}.report-panel-top{margin-bottom:13px}.report-filter-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;align-items:end}.report-field{display:grid;gap:6px}.report-field>span{color:var(--muted);font-size:10px;font-weight:800}.report-field input,.report-field select{min-height:41px;padding:9px 10px;font-size:11px}.report-type-toggle{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fafbfd}.report-type-toggle button{min-height:35px;padding:7px 6px;border-radius:9px;background:transparent;color:#65738a;font-size:10px;font-weight:800}.report-type-toggle button.active{background:#fff;color:var(--blue);box-shadow:0 2px 6px rgba(30,55,96,.08)}.report-apply{min-height:41px;white-space:nowrap}
+    .report-panel{margin-bottom:18px}.report-panel-top{margin-bottom:13px}.report-filter-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;align-items:end}.report-field{display:grid;gap:6px}.report-field>span{color:var(--muted);font-size:10px;font-weight:800}.report-field input,.report-field select{min-height:41px;padding:9px 10px;font-size:11px}.report-type-toggle{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fafbfd}.report-type-toggle button{min-height:35px;border-radius:9px;background:transparent;color:#65738a;font-size:10px;font-weight:800}.report-type-toggle button.active{background:#fff;color:var(--blue);box-shadow:0 2px 6px rgba(30,55,96,.08)}.report-apply{min-height:41px;white-space:nowrap}
     .report-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:13px}.report-stat{padding:12px;border:1px solid #e7edf5;border-radius:14px;background:#fbfcfe}.report-stat span{display:block;color:var(--muted);font-size:10px}.report-stat b{display:block;margin-top:5px;font-size:15px;letter-spacing:-.035em}.report-stat.income b{color:var(--green)}.report-stat.expense b{color:var(--red)}.report-stat.balance b{color:var(--blue)}
     .report-breakdown{display:grid;gap:7px;max-height:292px;overflow:auto;margin-top:12px;padding-right:2px}.report-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 11px;border:1px solid #e8eef6;border-radius:13px;background:#fff}.report-row-title{min-width:0;display:flex;align-items:center;gap:7px}.report-row-title b{overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}.report-row-title img{width:17px;height:17px;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.8}.report-row-values{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:10px;font-weight:800}.report-row-values .income{color:var(--green)}.report-row-values .expense{color:var(--red)}.report-empty{padding:18px;text-align:center;border:1px dashed #d8e3f3;border-radius:13px;color:var(--muted);font-size:11px}
 
@@ -1168,7 +1153,7 @@
 
     @media(max-width:1080px){.report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.jars-panel{margin-bottom:15px}}
     @media(max-width:760px){.jar-list{margin-right:-2px}.jar-card{min-width:216px}.report-filter-grid{grid-template-columns:1fr 1fr}.report-summary{grid-template-columns:1fr 1fr}.transaction-jar,.transaction-amount,.transaction-form .wide,.transaction-submit{grid-column:auto}.jar-menu{position:fixed;z-index:180;left:10px;right:10px;top:auto;bottom:10px;width:auto;max-height:min(70dvh,500px);padding:13px;border-radius:20px}.jar-options{max-height:calc(min(70dvh,500px) - 72px)}}
-    @media(max-width:460px){.report-filter-grid{grid-template-columns:1fr}.report-summary{grid-template-columns:1fr 1fr}.jar-card{min-width:198px}.report-row-values{gap:6px;font-size:9px}.app{padding:14px}.panel{padding:14px}.debt-card-summary{padding:10px}.debt-results-panel .debt-list{max-height:320px}}
+    @media(max-width:460px){.report-filter-grid{grid-template-columns:1fr}.report-summary{grid-template-columns:1fr 1fr}.jar-card{min-width:198px}.report-row-values{gap:6px;font-size:9px}}
 
 
 
@@ -1271,16 +1256,7 @@
     .shell{grid-template-columns:228px minmax(0,1fr);gap:24px}
     .sidebar{padding:14px}
     .finance-tools-grid{display:grid;grid-template-columns:minmax(320px,.82fr) minmax(0,1.18fr);gap:18px;align-items:stretch;margin-bottom:18px}
-    
-    .finance-tools-grid>.panel{min-width:0}
-    .report-filter-grid>*{min-width:0}
-    .report-field,.report-group-field,.report-category-picker{min-width:0}
-    .report-type-toggle,.report-group-toggle{min-width:0}
-    .report-apply{width:100%}
-    .report-panel .panel-top{align-items:flex-start}
-    .report-category-trigger,.report-date-trigger{min-width:0}
-    .debt-results-panel,.debt-left-column,.debt-wide-summary{min-width:0}
-
+    .finance-tools-grid>.panel{height:100%;margin:0}
     .jars-panel .jar-list{min-height:174px}
     .jar-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
     .jar-card-actions .jar-delete-button{grid-column:1 / -1;padding:8px 10px;border:1px solid #ffd9df;border-radius:9px;background:#fff6f7;color:var(--red);font-size:10px;font-weight:800}
@@ -1296,7 +1272,7 @@
     .report-category-trigger-icon{width:25px;height:25px}
     .report-category-trigger-icon img,.report-category-option-icon img{width:15px;height:15px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.84}
     #reportCategoryTriggerName{overflow:hidden;font-size:11px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
-    .report-category-menu{position:absolute;z-index:91;top:calc(100% + 8px);left:0;width:min(340px,calc(100vw - 32px));padding:10px;border:1px solid #dfe6f1;border-radius:16px;background:#fff;box-shadow:0 20px 45px rgba(28,45,76,.15)}
+    .report-category-menu{position:absolute;z-index:91;top:calc(100% + 8px);left:0;width:min(360px,calc(100vw - 44px));padding:10px;border:1px solid #dfe6f1;border-radius:16px;background:#fff;box-shadow:0 20px 45px rgba(28,45,76,.15)}
     .report-category-menu-head{padding:3px 3px 9px}.report-category-menu-head b{display:block;font-family:"Manrope";font-size:12px;letter-spacing:-.02em}.report-category-menu-head span{display:block;margin-top:3px;color:var(--muted);font-size:10px}
     .report-category-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:236px;overflow:auto;padding:1px}
     .report-category-option{display:flex;align-items:center;gap:8px;min-width:0;padding:8px;border:1px solid #e8edf4;border-radius:11px;background:#fff;color:var(--ink-soft);text-align:left}
@@ -1384,6 +1360,116 @@
       .debt-results-head{align-items:flex-start}
       .debt-results-panel .debt-list{max-height:360px;padding-right:1px}
       .debt-results-head>div{display:grid;gap:2px}
+    }
+
+
+
+    /* === FINAL POLISH: debt layout, chevrons and coherent dark mode === */
+    .debt-panel-wide .debt-panel-content{padding:18px 20px 20px}
+    .debt-panel-wide .debt-wide-workspace{
+      display:grid;
+      grid-template-columns:minmax(306px,360px) minmax(0,1fr);
+      gap:18px;
+      align-items:start;
+      margin-top:0!important;
+    }
+    .debt-left-column{min-width:0;align-content:start}
+    .debt-left-column .debt-wide-summary{display:block;margin:0}
+    .debt-left-column .debt-overview{margin:0 0 10px}
+    .debt-left-column .debt-tabs{margin:0 0 10px}
+    .debt-left-column .debt-intro{margin:0 0 10px}
+    .debt-results-panel{align-self:start}
+    .debt-results-panel .debt-list{max-height:min(520px,60vh);overflow:auto;overscroll-behavior:contain}
+
+    /* CSS chevrons: consistent on Windows, Android, iOS and dark mode. */
+    .debt-collapse-chevron,
+    .debt-card-chevron{
+      display:inline-grid!important;
+      place-items:center;
+      font-size:0!important;
+      line-height:1!important;
+      transform:none!important;
+      transition:background .18s ease,border-color .18s ease!important;
+    }
+    .debt-collapse-chevron::before,
+    .debt-card-chevron::before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      transform:rotate(45deg) translate(-1px,-1px);
+      transition:transform .2s ease;
+    }
+    .debt-panel.is-collapsed .debt-collapse-chevron::before{transform:rotate(-45deg) translate(-1px,1px)}
+    .debt-card.is-open .debt-card-chevron::before{transform:rotate(225deg) translate(-1px,1px)}
+    .debt-collapse-button{gap:7px;white-space:nowrap}
+    .debt-card-summary{min-height:56px}
+
+    /* One graphite/indigo system for night mode; all surfaces use the same palette. */
+    body.dark-mode{
+      --page:#0b1017;--paper:#121923;--ink:#edf2f8;--ink-soft:#bcc7d6;--muted:#818da0;--line:#263345;
+      --blue:#8eaeff;--blue-dark:#7198fb;--blue-soft:#172947;--green:#61d7a1;--green-soft:#13382c;
+      --red:#ff9ca7;--red-soft:#422128;--amber:#f3c776;--amber-soft:#3c3118;--shadow:0 18px 42px rgba(0,0,0,.28);
+    }
+    body.dark-mode,body.dark-mode #mainView,body.dark-mode #adminView{background:var(--page)}
+    body.dark-mode .sidebar,body.dark-mode .panel,body.dark-mode .auth-card,body.dark-mode .modal,
+    body.dark-mode .hero-card,body.dark-mode .feature-card,body.dark-mode .how-step,body.dark-mode .admin-hero,
+    body.dark-mode .admin-stat,body.dark-mode .admin-book-card,body.dark-mode .debt-results-panel{
+      background:var(--paper)!important;border-color:var(--line)!important;box-shadow:0 18px 42px rgba(0,0,0,.2);
+    }
+    body.dark-mode input,body.dark-mode select,body.dark-mode textarea,body.dark-mode .btn-secondary,body.dark-mode .month-arrow,
+    body.dark-mode .month-current,body.dark-mode .date-trigger,body.dark-mode .debt-date-trigger,body.dark-mode .category-trigger,
+    body.dark-mode .report-category-trigger,body.dark-mode .report-date-trigger,body.dark-mode .debt-collapse-button,
+    body.dark-mode .debt-form,body.dark-mode .debt-search-toolbar,body.dark-mode .debt-overview-card,body.dark-mode .debt-tabs,
+    body.dark-mode .debt-card-summary,body.dark-mode .debt-card-details,body.dark-mode .report-stat,body.dark-mode .report-row,body.dark-mode .jar-card{
+      background:#111923!important;border-color:var(--line)!important;color:var(--ink)!important;
+    }
+    body.dark-mode .debt-overview-card.active,body.dark-mode .debt-tab.active,body.dark-mode .report-type-toggle button.active,
+    body.dark-mode .report-group-toggle button.active,body.dark-mode .category-option.selected,body.dark-mode .report-category-option.selected{
+      background:#1a2d4b!important;border-color:#3f6097!important;color:#c8d8ff!important;
+    }
+    body.dark-mode .debt-tabs,body.dark-mode .report-type-toggle,body.dark-mode .report-group-toggle{background:#0e151e!important;border-color:var(--line)!important}
+    body.dark-mode .debt-card.is-open .debt-card-summary{background:#16223a!important}
+    body.dark-mode .debt-card:hover{border-color:#3a537a;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+    body.dark-mode th{background:#0d141d!important;color:#91a0b4!important;border-color:var(--line)!important}
+    body.dark-mode td{color:#dce5ef!important;border-color:var(--line)!important}
+    body.dark-mode .table-wrap{background:#0f161f!important;border-color:var(--line)!important}
+    body.dark-mode .btn-primary{background:#89a9ff!important;color:#0a101a!important;box-shadow:none}
+    body.dark-mode .btn-primary:hover{background:#a2bbff!important}
+    body.dark-mode .btn-secondary:hover,body.dark-mode .debt-collapse-button:hover,body.dark-mode .debt-card-summary:hover{background:#172233!important;border-color:#405579!important}
+    body.dark-mode .debt-collapse-chevron,body.dark-mode .debt-card-chevron{background:#182436!important;border-color:#304562!important;color:#a9c1ff!important}
+    body.dark-mode .debt-card.is-open .debt-card-chevron{background:#21395f!important;border-color:#4f74b5!important}
+    body.dark-mode .debt-person-mark{background:#182334!important;border-color:#30415b!important;color:#b9ceff!important}
+    body.dark-mode .debt-person-copy b,body.dark-mode .debt-summary-amount,body.dark-mode .debt-amount{color:var(--ink)!important}
+    body.dark-mode .debt-results-mode{background:#1a2d4b!important;color:#bdd0ff!important}
+    body.dark-mode .support-float{background:#6286df!important;border-color:#8ba9f0!important;box-shadow:0 10px 24px rgba(0,0,0,.28)!important}
+
+    /* Mobile: compact controls first, followed by a contained scrollable list. */
+    @media(max-width:900px){
+      .debt-panel-wide .debt-panel-content{padding:14px}
+      .debt-panel-wide .debt-wide-workspace{grid-template-columns:1fr;gap:14px}
+      .debt-left-column .debt-overview{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .debt-results-panel .debt-list{max-height:48dvh}
+      .debt-panel-header{padding:15px 14px 13px}
+      .debt-collapse-button{min-height:36px}
+    }
+    @media(max-width:540px){
+      .debt-panel-wide .debt-panel-content{padding:12px}
+      .debt-left-column{gap:10px}
+      .debt-overview-card{padding:10px}
+      .debt-overview-card b{font-size:12px}
+      .debt-overview-card small{font-size:8px}
+      .debt-tabs{gap:4px;padding:3px}
+      .debt-tab{min-height:38px;padding:8px 6px;font-size:10px}
+      .debt-results-head{align-items:center;flex-wrap:wrap}
+      .debt-results-panel{padding:10px}
+      .debt-results-panel .debt-list{max-height:46dvh}
+      .debt-card-summary{padding:10px;min-height:52px}
+      .debt-summary-amount{font-size:11px}
+      .debt-status{display:none}
+      .debt-card-summary-right{gap:6px}
+      .debt-card-details{padding:10px}
     }
 
 </style>
@@ -1789,12 +1875,14 @@
                 </div>
                 <button id="debtCollapseButton" class="debt-collapse-button" type="button" onclick="toggleDebtPanel()" aria-expanded="true">
                   <span id="debtCollapseLabel">Thu gọn</span>
-                  <span class="debt-collapse-chevron" aria-hidden="true">⌄</span>
+                  <span class="debt-collapse-chevron" aria-hidden="true"></span>
                 </button>
               </div>
 
               <div id="debtPanelContent" class="debt-panel-content">
-                <div class="debt-wide-summary">
+                <div class="debt-wide-workspace">
+                  <div class="debt-left-column">
+                    <div class="debt-wide-summary">
                   <div class="debt-overview">
                   <button id="debtOwedOverview" class="debt-overview-card active" type="button" onclick="setDebtMode('owedToMe')">
                     <span>Người nợ tôi</span>
@@ -1807,16 +1895,14 @@
                     <small id="debtIOweCount">0 khoản đang mở</small>
                   </button>
                 </div>
+
+                <div class="debt-tabs">
+                  <button id="tabOwedToMe" class="debt-tab active" type="button" onclick="setDebtMode('owedToMe')">Người nợ tôi</button>
+                  <button id="tabIOwe" class="debt-tab" type="button" onclick="setDebtMode('iOwe')">Tôi đang nợ</button>
                 </div>
 
-                <div class="debt-wide-workspace">
-                  <div class="debt-left-column">
-                    <div class="debt-tabs debt-tabs-side">
-                      <button id="tabOwedToMe" class="debt-tab active" type="button" onclick="setDebtMode('owedToMe')">Người nợ tôi</button>
-                      <button id="tabIOwe" class="debt-tab" type="button" onclick="setDebtMode('iOwe')">Tôi đang nợ</button>
-                    </div>
-
-                    <p id="debtModeText" class="debt-intro">Ghi lại người đang mượn tiền của bạn để tiện theo dõi.</p>
+                  <p id="debtModeText" class="debt-intro">Ghi lại người đang mượn tiền của bạn để tiện theo dõi.</p>
+                </div>
 
                     <div class="debt-list-toolbar debt-search-toolbar">
                       <label class="debt-search-field">
@@ -4365,7 +4451,7 @@
             <span class="debt-card-summary-right">
               <span class="debt-summary-amount">${money(item.amount)}</span>
               <span class="debt-status">${status}</span>
-              <span class="debt-card-chevron" aria-hidden="true">⌄</span>
+              <span class="debt-card-chevron" aria-hidden="true"></span>
             </span>
           </button>
           <div class="debt-card-details">

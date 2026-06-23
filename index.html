@@ -1498,6 +1498,58 @@
       .report-type-toggle button,.report-group-toggle button{font-size:11px!important}
     }
 
+
+    /* Debt due notification */
+    .debt-due-notice{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin:0 0 10px;
+      padding:10px 12px;
+      border:1px solid #ffd9a8;
+      border-radius:13px;
+      background:#fff8eb;
+      color:#8a5209;
+      text-align:left;
+      font-size:11px;
+      font-weight:800;
+      box-shadow:0 6px 18px rgba(180,112,23,.08);
+    }
+    .debt-due-notice:hover{transform:none;background:#fff3dc;border-color:#ffc979}
+    .debt-due-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      background:#f59e0b;
+      box-shadow:0 0 0 4px rgba(245,158,11,.14);
+      flex:none;
+    }
+    .debt-due-notice span:nth-child(2){
+      min-width:0;
+      flex:1;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .debt-due-action{
+      flex:none;
+      color:#2563eb;
+      font-size:10px;
+      font-weight:900;
+    }
+    body.dark-mode .debt-due-notice{
+      background:#2a2111!important;
+      border-color:#5d4218!important;
+      color:#ffd89a!important;
+      box-shadow:none;
+    }
+    body.dark-mode .debt-due-action{color:#aac5ff!important}
+    @media(max-width:540px){
+      .debt-due-notice{padding:9px 10px;font-size:10px;border-radius:12px}
+      .debt-due-action{font-size:9px}
+    }
+
 </style>
 </head>
 <body>
@@ -1988,6 +2040,11 @@
                       </div>
                       <span id="debtResultsModeLabel" class="debt-results-mode">Người nợ tôi</span>
                     </div>
+                    <button id="debtDueNotice" class="debt-due-notice hidden" type="button" onclick="openFirstDueDebt()">
+                      <span class="debt-due-dot" aria-hidden="true"></span>
+                      <span id="debtDueNoticeText">Hôm nay có khoản đến hạn.</span>
+                      <span class="debt-due-action">Kiểm tra</span>
+                    </button>
                     <div id="debtList" class="debt-list"></div>
                   </div>
                 </div>
@@ -2552,7 +2609,7 @@
       const bookId = currentBookId;
       const ref = bookCategoriesRef(bookId);
       if(!ref){
-        renderCategoryPicker();
+        syncCategoryInterfaces();
         return;
       }
 
@@ -2564,7 +2621,7 @@
         if(stored.length){
           bookCategories = stored;
           categoryBookId = bookId;
-          renderCategoryPicker();
+          syncCategoryInterfaces();
           return;
         }
 
@@ -2574,7 +2631,7 @@
         const initial = legacy.length ? legacy : cloneDefaultCategories();
         bookCategories = initial;
         categoryBookId = bookId;
-        renderCategoryPicker();
+        syncCategoryInterfaces();
 
         if(!snapshot.exists()){
           try{
@@ -2593,8 +2650,15 @@
         console.warn("Không thể tải danh mục của sổ:",error);
         bookCategories = cloneDefaultCategories();
         categoryBookId = bookId;
-        renderCategoryPicker();
+        syncCategoryInterfaces();
       });
+    }
+
+    function syncCategoryInterfaces(){
+      renderCategoryPicker();
+      // Report menu uses the same shared categories of the current book.
+      // Refresh immediately when any member/admin changes categories in Firestore.
+      if(typeof refreshReportCategoryOptions === "function") refreshReportCategoryOptions();
     }
 
     function renderCategoryPicker(){
@@ -2672,7 +2736,7 @@
         updatedByName:getUserDisplayName(),
         updatedAt:serverTimestamp()
       },{merge:true});
-      renderCategoryPicker();
+      syncCategoryInterfaces();
     }
     function openCategoryManager(){
       if(!currentBookId) return;
@@ -2777,7 +2841,7 @@
         await persistCategories(categories);
         // Danh mục dùng chung theo sổ; giữ nguyên lịch sử giao dịch cũ.
         if($("category").value === oldName) $("category").value = newName;
-        renderCategoryPicker();
+        syncCategoryInterfaces();
         renderCategoryManagerList();
       }catch(error){
         console.error("Không thể đổi tên danh mục:",error);
@@ -2802,7 +2866,7 @@
       try{
         await persistCategories(remaining);
         if($("category").value === category.name) $("category").value = remaining[0].name;
-        renderCategoryPicker();
+        syncCategoryInterfaces();
         renderCategoryManagerList();
       }catch(error){
         console.error("Không thể xóa danh mục:",error);
@@ -4438,6 +4502,43 @@
       expandedDebtId = expandedDebtId === id ? null : id;
       renderDebtList();
     }
+    function getDueDebtsForMode(mode = debtMode){
+      const todayValue = today();
+      return debts.filter(item => item.type === mode && !item.settled && item.dueDate === todayValue);
+    }
+    function updateDebtDueNotice(filtered = null){
+      const notice = $("debtDueNotice");
+      const noticeText = $("debtDueNoticeText");
+      if(!notice || !noticeText) return;
+
+      const dueItems = (filtered || debts.filter(item => item.type === debtMode))
+        .filter(item => !item.settled && item.dueDate === today());
+
+      if(!dueItems.length){
+        notice.classList.add("hidden");
+        return;
+      }
+
+      const verb = debtMode === "owedToMe" ? "cần thu" : "cần trả";
+      const firstName = String(dueItems[0].person || "1 khoản").trim();
+      noticeText.textContent = dueItems.length === 1
+        ? `Hôm nay đến hạn: ${firstName} ${verb} ${money(dueItems[0].amount)}.`
+        : `Hôm nay có ${dueItems.length} khoản ${verb}.`;
+      notice.classList.remove("hidden");
+    }
+    function openFirstDueDebt(){
+      const dueItems = getDueDebtsForMode(debtMode);
+      if(!dueItems.length) return;
+
+      expandedDebtId = dueItems[0].id;
+      renderDebtList();
+
+      setTimeout(() => {
+        const card = document.querySelector(`[data-debt-id="${dueItems[0].id}"]`);
+        if(card) card.scrollIntoView({behavior:"smooth",block:"center"});
+      }, 50);
+    }
+
     function renderDebtList(){
       updateDebtOverview();
       const list = $("debtList");
@@ -4452,6 +4553,7 @@
         return haystack.includes(search);
       });
       if(count) count.textContent = `${filtered.length} khoản`;
+      updateDebtDueNotice(filtered);
       if(!filtered.length){
         list.innerHTML = `<div class="empty">${search ? "Không tìm thấy khoản vay phù hợp." : (debtMode === "owedToMe" ? "Chưa có ai đang nợ bạn." : "Bạn chưa có khoản nợ nào cần theo dõi.")}</div>`;
         return;
@@ -4460,6 +4562,7 @@
         const card = document.createElement("article");
         const isOpen = expandedDebtId === item.id;
         card.className = "debt-card debt-card-compact" + (item.settled ? " settled" : "") + (isOpen ? " is-open" : "");
+        card.dataset.debtId = item.id;
         const person = String(item.person || "?").trim();
         const initial = person ? person.charAt(0).toLocaleUpperCase("vi-VN") : "?";
         const relation = item.type === "owedToMe" ? "Người đang nợ bạn" : "Khoản bạn đang nợ";
@@ -4616,6 +4719,7 @@
     window.toggleDebtPanel = toggleDebtPanel;
     window.setDebtMode = setDebtMode;
     window.setDebtSearch = setDebtSearch;
+    window.openFirstDueDebt = openFirstDueDebt;
     window.toggleDebtCard = toggleDebtCard;
     window.addDebt = addDebt;
     window.toggleDebt = toggleDebt;

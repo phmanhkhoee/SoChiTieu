@@ -62,6 +62,7 @@
       min-height:100vh;
       background:var(--page);
       color:var(--ink);
+      overflow-x:hidden;
       font-family:"Be Vietnam Pro",Arial,sans-serif;font-synthesis:none;
     }
     button,input,select,textarea{font:inherit}
@@ -83,7 +84,8 @@
     }
     textarea{min-height:112px;resize:vertical}
     .hidden{display:none!important}
-    .app{max-width:1440px;margin:auto;padding:24px}
+    .app{width:100%;max-width:1440px;margin:auto;padding:24px;overflow-x:clip}
+    .shell,.finance-tools-grid,.content-grid{min-width:0}
     .eyebrow{
       color:var(--blue);
       font-size:11px;
@@ -282,6 +284,7 @@
     .debt-overview-card b{display:block;overflow:hidden;margin-top:5px;color:var(--ink);font-size:14px;font-weight:800;letter-spacing:-.04em;text-overflow:ellipsis;white-space:nowrap;font-variant-numeric:tabular-nums}
     .debt-overview-card small{display:block;margin-top:4px;color:var(--muted);font-size:9px}
     .debt-tabs{display:flex;gap:7px;margin-bottom:10px;padding:4px;border:1px solid #edf0f5;border-radius:12px;background:#fafbfc}
+    .debt-tabs-side{margin-bottom:12px}
     .debt-tab{flex:1;padding:9px 8px;border-radius:8px;background:transparent;color:var(--muted);font-size:11px;font-weight:800}
     .debt-tab.active{background:#fff;box-shadow:0 3px 9px rgba(31,49,80,.08);color:var(--blue)}
     .debt-intro{margin:0 0 12px;color:var(--muted);font-size:11px;line-height:1.6}
@@ -414,7 +417,19 @@
       .debt-collapse-button span:first-child{display:none}
     }
 
-    @media(max-width:1080px){.hero{grid-template-columns:1fr}.hero-card{max-width:560px;transform:none}.feature-grid,.how-grid{grid-template-columns:1fr}.content-grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}}
+    
+    @media(max-width:1360px){
+      .finance-tools-grid{grid-template-columns:1fr;gap:16px}
+      .report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .report-apply{grid-column:1 / -1}
+      .debt-wide-workspace{grid-template-columns:1fr}
+      .debt-results-panel .debt-list{max-height:430px}
+    }
+    @media(max-width:920px){
+      .report-filter-grid{grid-template-columns:1fr 1fr}
+      .debt-results-head{align-items:flex-start;flex-direction:column}
+    }
+@media(max-width:1080px){.hero{grid-template-columns:1fr}.hero-card{max-width:560px;transform:none}.feature-grid,.how-grid{grid-template-columns:1fr}.content-grid{grid-template-columns:1fr}.summary{grid-template-columns:repeat(2,1fr)}}
     @media(max-width:840px){
       .app,.app-shell{padding:13px}.public-nav{padding:17px}.hero,.intro-section{padding-left:17px;padding-right:17px}.shell{grid-template-columns:1fr}.sidebar{position:static}.user-text{display:none}.dashboard-head{flex-direction:column}.month-toolbar{width:100%;max-width:360px}.topbar{align-items:flex-start}
       .transaction-form{grid-template-columns:1fr 1fr}
@@ -1117,6 +1132,260 @@
       .calendar-modal{max-height:calc(100dvh - 16px)}
     }
 
+
+
+    /* HŨ TÀI CHÍNH + BÁO CÁO LỌC */
+    .jars-panel{margin-bottom:18px;padding:17px 18px 18px}
+    .jars-top{margin-bottom:6px}.jars-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .jars-note{margin:0 0 13px;color:var(--muted);font-size:11px;line-height:1.55}
+    .jar-list{display:flex;gap:10px;overflow-x:auto;padding:2px 1px 5px;scroll-snap-type:x proximity}
+    .jar-list::-webkit-scrollbar{height:7px}.jar-list::-webkit-scrollbar-thumb{background:#cbd5e4;border-radius:99px}
+    .jar-card{min-width:234px;max-width:284px;scroll-snap-align:start;padding:13px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#fff,#fbfcfe);transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease}
+    .jar-card:hover{border-color:#b9cdf4;transform:translateY(-1px);box-shadow:0 10px 22px rgba(33,61,109,.07)}
+    .jar-card.active{border-color:#77a5ff;background:#f4f8ff;box-shadow:0 0 0 3px rgba(47,111,237,.08)}
+    .jar-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}.jar-card-title{display:flex;align-items:center;gap:8px;min-width:0}
+    .jar-card-icon{width:32px;height:32px;display:grid;place-items:center;flex:none;border:1px solid #e4ebf5;border-radius:10px;background:#f7f9fc}.jar-card-icon img{width:18px;height:18px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.84}
+    .jar-card-name{display:block;overflow:hidden;color:var(--ink);font-size:12px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}.jar-card-meta{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+    .jar-card-balance{margin-top:14px}.jar-card-balance span{display:block;color:var(--muted);font-size:10px}.jar-card-balance b{display:block;margin-top:4px;color:var(--blue);font-size:20px;letter-spacing:-.055em;font-variant-numeric:tabular-nums}
+    .jar-card-actions{display:flex;gap:7px;margin-top:13px}.jar-card-actions button{flex:1}.jar-card-empty{min-width:248px;display:grid;place-items:center;padding:20px;border:1px dashed #b8ccee;border-radius:16px;background:#fbfdff;color:var(--blue);font-size:12px;font-weight:800}
+    .jar-picker{position:relative;min-width:0}.jar-trigger{width:100%;min-height:45px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 11px;border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left}.jar-trigger:hover{border-color:#b7caf0;background:#fbfdff}.jar-picker.is-open .jar-trigger{border-color:#8dafef;box-shadow:0 0 0 4px rgba(47,111,237,.1)}
+    .jar-trigger-main{min-width:0;display:flex;align-items:center;gap:8px}.jar-trigger-icon{width:26px;height:26px;display:grid;place-items:center;flex:none;border:1px solid #e8edf4;border-radius:9px;background:#f9fbfd}.jar-trigger-icon img{width:15px;height:15px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.84}.jar-trigger-name{overflow:hidden;font-size:12px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}.jar-trigger-caption{margin-top:2px;color:var(--muted);font-size:9px}
+    .jar-menu{position:absolute;z-index:70;top:calc(100% + 8px);right:0;width:min(340px,calc(100vw - 42px));padding:11px;border:1px solid #dfe7f3;border-radius:16px;background:#fff;box-shadow:0 18px 38px rgba(20,42,78,.16)}
+    .jar-menu-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 3px 9px}.jar-menu-head b{display:block;font-family:"Manrope";font-size:12px}.jar-menu-head span{display:block;margin-top:3px;color:var(--muted);font-size:10px}.jar-menu-add{padding:7px 8px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:10px;font-weight:800}
+    .jar-options{display:grid;gap:7px;max-height:260px;overflow:auto}.jar-option{display:grid;grid-template-columns:30px minmax(0,1fr) auto;align-items:center;gap:9px;width:100%;padding:9px;border:1px solid #e6edf7;border-radius:12px;background:#fff;text-align:left}.jar-option:hover{border-color:#b8cdf2;background:#fbfdff}.jar-option.selected{border-color:#8fb3fc;background:#f2f6ff}.jar-option img{width:16px;height:16px;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.84}.jar-option-icon{width:30px;height:30px;display:grid;place-items:center;border:1px solid #e7edf5;border-radius:9px;background:#fafcff}.jar-option-copy{min-width:0}.jar-option-copy b{display:block;overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}.jar-option-copy span{display:block;margin-top:2px;color:var(--muted);font-size:9px}.jar-option-amount{color:var(--blue);font-size:11px;font-weight:800;white-space:nowrap}.jar-option-empty{padding:14px;color:var(--muted);font-size:11px;text-align:center}
+    .transaction-jar{grid-column:3}.transaction-amount{grid-column:1}.transaction-form .wide{grid-column:2}.transaction-submit{grid-column:3}
+    .jar-table-label{display:inline-flex;align-items:center;gap:6px;color:#43516a;font-size:11px;font-weight:700}.jar-table-label img{width:15px;height:15px;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.8}
+
+    .report-panel{margin-bottom:18px}.report-panel-top{margin-bottom:13px}.report-filter-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;align-items:end}.report-field{display:grid;gap:6px}.report-field>span{color:var(--muted);font-size:10px;font-weight:800}.report-field input,.report-field select{min-height:41px;padding:9px 10px;font-size:11px}.report-type-toggle{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fafbfd}.report-type-toggle button{min-height:35px;padding:7px 6px;border-radius:9px;background:transparent;color:#65738a;font-size:10px;font-weight:800}.report-type-toggle button.active{background:#fff;color:var(--blue);box-shadow:0 2px 6px rgba(30,55,96,.08)}.report-apply{min-height:41px;white-space:nowrap}
+    .report-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:13px}.report-stat{padding:12px;border:1px solid #e7edf5;border-radius:14px;background:#fbfcfe}.report-stat span{display:block;color:var(--muted);font-size:10px}.report-stat b{display:block;margin-top:5px;font-size:15px;letter-spacing:-.035em}.report-stat.income b{color:var(--green)}.report-stat.expense b{color:var(--red)}.report-stat.balance b{color:var(--blue)}
+    .report-breakdown{display:grid;gap:7px;max-height:292px;overflow:auto;margin-top:12px;padding-right:2px}.report-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 11px;border:1px solid #e8eef6;border-radius:13px;background:#fff}.report-row-title{min-width:0;display:flex;align-items:center;gap:7px}.report-row-title b{overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}.report-row-title img{width:17px;height:17px;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.8}.report-row-values{display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:10px;font-weight:800}.report-row-values .income{color:var(--green)}.report-row-values .expense{color:var(--red)}.report-empty{padding:18px;text-align:center;border:1px dashed #d8e3f3;border-radius:13px;color:var(--muted);font-size:11px}
+
+    .jar-modal{width:min(480px,100%)}.jar-modal .modal-header p{max-width:385px}.jar-form-grid{display:grid;gap:11px}.jar-fund-name{display:flex;align-items:center;gap:9px;padding:11px;border:1px solid #e6edf7;border-radius:13px;background:#fafcff}.jar-fund-name img{width:21px;height:21px;filter:grayscale(1) brightness(.34) contrast(1.08)}.jar-fund-name b{font-size:12px}.jar-fund-name span{display:block;margin-top:2px;color:var(--muted);font-size:10px}.jar-adjust-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;border:1px solid var(--line);border-radius:13px;background:#f8fafc}.jar-adjust-toggle button{padding:10px;border-radius:10px;background:transparent;color:#627087;font-size:11px;font-weight:800}.jar-adjust-toggle button.active.deposit{background:#eff9f4;color:var(--green)}.jar-adjust-toggle button.active.withdraw{background:#fff0f2;color:var(--red)}.jar-modal-note{margin-top:8px;color:var(--muted);font-size:10px;line-height:1.55}
+
+    body.dark-mode .jars-panel,body.dark-mode .report-panel,body.dark-mode .jar-card,body.dark-mode .jar-menu,body.dark-mode .jar-option,body.dark-mode .report-row,body.dark-mode .report-stat,body.dark-mode .jar-modal .jar-fund-name{background:#111b2d;border-color:#263750}
+    body.dark-mode .jar-card{background:linear-gradient(180deg,#111b2d,#0e1727)}body.dark-mode .jar-card.active,body.dark-mode .jar-option.selected{background:#18233a;border-color:#486aab}.dark-mode .jar-card-name,.dark-mode .jar-option-copy b,.dark-mode .report-row-title b{color:var(--ink)}
+    body.dark-mode .jar-card-icon,body.dark-mode .jar-trigger-icon,body.dark-mode .jar-option-icon{background:#142033;border-color:#2a3b57}.dark-mode .jar-trigger{background:#111b2d;border-color:#263750}.dark-mode .jar-menu-head b{color:var(--ink)}.dark-mode .report-type-toggle{background:#142033;border-color:#263750}.dark-mode .report-type-toggle button.active{background:#1b2942;color:#b5ccff}.dark-mode .jar-adjust-toggle{background:#142033;border-color:#263750}
+
+    @media(max-width:1080px){.report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.jars-panel{margin-bottom:15px}}
+    @media(max-width:760px){.jar-list{margin-right:-2px}.jar-card{min-width:216px}.report-filter-grid{grid-template-columns:1fr 1fr}.report-summary{grid-template-columns:1fr 1fr}.transaction-jar,.transaction-amount,.transaction-form .wide,.transaction-submit{grid-column:auto}.jar-menu{position:fixed;z-index:180;left:10px;right:10px;top:auto;bottom:10px;width:auto;max-height:min(70dvh,500px);padding:13px;border-radius:20px}.jar-options{max-height:calc(min(70dvh,500px) - 72px)}}
+    @media(max-width:460px){.report-filter-grid{grid-template-columns:1fr}.report-summary{grid-template-columns:1fr 1fr}.jar-card{min-width:198px}.report-row-values{gap:6px;font-size:9px}.app{padding:14px}.panel{padding:14px}.debt-card-summary{padding:10px}.debt-results-panel .debt-list{max-height:320px}}
+
+
+
+    /* === UPDATE: đồng bộ lịch, danh mục, báo cáo và sổ vay mượn === */
+    .report-date-trigger{
+      min-height:41px;width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;
+      padding:9px 10px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);text-align:left;
+      transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+    }
+    .report-date-trigger:hover{border-color:#aac3f3;background:#fbfdff}
+    .report-date-trigger:focus-visible{outline:0;border-color:#8dafef;box-shadow:0 0 0 4px rgba(47,111,237,.1)}
+    .report-date-trigger b{overflow:hidden;color:var(--ink-soft);font-size:11px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+    .report-date-trigger span{flex:none;color:var(--blue);font-size:9px;font-weight:800;letter-spacing:.05em}
+    .report-group-toggle{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:3px;border:1px solid var(--line);border-radius:12px;background:#fafbfd}
+    .report-group-toggle button{min-height:35px;padding:7px 6px;border-radius:9px;background:transparent;color:#65738a;font-size:10px;font-weight:800}
+    .report-group-toggle button.active{background:#fff;color:var(--blue);box-shadow:0 2px 7px rgba(30,55,96,.08)}
+
+    /* Danh mục mới dùng cùng thẻ, viền và nhịp chữ với danh mục hiện có. */
+    .category-create-card{padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:none}
+    .category-create-title{display:flex;align-items:center;gap:9px;color:var(--ink);font-family:"Manrope";font-size:12px;font-weight:800;letter-spacing:-.02em}
+    .category-create-title b{display:block;font-size:12px}.category-create-title small{display:block;margin-top:2px;color:var(--muted);font-family:"DM Sans";font-size:10px;font-weight:600;line-height:1.4}
+    .category-create-mark{width:34px;height:34px;display:grid;place-items:center;flex:none;border:1px solid #dce7f7;border-radius:10px;background:#f8fbff;color:var(--blue);font-size:19px;font-weight:700}
+    .category-create-card input{margin-top:12px;border-radius:11px}
+    .category-icon-label{margin-top:11px;font-size:10px}
+    .category-create-button{margin-top:10px;min-height:40px;border-radius:11px;font-size:12px}
+    .category-manager-heading{margin-top:17px}
+
+    /* Sổ vay mượn được đưa xuống cuối, dùng toàn bộ bề ngang thay vì bó vào cột phụ. */
+    .content-grid{grid-template-columns:minmax(0,1fr)}
+    .debt-panel-wide{margin-top:18px;padding:0;overflow:hidden}
+    .debt-panel-wide .debt-panel-header{padding:19px 20px 16px}
+    .debt-panel-wide .debt-panel-content{padding:18px 20px 20px}
+    .debt-wide-summary{display:grid;grid-template-columns:minmax(290px,.9fr) minmax(320px,1.1fr);gap:15px;align-items:center}
+    .debt-wide-summary .debt-overview{margin:0}
+    .debt-wide-summary .debt-tabs{margin:0}
+    .debt-wide-summary .debt-intro{margin:0;color:var(--ink-soft);font-size:12px}
+    .debt-wide-workspace{display:grid;grid-template-columns:minmax(310px,.78fr) minmax(0,1.22fr);gap:16px;align-items:start;margin-top:15px}
+    .debt-wide-workspace .debt-form{margin:0}
+    .debt-wide-workspace .debt-list{max-height:500px;overflow:auto;margin:0;padding-right:3px}
+    .debt-wide-workspace .debt-card{padding:14px}
+    .debt-panel.is-collapsed .debt-panel-content{display:none!important}
+    .debt-panel.is-collapsed .debt-panel-header{padding-bottom:18px;border-bottom:0}
+    .debt-collapse-button{min-height:36px;padding:7px 9px;border-radius:11px;font-family:"Manrope";font-size:10px;letter-spacing:.01em}
+    .debt-collapse-chevron{display:grid;place-items:center;width:21px;height:21px;border-radius:7px;background:#f4f7fb;color:var(--blue);font-family:Arial,sans-serif;font-size:15px;font-weight:700;transition:transform .2s ease,background .2s ease}
+    .debt-panel.is-collapsed .debt-collapse-chevron{transform:rotate(-90deg)}
+    .debt-collapse-button:hover .debt-collapse-chevron{background:var(--blue-soft)}
+
+    /* Calendar controls look the same regardless of transaction, debt, or report target. */
+    .calendar-controls select{min-height:41px;border-radius:11px;background:#fff;font-family:"Manrope";font-size:12px;font-weight:700}
+    .calendar-nav{font-family:Arial,sans-serif;font-weight:700}
+    .calendar-quick button{font-family:"Manrope";font-size:10px;letter-spacing:.01em}
+
+    body.dark-mode .report-date-trigger,
+    body.dark-mode .report-group-toggle,
+    body.dark-mode .report-group-toggle button.active,
+    body.dark-mode .category-create-card,
+    body.dark-mode .debt-collapse-chevron{background:#111b2d;border-color:#263750;color:var(--ink)}
+    body.dark-mode .report-date-trigger b,
+    body.dark-mode .category-create-title{color:var(--ink)}
+    body.dark-mode .report-group-toggle button{color:#aeb8c7}
+    body.dark-mode .report-group-toggle button.active{background:#202b40;color:#bdd0ff;box-shadow:none}
+    body.dark-mode .category-create-mark{background:#18233a;border-color:#465f90;color:#bdd0ff}
+    body.dark-mode .debt-wide-summary .debt-intro{color:var(--ink-soft)}
+
+    @media(max-width:980px){
+      .report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .debt-wide-summary{grid-template-columns:1fr}
+      .debt-wide-summary .debt-tabs{max-width:460px}
+      .debt-wide-workspace{grid-template-columns:1fr}
+      .debt-wide-workspace .debt-list{max-height:420px}
+    }
+    @media(max-width:680px){
+      .report-filter-grid{grid-template-columns:1fr 1fr}
+      .report-apply{grid-column:1 / -1}
+      .debt-panel-wide{margin-top:14px}
+      .debt-panel-wide .debt-panel-header{padding:15px}
+      .debt-panel-wide .debt-panel-content{padding:14px}
+      .debt-wide-workspace{gap:13px;margin-top:13px}
+      .debt-wide-workspace .debt-list{max-height:none;overflow:visible;padding-right:0}
+    }
+    @media(max-width:520px){
+      .report-filter-grid{grid-template-columns:1fr}
+      .report-apply{grid-column:auto}
+      .report-date-trigger{min-height:45px;padding:10px 12px}
+      .report-group-toggle button{min-height:39px;font-size:11px}
+      .debt-panel-header .panel-top p{max-width:250px}
+      .debt-collapse-button{min-width:38px;justify-content:center}
+      .debt-collapse-button #debtCollapseLabel{display:none}
+      .debt-collapse-chevron{width:24px;height:24px;font-size:16px}
+      .debt-wide-summary .debt-tabs{max-width:none}
+      .debt-wide-workspace .debt-list{display:grid;gap:8px}
+      .category-create-card{padding:11px}
+      .category-icon-palette{grid-template-columns:repeat(6,minmax(0,1fr))}
+    }
+
+  
+
+    /* === UX REFINEMENT: rộng hơn trên desktop, gọn hơn trên mobile === */
+    .app-shell{max-width:1720px;padding:22px clamp(16px,2.1vw,34px)}
+    .shell{grid-template-columns:228px minmax(0,1fr);gap:24px}
+    .sidebar{padding:14px}
+    .finance-tools-grid{display:grid;grid-template-columns:minmax(320px,.82fr) minmax(0,1.18fr);gap:18px;align-items:stretch;margin-bottom:18px}
+    
+    .finance-tools-grid>.panel{min-width:0}
+    .report-filter-grid>*{min-width:0}
+    .report-field,.report-group-field,.report-category-picker{min-width:0}
+    .report-type-toggle,.report-group-toggle{min-width:0}
+    .report-apply{width:100%}
+    .report-panel .panel-top{align-items:flex-start}
+    .report-category-trigger,.report-date-trigger{min-width:0}
+    .debt-results-panel,.debt-left-column,.debt-wide-summary{min-width:0}
+
+    .jars-panel .jar-list{min-height:174px}
+    .jar-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+    .jar-card-actions .jar-delete-button{grid-column:1 / -1;padding:8px 10px;border:1px solid #ffd9df;border-radius:9px;background:#fff6f7;color:var(--red);font-size:10px;font-weight:800}
+    .jar-card-actions .jar-delete-button:hover{background:var(--red-soft);border-color:#f6b3c0}
+
+    /* Bộ lọc danh mục báo cáo dùng chung ngôn ngữ thiết kế với danh mục giao dịch. */
+    .report-category-picker{position:relative;min-width:0}
+    .report-category-trigger{width:100%;min-height:41px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);text-align:left}
+    .report-category-trigger:hover{border-color:#aac3f3;background:#fbfdff}
+    .report-category-picker.is-open .report-category-trigger{border-color:#8dafef;box-shadow:0 0 0 4px rgba(47,111,237,.1)}
+    .report-category-trigger-main{display:flex;align-items:center;gap:8px;min-width:0}
+    .report-category-trigger-icon,.report-category-option-icon{display:grid;place-items:center;flex:none;border:1px solid #e7edf5;border-radius:8px;background:#fafcff}
+    .report-category-trigger-icon{width:25px;height:25px}
+    .report-category-trigger-icon img,.report-category-option-icon img{width:15px;height:15px;object-fit:contain;filter:grayscale(1) brightness(.34) contrast(1.08);opacity:.84}
+    #reportCategoryTriggerName{overflow:hidden;font-size:11px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+    .report-category-menu{position:absolute;z-index:91;top:calc(100% + 8px);left:0;width:min(340px,calc(100vw - 32px));padding:10px;border:1px solid #dfe6f1;border-radius:16px;background:#fff;box-shadow:0 20px 45px rgba(28,45,76,.15)}
+    .report-category-menu-head{padding:3px 3px 9px}.report-category-menu-head b{display:block;font-family:"Manrope";font-size:12px;letter-spacing:-.02em}.report-category-menu-head span{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+    .report-category-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:236px;overflow:auto;padding:1px}
+    .report-category-option{display:flex;align-items:center;gap:8px;min-width:0;padding:8px;border:1px solid #e8edf4;border-radius:11px;background:#fff;color:var(--ink-soft);text-align:left}
+    .report-category-option:hover{border-color:#b7caf0;background:#fbfdff}.report-category-option.selected{border-color:#98b9fc;background:var(--blue-soft);color:var(--blue)}
+    .report-category-option-icon{width:25px;height:25px}.report-category-option-name{overflow:hidden;font-size:10px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}
+
+    /* Sổ vay mượn: danh sách compact, có tìm kiếm và chỉ mở chi tiết từng khoản. */
+    .debt-collapse-button{gap:8px;min-height:38px;padding:7px 10px;border-color:#dce5f2;background:#fff;color:#42516a;font-family:"Be Vietnam Pro";font-size:10px;font-weight:800;letter-spacing:.01em}
+    .debt-collapse-chevron{width:20px;height:20px;border:1px solid #dce5f2;border-radius:50%;background:#f6f9fd;color:#2f6fed;font-size:15px;line-height:1;transition:transform .2s ease,background .2s ease}
+    .debt-panel.is-collapsed .debt-collapse-chevron{transform:rotate(-90deg)}
+    .debt-list-toolbar{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:10px}
+    .debt-search-field{display:grid;gap:5px;flex:1}.debt-search-field>span{color:var(--muted);font-size:10px;font-weight:800}.debt-search-field input{min-height:39px;padding:9px 11px;border-radius:11px;font-size:11px}
+    .debt-list-count{padding-bottom:10px;color:var(--muted);font-size:10px;font-weight:800;white-space:nowrap}
+    .debt-wide-workspace .debt-list{max-height:470px;overflow:auto;margin:0;padding-right:3px}
+    .debt-card.debt-card-compact{padding:0;overflow:hidden;border-color:#e6edf7}
+    .debt-card-summary{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:12px 13px;background:#fff;color:var(--ink);text-align:left}
+    .debt-card-summary:hover{background:#fbfdff;transform:none}
+    .debt-card.is-open .debt-card-summary{background:#f8fbff;border-bottom:1px solid #e6edf7}
+    .debt-card-summary-right{display:flex;align-items:center;justify-content:flex-end;gap:7px;min-width:0}
+    .debt-summary-amount{color:var(--ink);font-size:13px;font-weight:800;letter-spacing:-.035em;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .debt-person-copy b{color:#1e4fa8;font-family:"Manrope";font-size:12px;font-weight:800}
+    .debt-card.settled .debt-person-copy b{color:#718096}
+    .debt-card-chevron{width:22px;height:22px;display:grid;place-items:center;flex:none;border:1px solid #dce5f2;border-radius:7px;background:#f7f9fc;color:#51709f;font-family:Arial,sans-serif;font-size:15px;font-weight:700;transition:transform .18s ease}
+    .debt-card.is-open .debt-card-chevron{transform:rotate(180deg);background:var(--blue-soft);border-color:#bdd1fa;color:var(--blue)}
+    .debt-card-details{display:none;padding:12px 13px 13px;background:#fff}.debt-card.is-open .debt-card-details{display:block}
+    .debt-card-details .debt-balance-row{margin-top:0;padding-top:0;border-top:0}.debt-card-details .debt-history{margin-top:10px}
+
+    body.dark-mode .report-category-trigger,body.dark-mode .report-category-menu,body.dark-mode .report-category-option,body.dark-mode .debt-card-summary,body.dark-mode .debt-card-details,body.dark-mode .debt-collapse-button{background:#111b2d;border-color:#263750;color:var(--ink)}
+    body.dark-mode .report-category-trigger-icon,body.dark-mode .report-category-option-icon,body.dark-mode .debt-card-chevron{background:#142033;border-color:#2a3b57}
+    body.dark-mode .report-category-menu-head b,body.dark-mode .debt-summary-amount{color:var(--ink)}
+    body.dark-mode .debt-card.is-open .debt-card-summary{background:#18233a;border-color:#2b3e5a}.dark-mode .debt-card-details{background:#111b2d}
+    body.dark-mode .jar-card-actions .jar-delete-button{background:#2a1c25;border-color:#583441;color:#ff9ca7}
+
+    @media(min-width:1550px){
+      .shell{grid-template-columns:240px minmax(0,1fr);gap:28px}
+      .finance-tools-grid{grid-template-columns:minmax(390px,.86fr) minmax(0,1.14fr)}
+    }
+    @media(max-width:1120px){
+      .finance-tools-grid{grid-template-columns:1fr}
+      .finance-tools-grid>.panel{height:auto}
+      .jars-panel .jar-list{min-height:0}
+    }
+    @media(max-width:760px){
+      .app-shell{padding:13px 12px}
+      .shell{gap:14px}
+      .finance-tools-grid{gap:14px;margin-bottom:14px}
+      .report-category-menu{position:fixed;z-index:190;left:10px;right:10px;top:auto;bottom:10px;width:auto;max-height:min(68dvh,520px);padding:13px;border-radius:20px}
+      .report-category-options{grid-template-columns:1fr;max-height:calc(min(68dvh,520px) - 70px)}
+      .debt-wide-workspace .debt-list{max-height:460px;overflow:auto;padding-right:1px}
+      .debt-list-toolbar{align-items:stretch;flex-direction:column;gap:5px}.debt-list-count{padding:0}
+      .debt-card-summary{padding:11px}
+      .debt-summary-amount{font-size:12px}
+      .debt-card-summary-right{gap:5px}.debt-status{font-size:8px}
+    }
+    @media(max-width:460px){
+      .report-category-menu{left:7px;right:7px;bottom:7px}
+      .debt-card-summary-right .debt-status{display:none}
+      .debt-card-dates{grid-template-columns:1fr}
+      .debt-card-details{padding:11px}
+    }
+
+  
+
+    /* Bố cục sổ vay mượn: tìm kiếm và form bên trái, danh sách bên phải. */
+    .debt-wide-workspace{grid-template-columns:minmax(300px,.72fr) minmax(0,1.28fr);align-items:start}
+    .debt-left-column{display:grid;gap:12px;min-width:0}
+    .debt-search-toolbar{margin:0;padding:11px 12px;border:1px solid #e8edf5;border-radius:14px;background:#fbfcfe}
+    .debt-search-toolbar .debt-search-field{gap:6px}
+    .debt-results-panel{min-width:0;padding:12px;border:1px solid #e8edf5;border-radius:15px;background:#fbfcfe}
+    .debt-results-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px;padding:0 2px}
+    .debt-results-head>div{display:flex;align-items:baseline;gap:8px;min-width:0}
+    .debt-results-head span:first-child{color:var(--ink-soft);font-size:11px;font-weight:800}
+    .debt-results-mode{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;background:var(--blue-soft);color:var(--blue);font-size:9px;font-weight:800;white-space:nowrap}
+    .debt-results-panel .debt-list{max-height:470px;overflow:auto;margin:0;padding-right:3px}
+    body.dark-mode .debt-search-toolbar,body.dark-mode .debt-results-panel{background:#161c27;border-color:#2b3546}
+    body.dark-mode .debt-results-head span:first-child{color:#d7deeb}
+    body.dark-mode .debt-results-mode{background:#1d2b43;color:#9ebdff}
+    @media(max-width:1080px){
+      .debt-wide-workspace{grid-template-columns:1fr}
+      .debt-results-panel .debt-list{max-height:420px}
+    }
+    @media(max-width:640px){
+      .debt-left-column{gap:10px}
+      .debt-search-toolbar,.debt-results-panel{padding:10px;border-radius:13px}
+      .debt-results-head{align-items:flex-start}
+      .debt-results-panel .debt-list{max-height:360px;padding-right:1px}
+      .debt-results-head>div{display:grid;gap:2px}
+    }
+
 </style>
 </head>
 <body>
@@ -1325,6 +1594,82 @@
             <div class="stat count"><span>Giao dịch</span><b id="totalCount">0</b></div>
           </section>
 
+          <div class="finance-tools-grid">
+          <section class="panel jars-panel" aria-labelledby="jarPanelTitle">
+            <div class="panel-top jars-top">
+              <div>
+                <h3 id="jarPanelTitle" class="panel-title">Hũ tài chính</h3>
+                <p>Phân bổ tiền vào từng hũ trước, sau đó các khoản chi sẽ được trừ từ hũ đã chọn.</p>
+              </div>
+              <div class="jars-actions">
+                <button class="btn-secondary btn-small" type="button" onclick="openJarCreateModal()">Tạo hũ</button>
+              </div>
+            </div>
+            <p class="jars-note">Nạp tiền vào hũ là thao tác phân bổ nội bộ nên không làm thay đổi tổng thu/chi. Khi nhập thu nhập mới, bạn cũng có thể chọn một hũ để nạp trực tiếp.</p>
+            <div id="jarList" class="jar-list" aria-live="polite"></div>
+          </section>
+
+          <section class="panel report-panel" aria-labelledby="reportPanelTitle">
+            <div class="panel-top report-panel-top">
+              <div>
+                <h3 id="reportPanelTitle" class="panel-title">Báo cáo theo danh mục và ngày</h3>
+                <p>Lọc kết hợp khoảng ngày, danh mục và loại giao dịch để xem tổng thu chi chính xác.</p>
+              </div>
+              <button class="btn-secondary btn-small" type="button" onclick="resetReportToCurrentMonth()">Tháng đang xem</button>
+            </div>
+
+            <div class="report-filter-grid">
+              <div class="report-field">
+                <span>Từ ngày</span>
+                <input id="reportFromDate" type="hidden">
+                <button id="reportFromDateTrigger" class="report-date-trigger" type="button" onclick="openDateModal('reportFromDate')">
+                  <b id="reportFromDateTriggerText">Chọn ngày bắt đầu</b><span>LỊCH</span>
+                </button>
+              </div>
+              <div class="report-field">
+                <span>Đến ngày</span>
+                <input id="reportToDate" type="hidden">
+                <button id="reportToDateTrigger" class="report-date-trigger" type="button" onclick="openDateModal('reportToDate')">
+                  <b id="reportToDateTriggerText">Chọn ngày kết thúc</b><span>LỊCH</span>
+                </button>
+              </div>
+              <div id="reportCategoryPicker" class="report-field report-category-picker">
+                <span>Danh mục</span>
+                <input id="reportCategoryFilter" type="hidden" value="">
+                <button id="reportCategoryTrigger" class="report-category-trigger" type="button" onclick="toggleReportCategoryMenu()" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="report-category-trigger-main">
+                    <span class="report-category-trigger-icon"><img id="reportCategoryTriggerIcon" src="https://cdn-icons-png.flaticon.com/512/2693/2693507.png" alt=""></span>
+                    <span id="reportCategoryTriggerName">Tất cả danh mục</span>
+                  </span>
+                  <span class="category-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div id="reportCategoryMenu" class="report-category-menu hidden" role="listbox" aria-label="Lọc theo danh mục">
+                  <div class="report-category-menu-head"><div><b>Lọc danh mục</b><span>Chọn một mục hoặc xem toàn bộ</span></div></div>
+                  <div id="reportCategoryOptions" class="report-category-options"></div>
+                </div>
+              </div>
+              <div class="report-field"><span>Loại giao dịch</span><div id="reportTypeToggle" class="report-type-toggle" role="group" aria-label="Lọc loại giao dịch"><button type="button" class="active" data-report-type="all" onclick="setReportType('all')">Tất cả</button><button type="button" data-report-type="expense" onclick="setReportType('expense')">Chi</button><button type="button" data-report-type="income" onclick="setReportType('income')">Thu</button></div></div>
+              <div class="report-field report-group-field">
+                <span>Gộp theo</span>
+                <input id="reportGroupBy" type="hidden" value="category">
+                <div id="reportGroupToggle" class="report-group-toggle" role="group" aria-label="Gộp báo cáo theo">
+                  <button type="button" class="active" data-report-group="category" onclick="setReportGroup('category')">Danh mục</button>
+                  <button type="button" data-report-group="day" onclick="setReportGroup('day')">Ngày</button>
+                </div>
+              </div>
+              <button class="btn-primary report-apply" type="button" onclick="renderReport()">Xem báo cáo</button>
+            </div>
+
+            <div class="report-summary">
+              <div class="report-stat income"><span>Tổng thu</span><b id="reportIncome">0đ</b></div>
+              <div class="report-stat expense"><span>Tổng chi</span><b id="reportExpense">0đ</b></div>
+              <div class="report-stat balance"><span>Chênh lệch</span><b id="reportBalance">0đ</b></div>
+              <div class="report-stat"><span>Giao dịch khớp</span><b id="reportCount">0</b></div>
+            </div>
+            <div id="reportBreakdown" class="report-breakdown"></div>
+          </section>
+          </div>
+
           <div class="content-grid">
             <section>
               <div class="panel">
@@ -1386,6 +1731,27 @@
                     </div>
                   </div>
 
+                  <div id="jarPicker" class="jar-picker transaction-jar">
+                    <input id="jarId" type="hidden" value="">
+                    <button id="jarTrigger" class="jar-trigger" type="button" onclick="toggleJarMenu()" aria-haspopup="listbox" aria-expanded="false">
+                      <span class="jar-trigger-main">
+                        <span class="jar-trigger-icon"><img id="jarTriggerIcon" src="https://cdn-icons-png.flaticon.com/512/2791/2791984.png" alt=""></span>
+                        <span>
+                          <span id="jarTriggerName" class="jar-trigger-name">Không dùng hũ</span>
+                          <span id="jarTriggerCaption" class="jar-trigger-caption">Tùy chọn cho từng giao dịch</span>
+                        </span>
+                      </span>
+                      <span class="category-chevron" aria-hidden="true">⌄</span>
+                    </button>
+                    <div id="jarMenu" class="jar-menu hidden" role="listbox" aria-label="Chọn hũ tài chính">
+                      <div class="jar-menu-head">
+                        <div><b id="jarMenuTitle">Chọn hũ tài chính</b><span id="jarMenuDescription">Dùng hũ khi bạn muốn theo dõi riêng số tiền đã phân bổ.</span></div>
+                        <button class="jar-menu-add" type="button" onclick="openJarCreateModal()">+ Tạo hũ</button>
+                      </div>
+                      <div id="jarOptions" class="jar-options"></div>
+                    </div>
+                  </div>
+
                   <div class="amount-stack transaction-amount">
                     <input id="amount" type="text" inputmode="numeric" autocomplete="off" placeholder="Số tiền" aria-describedby="amountSuggestions">
                     <div id="amountSuggestions" class="amount-suggestions" aria-live="polite"></div>
@@ -1397,7 +1763,7 @@
 
                 <div class="table-wrap">
                   <table>
-                    <thead><tr><th>Ngày</th><th>Nội dung</th><th>Loại</th><th>Danh mục</th><th>Số tiền</th><th>Ghi chú</th><th>Người nhập</th><th></th></tr></thead>
+                    <thead><tr><th>Ngày</th><th>Nội dung</th><th>Loại</th><th>Danh mục</th><th>Hũ</th><th>Số tiền</th><th>Ghi chú</th><th>Người nhập</th><th></th></tr></thead>
                     <tbody id="transactionList"></tbody>
                   </table>
                 </div>
@@ -1410,7 +1776,10 @@
               </div>
             </section>
 
-            <aside id="debtPanel" class="panel debt-panel">
+
+          </div>
+
+          <section id="debtPanel" class="panel debt-panel debt-panel-wide">
               <div class="debt-panel-header">
                 <div class="panel-top">
                   <div>
@@ -1420,12 +1789,13 @@
                 </div>
                 <button id="debtCollapseButton" class="debt-collapse-button" type="button" onclick="toggleDebtPanel()" aria-expanded="true">
                   <span id="debtCollapseLabel">Thu gọn</span>
-                  <span class="debt-collapse-chevron" aria-hidden="true">⌃</span>
+                  <span class="debt-collapse-chevron" aria-hidden="true">⌄</span>
                 </button>
               </div>
 
               <div id="debtPanelContent" class="debt-panel-content">
-                <div class="debt-overview">
+                <div class="debt-wide-summary">
+                  <div class="debt-overview">
                   <button id="debtOwedOverview" class="debt-overview-card active" type="button" onclick="setDebtMode('owedToMe')">
                     <span>Người nợ tôi</span>
                     <b id="debtOwedTotal">0đ</b>
@@ -1437,60 +1807,80 @@
                     <small id="debtIOweCount">0 khoản đang mở</small>
                   </button>
                 </div>
-
-                <div class="debt-tabs">
-                  <button id="tabOwedToMe" class="debt-tab active" type="button" onclick="setDebtMode('owedToMe')">Người nợ tôi</button>
-                  <button id="tabIOwe" class="debt-tab" type="button" onclick="setDebtMode('iOwe')">Tôi đang nợ</button>
                 </div>
 
-                <p id="debtModeText" class="debt-intro">Ghi lại người đang mượn tiền của bạn để tiện theo dõi.</p>
-
-                <div class="debt-form">
-                  <label class="debt-field">
-                    <span id="debtPersonLabel">Người đang nợ</span>
-                    <input id="debtPerson" placeholder="Ví dụ: Nguyễn Văn A">
-                  </label>
-
-                  <label class="debt-field">
-                    <span>Số tiền</span>
-                    <div class="amount-stack debt-amount-stack">
-                      <input id="debtAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Nhập số tiền" aria-describedby="debtAmountSuggestions">
-                      <div id="debtAmountSuggestions" class="amount-suggestions" aria-live="polite"></div>
-                    </div>
-                  </label>
-
-                  <div class="debt-date-grid">
-                    <div class="debt-field">
-                      <span id="debtDateLabel">Ngày cho mượn</span>
-                      <input id="debtDate" type="hidden">
-                      <button class="debt-date-trigger" type="button" onclick="openDateModal('debtDate')">
-                        <span>CHỌN LỊCH</span>
-                        <b id="debtDateTriggerText">Chọn ngày</b>
-                      </button>
+                <div class="debt-wide-workspace">
+                  <div class="debt-left-column">
+                    <div class="debt-tabs debt-tabs-side">
+                      <button id="tabOwedToMe" class="debt-tab active" type="button" onclick="setDebtMode('owedToMe')">Người nợ tôi</button>
+                      <button id="tabIOwe" class="debt-tab" type="button" onclick="setDebtMode('iOwe')">Tôi đang nợ</button>
                     </div>
 
-                    <div class="debt-field">
-                      <span id="debtDueDateLabel">Hạn cần thu</span>
-                      <input id="debtDueDate" type="hidden">
-                      <button class="debt-date-trigger" type="button" onclick="openDateModal('debtDueDate')">
-                        <span>KHÔNG BẮT BUỘC</span>
-                        <b id="debtDueDateTriggerText">Chưa đặt hạn</b>
-                      </button>
+                    <p id="debtModeText" class="debt-intro">Ghi lại người đang mượn tiền của bạn để tiện theo dõi.</p>
+
+                    <div class="debt-list-toolbar debt-search-toolbar">
+                      <label class="debt-search-field">
+                        <span>Tìm khoản vay</span>
+                        <input id="debtSearch" type="search" autocomplete="off" oninput="setDebtSearch(this.value)" placeholder="Tìm theo tên hoặc ghi chú">
+                      </label>
+                    </div>
+
+                    <div class="debt-form">
+                      <label class="debt-field">
+                        <span id="debtPersonLabel">Người đang nợ</span>
+                        <input id="debtPerson" placeholder="Ví dụ: Nguyễn Văn A">
+                      </label>
+
+                      <label class="debt-field">
+                        <span>Số tiền</span>
+                        <div class="amount-stack debt-amount-stack">
+                          <input id="debtAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Nhập số tiền" aria-describedby="debtAmountSuggestions">
+                          <div id="debtAmountSuggestions" class="amount-suggestions" aria-live="polite"></div>
+                        </div>
+                      </label>
+
+                      <div class="debt-date-grid">
+                        <div class="debt-field">
+                          <span id="debtDateLabel">Ngày cho mượn</span>
+                          <input id="debtDate" type="hidden">
+                          <button class="debt-date-trigger" type="button" onclick="openDateModal('debtDate')">
+                            <span>CHỌN LỊCH</span>
+                            <b id="debtDateTriggerText">Chọn ngày</b>
+                          </button>
+                        </div>
+
+                        <div class="debt-field">
+                          <span id="debtDueDateLabel">Hạn cần thu</span>
+                          <input id="debtDueDate" type="hidden">
+                          <button class="debt-date-trigger" type="button" onclick="openDateModal('debtDueDate')">
+                            <span>KHÔNG BẮT BUỘC</span>
+                            <b id="debtDueDateTriggerText">Chưa đặt hạn</b>
+                          </button>
+                        </div>
+                      </div>
+
+                      <label class="debt-field">
+                        <span>Ghi chú</span>
+                        <input id="debtNote" placeholder="Lý do vay, hẹn trả hoặc điều cần nhớ">
+                      </label>
+
+                      <button class="btn-primary" type="button" onclick="addDebt()">Lưu khoản vay</button>
                     </div>
                   </div>
 
-                  <label class="debt-field">
-                    <span>Ghi chú</span>
-                    <input id="debtNote" placeholder="Lý do vay, hẹn trả hoặc điều cần nhớ">
-                  </label>
-
-                  <button class="btn-primary" type="button" onclick="addDebt()">Lưu khoản vay</button>
+                  <div class="debt-results-panel">
+                    <div class="debt-results-head">
+                      <div>
+                        <span>Danh sách khoản vay</span>
+                        <b id="debtListCount" class="debt-list-count">0 khoản</b>
+                      </div>
+                      <span id="debtResultsModeLabel" class="debt-results-mode">Người nợ tôi</span>
+                    </div>
+                    <div id="debtList" class="debt-list"></div>
+                  </div>
                 </div>
-
-                <div id="debtList" class="debt-list"></div>
               </div>
-            </aside>
-          </div>
+          </section>
         </main>
       </div>
 
@@ -1564,6 +1954,39 @@
 
   <a class="support-float" href="https://zalo.me/0332420815" target="_blank" rel="noopener" aria-label="Liên hệ hỗ trợ qua Zalo 0332420815">Hỗ trợ Zalo</a>
 
+
+  <!-- JAR MODALS -->
+  <div id="jarCreateModal" class="modal-overlay hidden">
+    <div class="modal jar-modal">
+      <div class="modal-header">
+        <div><h3>Tạo hũ tài chính</h3><p>Tạo hũ riêng cho mục tiêu như ăn uống, tiết kiệm, mua sắm hoặc chi phí công việc.</p></div>
+        <button class="close-modal" type="button" onclick="closeJarCreateModal()">×</button>
+      </div>
+      <div class="jar-form-grid">
+        <label class="debt-field"><span>Tên hũ</span><input id="jarName" maxlength="48" placeholder="Ví dụ: Ăn uống tháng này"></label>
+        <label class="debt-field"><span>Số tiền ban đầu</span><div class="amount-stack"><input id="jarInitialAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Có thể để trống"><div id="jarInitialAmountSuggestions" class="amount-suggestions" aria-live="polite"></div></div></label>
+      </div>
+      <p class="jar-modal-note">Số tiền ban đầu chỉ phân bổ vào hũ, không được tính là khoản thu mới trong báo cáo.</p>
+      <div class="modal-actions"><button class="btn-secondary" type="button" onclick="closeJarCreateModal()">Hủy</button><button class="btn-primary" type="button" onclick="createJar()">Tạo hũ</button></div>
+    </div>
+  </div>
+
+  <div id="jarFundModal" class="modal-overlay hidden">
+    <div class="modal jar-modal">
+      <div class="modal-header">
+        <div><h3>Điều chỉnh số dư hũ</h3><p>Nạp thêm hoặc rút tiền phân bổ khỏi hũ. Thao tác này không tạo giao dịch thu/chi.</p></div>
+        <button class="close-modal" type="button" onclick="closeJarFundModal()">×</button>
+      </div>
+      <div id="jarFundTarget" class="jar-fund-name"></div>
+      <div id="jarFundToggle" class="jar-adjust-toggle" style="margin-top:12px">
+        <button id="jarFundDepositButton" class="active deposit" type="button" onclick="setJarFundMode('deposit')">Nạp thêm</button>
+        <button id="jarFundWithdrawButton" class="withdraw" type="button" onclick="setJarFundMode('withdraw')">Rút ra</button>
+      </div>
+      <label class="debt-field" style="margin-top:12px"><span id="jarFundAmountLabel">Số tiền nạp thêm</span><div class="amount-stack"><input id="jarFundAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Nhập số tiền"><div id="jarFundAmountSuggestions" class="amount-suggestions" aria-live="polite"></div></div></label>
+      <label class="debt-field" style="margin-top:10px"><span>Ghi chú</span><input id="jarFundNote" maxlength="120" placeholder="Ví dụ: Phân bổ đầu tháng"></label>
+      <div class="modal-actions"><button class="btn-secondary" type="button" onclick="closeJarFundModal()">Hủy</button><button id="applyJarFundButton" class="btn-primary" type="button" onclick="applyJarFund()">Xác nhận nạp tiền</button></div>
+    </div>
+  </div>
 
   <!-- USER PROFILE -->
   <div id="profileModal" class="modal-overlay hidden">
@@ -1749,7 +2172,7 @@
       </div>
 
       <div class="category-create-card">
-        <div class="category-create-title">Thêm danh mục mới</div>
+        <div class="category-create-title"><span class="category-create-mark">+</span><div><b>Danh mục mới</b><small>Tạo danh mục theo đúng phong cách danh mục hiện có.</small></div></div>
         <input id="newCategoryName" placeholder="Ví dụ: Nuôi thú cưng, Du lịch, Làm đẹp..." maxlength="40">
 
         <div class="category-icon-label">Chọn biểu tượng</div>
@@ -1813,7 +2236,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-    import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, onSnapshot, query, where, serverTimestamp, arrayUnion } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+    import { getFirestore, collection, doc, addDoc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, writeBatch, onSnapshot, query, where, serverTimestamp, arrayUnion, runTransaction } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAtig3mHaaxTW9JgAKXyo9XPKQxe14PJ2M",
@@ -1845,6 +2268,11 @@
     let bookCategories = null;
     let categoryBookId = null;
     let debts = [];
+    let jars = [];
+    let reportTransactions = [];
+    let reportTypeFilter = "all";
+    let jarFundTargetId = null;
+    let jarFundMode = "deposit";
     let adminProfile = null;
     let hasAdminAccess = false;
     let themeMode = localStorage.getItem("sochitieu:theme") || "light";
@@ -1855,6 +2283,8 @@
     let unsubscribeDebts = null;
     let unsubscribeAdminBooks = null;
     let unsubscribeBookCategories = null;
+    let unsubscribeJars = null;
+    let unsubscribeReportTransactions = null;
 
     let selectedTransactionDate = today();
     let pendingDate = selectedTransactionDate;
@@ -1862,6 +2292,9 @@
     let dateModalTarget = "transaction";
     let debtPanelCollapsed = false;
     let debtUpdateId = null;
+    let expandedDebtId = null;
+    let debtSearchTerm = "";
+    let reportDefaultBookId = "";
     let debtAdjustmentMode = "decrease";
     let selectedAvatarStyle = "blue";
     const AVATAR_STYLES = [
@@ -2023,16 +2456,8 @@
           return;
         }
 
-        // Lần đầu chuyển phiên bản: thành viên thường sẽ dùng bộ danh mục cũ của
-        // chính họ (nếu có) để tạo danh mục chung. Admin chỉ xem mặc định cho tới
-        // khi một thành viên lưu danh mục chung, tránh admin vô tình ghi đè dữ liệu cũ.
-        if(isAdminUser()){
-          bookCategories = cloneDefaultCategories();
-          categoryBookId = bookId;
-          renderCategoryPicker();
-          return;
-        }
-
+        // Lần đầu chuyển phiên bản: cố dùng danh mục cũ của chính người mở sổ,
+        // nếu không có thì khởi tạo danh mục mặc định cho cả sổ.
         const legacy = await readLegacyCategoriesForCurrentUser(bookId);
         const initial = legacy.length ? legacy : cloneDefaultCategories();
         bookCategories = initial;
@@ -2343,7 +2768,7 @@
       if(box) box.innerHTML = "";
     }
     function setupMoneyInputs(){
-      ["amount", "debtAmount", "debtAdjustmentAmount"].forEach(id => {
+      ["amount", "debtAmount", "debtAdjustmentAmount", "jarInitialAmount", "jarFundAmount"].forEach(id => {
         const input = $(id);
         if(!input) return;
 
@@ -2505,7 +2930,9 @@
       if(unsubscribeDebts) unsubscribeDebts();
       if(unsubscribeAdminBooks) unsubscribeAdminBooks();
       if(unsubscribeBookCategories) unsubscribeBookCategories();
-      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = unsubscribeAdminBooks = unsubscribeBookCategories = null;
+      if(unsubscribeJars) unsubscribeJars();
+      if(unsubscribeReportTransactions) unsubscribeReportTransactions();
+      unsubscribeBooks = unsubscribeTransactions = unsubscribeMonthNote = unsubscribeDebts = unsubscribeAdminBooks = unsubscribeBookCategories = unsubscribeJars = unsubscribeReportTransactions = null;
       bookCategories = null;
       categoryBookId = null;
     }
@@ -2989,6 +3416,9 @@
       listenTransactions();
       listenMonthNote();
       listenDebts();
+      listenJars();
+      prepareReportForNewBook();
+      listenReportTransactions();
     }
     window.createBook = createBook;
     window.joinBook = joinBook;
@@ -3031,7 +3461,7 @@
       currentMonth = `${year}-${String(month).padStart(2,"0")}`;
       updateMonthUI();
       closeMonthModal();
-      if(currentBookId){ listenTransactions(); listenMonthNote(); }
+      if(currentBookId){ listenTransactions(); listenMonthNote(); renderReport(); }
     }
     function shiftCurrentMonth(direction){
       const [year,month] = currentMonth.split("-").map(Number);
@@ -3057,7 +3487,9 @@
       transaction:{title:"Chọn ngày giao dịch",description:"Chọn ngày cụ thể hoặc dùng các lựa chọn nhanh bên dưới.",badge:"GIAO DỊCH"},
       debtDate:{title:"Chọn ngày vay mượn",description:"Đây là ngày khoản vay hoặc khoản cho mượn bắt đầu.",badge:"VAY MƯỢN"},
       debtDueDate:{title:"Chọn hạn thanh toán",description:"Chọn hạn cần thu hoặc hạn bạn cần trả. Có thể để trống nếu chưa có hẹn.",badge:"HẠN TRẢ"},
-      debtAdjustmentDate:{title:"Chọn ngày cập nhật",description:"Ghi nhận ngày thanh toán hoặc ngày phát sinh thêm cho khoản vay này.",badge:"CẬP NHẬT"}
+      debtAdjustmentDate:{title:"Chọn ngày cập nhật",description:"Ghi nhận ngày thanh toán hoặc ngày phát sinh thêm cho khoản vay này.",badge:"CẬP NHẬT"},
+      reportFromDate:{title:"Chọn ngày bắt đầu",description:"Chọn mốc bắt đầu để lọc báo cáo thu chi bằng cùng một lịch thống nhất.",badge:"BÁO CÁO"},
+      reportToDate:{title:"Chọn ngày kết thúc",description:"Chọn mốc kết thúc để lọc báo cáo thu chi bằng cùng một lịch thống nhất.",badge:"BÁO CÁO"}
     };
     function formatCompactDate(value){
       if(!value) return "Chưa đặt hạn";
@@ -3075,10 +3507,16 @@
       const triggerMap = {
         debtDate:"debtDateTriggerText",
         debtDueDate:"debtDueDateTriggerText",
-        debtAdjustmentDate:"debtAdjustmentDateTriggerText"
+        debtAdjustmentDate:"debtAdjustmentDateTriggerText",
+        reportFromDate:"reportFromDateTriggerText",
+        reportToDate:"reportToDateTriggerText"
       };
       const triggerText = $(triggerMap[field]);
-      if(triggerText) triggerText.innerText = value ? formatCompactDate(value) : (field === "debtDueDate" ? "Chưa đặt hạn" : "Chọn ngày");
+      if(triggerText){
+        const emptyLabel = field === "debtDueDate" ? "Chưa đặt hạn" : field === "reportFromDate" ? "Chọn ngày bắt đầu" : field === "reportToDate" ? "Chọn ngày kết thúc" : "Chọn ngày";
+        triggerText.innerText = value ? formatCompactDate(value) : emptyLabel;
+      }
+      if(field === "reportFromDate" || field === "reportToDate") renderReport();
     }
     function updateDebtFormLabels(){
       const owedToMe = debtMode === "owedToMe";
@@ -3187,6 +3625,409 @@
     window.applySelectedDate = applySelectedDate;
 
 
+
+    /* HŨ TÀI CHÍNH */
+    const DEFAULT_JAR_ICON = DEFAULT_LOGO_URL;
+    function jarsRef(bookId = currentBookId){
+      return bookId ? collection(db,"books",bookId,"jars") : null;
+    }
+    function jarMovementRef(bookId = currentBookId){
+      return bookId ? collection(db,"books",bookId,"jarMovements") : null;
+    }
+    function getJarById(id){ return jars.find(item => item.id === id) || null; }
+    function jarIcon(item){ return validHttpUrl(item?.icon) ? item.icon : DEFAULT_JAR_ICON; }
+    function renderJars(){
+      const list = $("jarList");
+      if(!list) return;
+      list.innerHTML = "";
+      if(!jars.length){
+        list.innerHTML = `<button type="button" class="jar-card-empty" onclick="openJarCreateModal()">+ Tạo hũ đầu tiên để bắt đầu quản lý tiền theo mục tiêu</button>`;
+        renderJarPicker();
+        return;
+      }
+      const selectedId = $("jarId")?.value || "";
+      jars.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "jar-card" + (item.id === selectedId ? " active" : "");
+        const icon = jarIcon(item);
+        card.innerHTML = `
+          <div class="jar-card-head">
+            <div class="jar-card-title"><span class="jar-card-icon"><img src="${safeText(icon)}" alt=""></span><div><b class="jar-card-name">${safeText(item.name || "Hũ chưa đặt tên")}</b><span class="jar-card-meta">Số tiền đang có</span></div></div>
+          </div>
+          <div class="jar-card-balance"><span>Số dư hũ</span><b>${money(item.balance)}</b></div>
+          <div class="jar-card-actions"><button type="button" class="btn-secondary btn-small" onclick="selectJarForTransaction('${item.id}')">Dùng hũ này</button><button type="button" class="btn-primary btn-small" onclick="openJarFundModal('${item.id}')">Nạp / rút</button><button type="button" class="jar-delete-button" onclick="deleteJar('${item.id}')">Xóa hũ</button></div>`;
+        list.appendChild(card);
+      });
+      renderJarPicker();
+    }
+    function renderJarPicker(){
+      const picker = $("jarPicker"), input = $("jarId"), name = $("jarTriggerName"), caption = $("jarTriggerCaption"), icon = $("jarTriggerIcon"), options = $("jarOptions");
+      if(!picker || !input || !name || !caption || !icon || !options) return;
+      const type = $("type")?.value || "expense";
+      const selected = getJarById(input.value);
+      if(input.value && !selected) input.value = "";
+      const selectedJar = getJarById(input.value);
+      const isExpense = type === "expense";
+      name.textContent = selectedJar ? selectedJar.name : "Không dùng hũ";
+      caption.textContent = selectedJar
+        ? `Còn ${money(selectedJar.balance)}`
+        : (isExpense ? "Khoản chi này không trừ hũ" : "Khoản thu này không nạp hũ");
+      icon.src = selectedJar ? jarIcon(selectedJar) : DEFAULT_JAR_ICON;
+      picker.classList.toggle("is-empty",!selectedJar);
+      $("jarMenuTitle").textContent = "Chọn hũ tài chính";
+      $("jarMenuDescription").textContent = "Dùng hũ khi bạn muốn theo dõi riêng số tiền đã phân bổ.";
+      options.innerHTML = "";
+
+      const noJar = document.createElement("button");
+      noJar.type = "button";
+      noJar.className = "jar-option" + (!input.value ? " selected" : "");
+      noJar.innerHTML = `<span class="jar-option-icon"><img src="${DEFAULT_JAR_ICON}" alt=""></span><span class="jar-option-copy"><b>Không dùng hũ</b><span>${isExpense ? "Chỉ ghi nhận khoản chi" : "Chỉ ghi nhận khoản thu"}</span></span><span class="jar-option-amount">—</span>`;
+      noJar.onclick = () => selectJar("");
+      options.appendChild(noJar);
+
+      if(!jars.length){
+        const empty = document.createElement("div");
+        empty.className = "jar-option-empty";
+        empty.textContent = "Chưa có hũ nào. Bạn vẫn có thể lưu giao dịch bình thường.";
+        options.appendChild(empty);
+        return;
+      }
+
+      jars.forEach(item => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "jar-option" + (item.id === input.value ? " selected" : "");
+        button.innerHTML = `<span class="jar-option-icon"><img src="${safeText(jarIcon(item))}" alt=""></span><span class="jar-option-copy"><b>${safeText(item.name)}</b><span>${isExpense ? "Trừ khoản chi từ hũ" : "Nạp khoản thu vào hũ"}</span></span><span class="jar-option-amount">${money(item.balance)}</span>`;
+        button.onclick = () => selectJar(item.id);
+        options.appendChild(button);
+      });
+    }
+    function toggleJarMenu(){
+      const picker = $("jarPicker"), menu = $("jarMenu");
+      if(!picker || !menu) return;
+      const isOpen = !menu.classList.contains("hidden");
+      closeCategoryMenu?.();
+      menu.classList.toggle("hidden",isOpen);
+      picker.classList.toggle("is-open",!isOpen);
+      $("jarTrigger")?.setAttribute("aria-expanded",String(!isOpen));
+    }
+    function closeJarMenu(){
+      $("jarMenu")?.classList.add("hidden");
+      $("jarPicker")?.classList.remove("is-open");
+      $("jarTrigger")?.setAttribute("aria-expanded","false");
+    }
+    function selectJar(id){
+      const input = $("jarId");
+      if(input) input.value = id || "";
+      closeJarMenu();
+      renderJars();
+    }
+    function selectJarForTransaction(id){
+      selectJar(id);
+      const type = $("type")?.value || "expense";
+      if(type !== "expense") selectTransactionType("expense");
+      document.querySelector(".transaction-form")?.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+    async function deleteJar(id){
+      if(!currentBookId || !id) return;
+      const jar = getJarById(id);
+      if(!jar) return;
+      if(Number(jar.balance || 0) > 0){
+        alert(`Hãy rút số dư ${money(jar.balance)} về 0đ trước khi xóa hũ này.`);
+        return;
+      }
+      try{
+        if($("jarId")?.value === id) $("jarId").value = "";
+        await deleteDoc(doc(db,"books",currentBookId,"jars",id));
+        renderJars();
+      }catch(error){
+        console.error("Không thể xóa hũ:",error);
+        alert("Không thể xóa hũ. Hãy thử lại.");
+      }
+    }
+    function listenJars(){
+      if(unsubscribeJars) unsubscribeJars();
+      const bookId = currentBookId;
+      if(!bookId){ jars = []; renderJars(); return; }
+      unsubscribeJars = onSnapshot(jarsRef(bookId), snapshot => {
+        if(bookId !== currentBookId) return;
+        jars = []; snapshot.forEach(item => jars.push({id:item.id,...item.data()}));
+        jars.sort((a,b) => String(a.name || "").localeCompare(String(b.name || ""),"vi"));
+        renderJars();
+      }, error => {
+        console.error("Không thể tải hũ tài chính:",error);
+        jars = []; renderJars();
+      });
+    }
+    function openJarCreateModal(){
+      if(!currentBookId){ alert("Hãy chọn sổ trước."); return; }
+      $("jarName").value = ""; clearMoneyInput("jarInitialAmount");
+      $("jarCreateModal").classList.remove("hidden");
+      setTimeout(() => $("jarName")?.focus(),0);
+    }
+    function closeJarCreateModal(){ $("jarCreateModal").classList.add("hidden"); }
+    async function createJar(){
+      const name = String($("jarName").value || "").trim().replace(/\s+/g," ");
+      const initial = parseMoneyInput($("jarInitialAmount").value);
+      if(!name){ alert("Hãy nhập tên hũ."); return; }
+      if(initial < 0){ alert("Số tiền ban đầu không hợp lệ."); return; }
+      try{
+        const ref = await addDoc(jarsRef(),{
+          name, icon:DEFAULT_JAR_ICON, balance:Number(initial || 0), fundedTotal:Number(initial || 0), spentTotal:0,
+          createdBy:currentUser.uid, createdByName:getUserDisplayName(), createdAt:serverTimestamp(), updatedAt:serverTimestamp()
+        });
+        if(initial > 0){
+          await addDoc(jarMovementRef(),{jarId:ref.id,jarName:name,type:"deposit",amount:initial,note:"Số tiền ban đầu",date:today(),createdBy:currentUser.uid,createdByName:getUserDisplayName(),createdAt:serverTimestamp()});
+        }
+        closeJarCreateModal();
+        selectJar(ref.id);
+      }catch(error){ console.error("Không thể tạo hũ:",error); alert("Không thể tạo hũ. Hãy thử lại."); }
+    }
+    function openJarFundModal(id){
+      const jar = getJarById(id); if(!jar) return;
+      jarFundTargetId = id; jarFundMode = "deposit";
+      $("jarFundTarget").innerHTML = `<img src="${safeText(jarIcon(jar))}" alt=""><div><b>${safeText(jar.name)}</b><span>Số dư hiện tại: ${money(jar.balance)}</span></div>`;
+      $("jarFundNote").value = ""; clearMoneyInput("jarFundAmount");
+      updateJarFundModeUI();
+      $("jarFundModal").classList.remove("hidden");
+      setTimeout(() => $("jarFundAmount")?.focus(),0);
+    }
+    function closeJarFundModal(){ $("jarFundModal").classList.add("hidden"); jarFundTargetId = null; }
+    function setJarFundMode(mode){ jarFundMode = mode === "withdraw" ? "withdraw" : "deposit"; updateJarFundModeUI(); }
+    function updateJarFundModeUI(){
+      const isDeposit = jarFundMode === "deposit";
+      $("jarFundDepositButton")?.classList.toggle("active",isDeposit);
+      $("jarFundWithdrawButton")?.classList.toggle("active",!isDeposit);
+      $("jarFundAmountLabel").textContent = isDeposit ? "Số tiền nạp thêm" : "Số tiền rút ra";
+      $("applyJarFundButton").textContent = isDeposit ? "Xác nhận nạp tiền" : "Xác nhận rút tiền";
+    }
+    async function applyJarFund(){
+      if(!currentBookId || !jarFundTargetId) return;
+      const amount = parseMoneyInput($("jarFundAmount").value);
+      const note = String($("jarFundNote").value || "").trim();
+      if(!amount || amount <= 0){ alert("Hãy nhập số tiền hợp lệ."); return; }
+      const jarRef = doc(db,"books",currentBookId,"jars",jarFundTargetId);
+      const movementRef = doc(jarMovementRef());
+      try{
+        await runTransaction(db, async tx => {
+          const snap = await tx.get(jarRef);
+          if(!snap.exists()) throw new Error("JAR_NOT_FOUND");
+          const jar = snap.data(); const oldBalance = Number(jar.balance || 0);
+          const next = jarFundMode === "deposit" ? oldBalance + amount : oldBalance - amount;
+          if(next < 0) throw new Error("JAR_INSUFFICIENT");
+          tx.update(jarRef,{balance:next,fundedTotal:jarFundMode === "deposit" ? Number(jar.fundedTotal || 0) + amount : Number(jar.fundedTotal || 0),updatedAt:serverTimestamp(),updatedBy:currentUser.uid});
+          tx.set(movementRef,{jarId:jarFundTargetId,jarName:jar.name || "Hũ",type:jarFundMode,amount,note,date:today(),createdBy:currentUser.uid,createdByName:getUserDisplayName(),createdAt:serverTimestamp()});
+        });
+        closeJarFundModal();
+      }catch(error){
+        console.error("Không thể điều chỉnh hũ:",error);
+        alert(error?.message === "JAR_INSUFFICIENT" ? "Số dư hũ không đủ để rút số tiền này." : "Không thể cập nhật hũ. Hãy thử lại.");
+      }
+    }
+
+    /* BÁO CÁO THEO NGÀY / DANH MỤC */
+    function getReportCategoryEntries(){
+      const map = new Map();
+      getBookCategories().forEach(item => {
+        if(item?.name) map.set(item.name,{name:item.name,icon:item.icon || getCategoryMeta(item.name).icon});
+      });
+      reportTransactions.forEach(item => {
+        if(item?.category && !map.has(item.category)){
+          map.set(item.category,{name:item.category,icon:item.categoryIcon || getCategoryMeta(item.category).icon});
+        }
+      });
+      return Array.from(map.values()).sort((a,b)=>a.name.localeCompare(b.name,"vi"));
+    }
+    function renderReportCategoryPicker(entries=getReportCategoryEntries()){
+      const input = $("reportCategoryFilter");
+      const options = $("reportCategoryOptions");
+      const picker = $("reportCategoryPicker");
+      if(!input || !options || !picker) return;
+      const current = input.value || "";
+      const active = current ? (entries.find(item=>item.name === current) || getCategoryMeta(current)) : null;
+      $("reportCategoryTriggerName").textContent = active?.name || "Tất cả danh mục";
+      $("reportCategoryTriggerIcon").src = active?.icon || "https://cdn-icons-png.flaticon.com/512/2693/2693507.png";
+      options.innerHTML = "";
+      const allButton = document.createElement("button");
+      allButton.type = "button";
+      allButton.className = "report-category-option" + (!current ? " selected" : "");
+      allButton.innerHTML = `<span class="report-category-option-icon"><img src="https://cdn-icons-png.flaticon.com/512/2693/2693507.png" alt=""></span><span class="report-category-option-name">Tất cả danh mục</span>`;
+      allButton.onclick = () => selectReportCategory("");
+      options.appendChild(allButton);
+      entries.forEach(item=>{
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "report-category-option" + (current === item.name ? " selected" : "");
+        button.innerHTML = `<span class="report-category-option-icon"><img src="${safeText(item.icon || DEFAULT_CATEGORIES.at(-1).icon)}" alt=""></span><span class="report-category-option-name">${safeText(item.name)}</span>`;
+        button.onclick = () => selectReportCategory(item.name);
+        options.appendChild(button);
+      });
+      picker.classList.toggle("is-open", !$("reportCategoryMenu").classList.contains("hidden"));
+    }
+    function refreshReportCategoryOptions(){
+      const input = $("reportCategoryFilter");
+      if(!input) return;
+      const entries = getReportCategoryEntries();
+      if(input.value && !entries.some(item=>item.name === input.value)) input.value = "";
+      renderReportCategoryPicker(entries);
+    }
+    function toggleReportCategoryMenu(){
+      const menu = $("reportCategoryMenu");
+      const picker = $("reportCategoryPicker");
+      if(!menu || !picker) return;
+      const willOpen = menu.classList.contains("hidden");
+      closeCategoryMenu?.();
+      closeJarMenu?.();
+      menu.classList.toggle("hidden",!willOpen);
+      picker.classList.toggle("is-open",willOpen);
+      $("reportCategoryTrigger")?.setAttribute("aria-expanded",String(willOpen));
+      if(willOpen) renderReportCategoryPicker();
+    }
+    function closeReportCategoryMenu(){
+      $("reportCategoryMenu")?.classList.add("hidden");
+      $("reportCategoryPicker")?.classList.remove("is-open");
+      $("reportCategoryTrigger")?.setAttribute("aria-expanded","false");
+    }
+    function selectReportCategory(name){
+      const input = $("reportCategoryFilter");
+      if(input) input.value = name || "";
+      closeReportCategoryMenu();
+      renderReportCategoryPicker();
+      renderReport();
+    }
+    function setReportDateDirect(field,value){
+      const input = $(field);
+      if(!input) return;
+      input.value = value || "";
+      const labelMap = {reportFromDate:"reportFromDateTriggerText",reportToDate:"reportToDateTriggerText"};
+      const label = $(labelMap[field]);
+      if(label) label.innerText = value ? formatCompactDate(value) : (field === "reportFromDate" ? "Chọn ngày bắt đầu" : "Chọn ngày kết thúc");
+    }
+    function prepareReportForNewBook(){
+      reportDefaultBookId = "";
+      setReportDateDirect("reportFromDate","");
+      setReportDateDirect("reportToDate","");
+      $("reportCategoryFilter").value = "";
+      reportTypeFilter = "expense";
+      $("reportGroupBy").value = "category";
+      updateReportTypeButtons();
+      updateReportGroupButtons();
+      refreshReportCategoryOptions();
+    }
+    function resetReportToLatestExpenseDay(){
+      const latest = reportTransactions
+        .filter(item=>item.type === "expense" && /^\d{4}-\d{2}-\d{2}$/.test(String(item.date || "")))
+        .sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0]
+        || reportTransactions
+          .filter(item=>/^\d{4}-\d{2}-\d{2}$/.test(String(item.date || "")))
+          .sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0];
+      const date = latest?.date || today();
+      setReportDateDirect("reportFromDate",date);
+      setReportDateDirect("reportToDate",date);
+      $("reportCategoryFilter").value = "";
+      reportTypeFilter = "expense";
+      $("reportGroupBy").value = "category";
+      updateReportTypeButtons();
+      updateReportGroupButtons();
+      refreshReportCategoryOptions();
+      renderReport();
+    }
+    function listenReportTransactions(){
+      if(unsubscribeReportTransactions) unsubscribeReportTransactions();
+      const bookId = currentBookId;
+      if(!bookId){ reportTransactions = []; refreshReportCategoryOptions(); renderReport(); return; }
+      unsubscribeReportTransactions = onSnapshot(collection(db,"books",bookId,"transactions"), snapshot => {
+        if(bookId !== currentBookId) return;
+        reportTransactions = [];
+        snapshot.forEach(item => reportTransactions.push({id:item.id,...item.data()}));
+        refreshReportCategoryOptions();
+        if(reportDefaultBookId !== bookId){
+          reportDefaultBookId = bookId;
+          resetReportToLatestExpenseDay();
+        }else{
+          renderReport();
+        }
+      }, error => { console.error("Không thể tải dữ liệu báo cáo:",error); reportTransactions = []; renderReport(); });
+    }
+    function resetReportToCurrentMonth(){
+      const [year,month] = currentMonth.split("-").map(Number);
+      setReportDateDirect("reportFromDate", `${currentMonth}-01`);
+      setReportDateDirect("reportToDate", formatISODate(new Date(year,month,0)));
+      $("reportCategoryFilter").value = "";
+      reportTypeFilter = "all";
+      $("reportGroupBy").value = "category";
+      updateReportTypeButtons();
+      updateReportGroupButtons();
+      refreshReportCategoryOptions();
+      renderReport();
+    }
+    function setReportType(type){ reportTypeFilter = ["income","expense"].includes(type) ? type : "all"; updateReportTypeButtons(); renderReport(); }
+    function updateReportTypeButtons(){
+      document.querySelectorAll("#reportTypeToggle button").forEach(button => button.classList.toggle("active",button.dataset.reportType === reportTypeFilter));
+    }
+    function setReportGroup(group){
+      const input = $("reportGroupBy");
+      if(!input) return;
+      input.value = group === "day" ? "day" : "category";
+      updateReportGroupButtons();
+      renderReport();
+    }
+    function updateReportGroupButtons(){
+      const group = $("reportGroupBy")?.value || "category";
+      document.querySelectorAll("#reportGroupToggle button").forEach(button => {
+        button.classList.toggle("active",button.dataset.reportGroup === group);
+        button.setAttribute("aria-pressed",String(button.dataset.reportGroup === group));
+      });
+    }
+    function renderReport(){
+      updateReportGroupButtons();
+      const container = $("reportBreakdown");
+      if(!container) return;
+      const from = $("reportFromDate")?.value || "";
+      const to = $("reportToDate")?.value || "";
+      const category = $("reportCategoryFilter")?.value || "";
+      const groupBy = $("reportGroupBy")?.value || "category";
+      const filtered = reportTransactions.filter(item => {
+        const date = String(item.date || "");
+        if(from && date < from) return false;
+        if(to && date > to) return false;
+        if(category && item.category !== category) return false;
+        if(reportTypeFilter !== "all" && item.type !== reportTypeFilter) return false;
+        return true;
+      });
+      let income = 0, expense = 0;
+      const groups = new Map();
+      filtered.forEach(item => {
+        const amount = Number(item.amount || 0);
+        if(item.type === "income") income += amount; else expense += amount;
+        const key = groupBy === "day" ? (item.date || "Chưa ghi ngày") : (item.category || "Khác");
+        if(!groups.has(key)) groups.set(key,{key,income:0,expense:0,count:0,icon:item.categoryIcon || getCategoryMeta(item.category).icon});
+        const group = groups.get(key);
+        group.count += 1;
+        if(item.type === "income") group.income += amount; else group.expense += amount;
+      });
+      $("reportIncome").textContent = money(income);
+      $("reportExpense").textContent = money(expense);
+      $("reportBalance").textContent = money(income-expense);
+      $("reportCount").textContent = filtered.length;
+      const rows = Array.from(groups.values()).sort((a,b) => Math.max(b.income,b.expense) - Math.max(a.income,a.expense));
+      container.innerHTML = "";
+      if(!rows.length){ container.innerHTML = '<div class="report-empty">Không có giao dịch phù hợp với bộ lọc đang chọn.</div>'; return; }
+      rows.forEach(group => {
+        const row = document.createElement("div");
+        row.className = "report-row";
+        const title = groupBy === "day" ? formatCompactDate(group.key) : safeText(group.key);
+        const iconHtml = groupBy === "category" ? `<img src="${safeText(group.icon || DEFAULT_CATEGORIES.at(-1).icon)}" alt="">` : "";
+        row.innerHTML = `<div class="report-row-title">${iconHtml}<b>${title}</b></div><div class="report-row-values"><span class="income">+${money(group.income)}</span><span class="expense">−${money(group.expense)}</span></div>`;
+        container.appendChild(row);
+      });
+    }
+    window.openJarCreateModal = openJarCreateModal; window.closeJarCreateModal = closeJarCreateModal; window.createJar = createJar;
+    window.openJarFundModal = openJarFundModal; window.closeJarFundModal = closeJarFundModal; window.setJarFundMode = setJarFundMode; window.applyJarFund = applyJarFund;
+    window.toggleJarMenu = toggleJarMenu; window.closeJarMenu = closeJarMenu; window.selectJar = selectJar; window.selectJarForTransaction = selectJarForTransaction; window.deleteJar = deleteJar;
+    window.resetReportToCurrentMonth = resetReportToCurrentMonth; window.resetReportToLatestExpenseDay = resetReportToLatestExpenseDay; window.setReportType = setReportType; window.setReportGroup = setReportGroup; window.renderReport = renderReport;
+    window.toggleReportCategoryMenu = toggleReportCategoryMenu; window.closeReportCategoryMenu = closeReportCategoryMenu; window.selectReportCategory = selectReportCategory;
+
     /* TRANSACTION TYPE PICKER */
     function selectTransactionType(nextType){
       const type = nextType === "income" ? "income" : "expense";
@@ -3199,10 +4040,22 @@
         button.classList.toggle("active",isActive);
         button.setAttribute("aria-pressed",String(isActive));
       });
+      renderJarPicker();
     }
     window.selectTransactionType = selectTransactionType;
 
     /* TRANSACTIONS */
+    function buildTransactionPayload({date,content,type,category,categoryMeta,amount,note,jar}){
+      return {
+        date,month:date.slice(0,7),content,type,category,
+        categoryId:categoryMeta.id, categoryIcon:categoryMeta.icon,
+        amount,note,
+        jarId:jar?.id || "", jarName:jar?.name || "", jarIcon:jar ? jarIcon(jar) : "",
+        createdBy:currentUser.uid, createdByEmail:currentUser.email,
+        createdByName:getUserDisplayName(), createdByAvatar:currentUser.photoURL || "",
+        createdAt:serverTimestamp()
+      };
+    }
     async function addTransaction(){
       if(!currentBookId){ alert("Hãy chọn sổ trước."); return; }
       const date = $("date").value;
@@ -3212,27 +4065,72 @@
       const categoryMeta = getCategoryMeta(category);
       const amount = parseMoneyInput($("amount").value);
       const note = $("note").value.trim();
+      const selectedJar = getJarById($("jarId").value);
       if(!date || !content || !amount || amount <= 0){ alert("Vui lòng nhập ngày, nội dung và số tiền hợp lệ."); return; }
-      await addDoc(collection(db,"books",currentBookId,"transactions"),{
-        date,month:date.slice(0,7),content,type,category,
-        categoryId:categoryMeta.id,
-        categoryIcon:categoryMeta.icon,
-        amount,note,
-        createdBy:currentUser.uid,
-        createdByEmail:currentUser.email,
-        createdByName:getUserDisplayName(),
-        createdByAvatar:currentUser.photoURL || "",
-        createdAt:serverTimestamp()
-      });
-      $("content").value = ""; clearMoneyInput("amount"); $("note").value = "";
+      const payload = buildTransactionPayload({date,content,type,category,categoryMeta,amount,note,jar:selectedJar});
+      try{
+        if(selectedJar){
+          const jarRef = doc(db,"books",currentBookId,"jars",selectedJar.id);
+          const transactionRef = doc(collection(db,"books",currentBookId,"transactions"));
+          const movementRef = doc(jarMovementRef());
+          await runTransaction(db, async tx => {
+            const jarSnap = await tx.get(jarRef);
+            if(!jarSnap.exists()) throw new Error("JAR_NOT_FOUND");
+            const jarData = jarSnap.data();
+            const oldBalance = Number(jarData.balance || 0);
+            const delta = type === "expense" ? -amount : amount;
+            const nextBalance = oldBalance + delta;
+            if(nextBalance < 0) throw new Error("JAR_INSUFFICIENT");
+            tx.set(transactionRef,payload);
+            tx.update(jarRef,{
+              balance:nextBalance,
+              spentTotal:type === "expense" ? Number(jarData.spentTotal || 0) + amount : Number(jarData.spentTotal || 0),
+              fundedTotal:type === "income" ? Number(jarData.fundedTotal || 0) + amount : Number(jarData.fundedTotal || 0),
+              updatedAt:serverTimestamp(), updatedBy:currentUser.uid
+            });
+            tx.set(movementRef,{jarId:selectedJar.id,jarName:selectedJar.name,type:type === "expense" ? "expense" : "income",amount,note:content,date,transactionId:transactionRef.id,createdBy:currentUser.uid,createdByName:getUserDisplayName(),createdAt:serverTimestamp()});
+          });
+        }else{
+          await addDoc(collection(db,"books",currentBookId,"transactions"),payload);
+        }
+        $("content").value = ""; clearMoneyInput("amount"); $("note").value = "";
+      }catch(error){
+        console.error("Không thể thêm giao dịch:",error);
+        const message = error?.message === "JAR_INSUFFICIENT"
+          ? `Số dư hũ không đủ. Hãy nạp thêm tiền vào hũ trước khi chi.`
+          : "Không thể lưu giao dịch. Hãy thử lại.";
+        alert(message);
+      }
     }
     async function deleteTransaction(id){
       if(!currentBookId) return;
       try{
-        await deleteDoc(doc(db,"books",currentBookId,"transactions",id));
+        const transactionRef = doc(db,"books",currentBookId,"transactions",id);
+        await runTransaction(db, async tx => {
+          const snap = await tx.get(transactionRef);
+          if(!snap.exists()) return;
+          const item = snap.data();
+          if(item.jarId){
+            const jarRef = doc(db,"books",currentBookId,"jars",item.jarId);
+            const jarSnap = await tx.get(jarRef);
+            if(jarSnap.exists()){
+              const jar = jarSnap.data(); const amount = Number(item.amount || 0);
+              const delta = item.type === "expense" ? amount : -amount;
+              const nextBalance = Number(jar.balance || 0) + delta;
+              if(nextBalance < 0) throw new Error("JAR_INCOME_ALREADY_USED");
+              tx.update(jarRef,{
+                balance:nextBalance,
+                spentTotal:item.type === "expense" ? Math.max(0,Number(jar.spentTotal || 0)-amount) : Number(jar.spentTotal || 0),
+                fundedTotal:item.type === "income" ? Math.max(0,Number(jar.fundedTotal || 0)-amount) : Number(jar.fundedTotal || 0),
+                updatedAt:serverTimestamp(), updatedBy:currentUser.uid
+              });
+            }
+          }
+          tx.delete(transactionRef);
+        });
       }catch(error){
         console.error("Không thể xóa giao dịch:",error);
-        alert("Không thể xóa giao dịch. Hãy thử lại.");
+        alert(error?.message === "JAR_INCOME_ALREADY_USED" ? "Không thể xóa khoản thu đã nạp vào hũ vì tiền trong hũ đã được sử dụng. Hãy nạp bù hoặc điều chỉnh hũ trước." : "Không thể xóa giao dịch. Hãy thử lại.");
       }
     }
     function listenTransactions(){
@@ -3244,13 +4142,14 @@
         rows.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
         let totalIncome = 0, totalExpense = 0;
         const list = $("transactionList"); list.innerHTML = "";
-        if(!rows.length){ list.innerHTML = '<tr><td colspan="8" data-label="" class="empty">Chưa có giao dịch trong tháng này.</td></tr>'; }
+        if(!rows.length){ list.innerHTML = '<tr><td colspan="9" data-label="" class="empty">Chưa có giao dịch trong tháng này.</td></tr>'; }
         rows.forEach(item=>{
           if(item.type === "income") totalIncome += Number(item.amount||0); else totalExpense += Number(item.amount||0);
           const row = document.createElement("tr");
           const kind = item.type === "income" ? "income" : "expense";
           const sign = kind === "income" ? "+" : "−";
-          row.innerHTML = `<td data-label="Ngày">${safeText(item.date)}</td><td data-label="Nội dung">${safeText(item.content)}</td><td data-label="Loại"><span class="type ${kind}">${kind === "income" ? "Thu" : "Chi"}</span></td><td data-label="Danh mục">${categoryLabel(item.category,item.categoryIcon)}</td><td data-label="Số tiền"><span class="amount-value ${kind}">${sign}${money(item.amount)}</span></td><td data-label="Ghi chú">${safeText(item.note||"-")}</td><td data-label="Người nhập">${safeText(item.createdByName || item.createdByEmail || "-")}</td><td data-label="Thao tác" class="transaction-action"><button class="btn-danger" onclick="deleteTransaction('${item.id}')">Xóa</button></td>`;
+          const jarHtml = item.jarName ? `<span class="jar-table-label"><img src="${safeText(item.jarIcon || DEFAULT_JAR_ICON)}" alt="">${safeText(item.jarName)}</span>` : "—";
+          row.innerHTML = `<td data-label="Ngày">${safeText(item.date)}</td><td data-label="Nội dung">${safeText(item.content)}</td><td data-label="Loại"><span class="type ${kind}">${kind === "income" ? "Thu" : "Chi"}</span></td><td data-label="Danh mục">${categoryLabel(item.category,item.categoryIcon)}</td><td data-label="Hũ">${jarHtml}</td><td data-label="Số tiền"><span class="amount-value ${kind}">${sign}${money(item.amount)}</span></td><td data-label="Ghi chú">${safeText(item.note||"-")}</td><td data-label="Người nhập">${safeText(item.createdByName || item.createdByEmail || "-")}</td><td data-label="Thao tác" class="transaction-action"><button class="btn-danger" onclick="deleteTransaction('${item.id}')">Xóa</button></td>`;
           list.appendChild(row);
         });
         $("totalIncome").innerText = money(totalIncome);
@@ -3303,11 +4202,14 @@
     function toggleDebtPanel(){ setDebtPanelCollapsed(!debtPanelCollapsed); }
     function setDebtMode(mode){
       debtMode = mode;
+      expandedDebtId = null;
       $("tabOwedToMe").classList.toggle("active",mode === "owedToMe");
       $("tabIOwe").classList.toggle("active",mode === "iOwe");
       $("debtOwedOverview").classList.toggle("active",mode === "owedToMe");
       $("debtIOweOverview").classList.toggle("active",mode === "iOwe");
       updateDebtFormLabels();
+      const debtResultsModeLabel = $("debtResultsModeLabel");
+      if(debtResultsModeLabel) debtResultsModeLabel.innerText = mode === "owedToMe" ? "Người nợ tôi" : "Tôi đang nợ";
       renderDebtList();
     }
     function updateDebtOverview(){
@@ -3415,53 +4317,73 @@
       });
       return target;
     }
+    function setDebtSearch(value){
+      debtSearchTerm = String(value || "").trim().toLocaleLowerCase("vi-VN");
+      expandedDebtId = null;
+      renderDebtList();
+    }
+    function toggleDebtCard(id){
+      expandedDebtId = expandedDebtId === id ? null : id;
+      renderDebtList();
+    }
     function renderDebtList(){
       updateDebtOverview();
-      const list = $("debtList"); list.innerHTML = "";
-      const filtered = debts.filter(item=>item.type === debtMode);
+      const list = $("debtList");
+      const count = $("debtListCount");
+      if(!list) return;
+      list.innerHTML = "";
+      const search = debtSearchTerm;
+      const filtered = debts.filter(item=>{
+        if(item.type !== debtMode) return false;
+        if(!search) return true;
+        const haystack = `${item.person || ""} ${item.note || ""} ${item.dueDate || ""}`.toLocaleLowerCase("vi-VN");
+        return haystack.includes(search);
+      });
+      if(count) count.textContent = `${filtered.length} khoản`;
       if(!filtered.length){
-        list.innerHTML = `<div class="empty">${debtMode === "owedToMe" ? "Chưa có ai đang nợ bạn." : "Bạn chưa có khoản nợ nào cần theo dõi."}</div>`;
+        list.innerHTML = `<div class="empty">${search ? "Không tìm thấy khoản vay phù hợp." : (debtMode === "owedToMe" ? "Chưa có ai đang nợ bạn." : "Bạn chưa có khoản nợ nào cần theo dõi.")}</div>`;
         return;
       }
       filtered.forEach(item=>{
-        const card = document.createElement("div");
-        card.className = "debt-card" + (item.settled ? " settled" : "");
+        const card = document.createElement("article");
+        const isOpen = expandedDebtId === item.id;
+        card.className = "debt-card debt-card-compact" + (item.settled ? " settled" : "") + (isOpen ? " is-open" : "");
         const person = String(item.person || "?").trim();
         const initial = person ? person.charAt(0).toLocaleUpperCase("vi-VN") : "?";
         const relation = item.type === "owedToMe" ? "Người đang nợ bạn" : "Khoản bạn đang nợ";
         const dateLabel = item.type === "owedToMe" ? "Ngày cho mượn" : "Ngày vay";
         const dueLabel = item.type === "owedToMe" ? "Hạn cần thu" : "Hạn cần trả";
         const status = item.settled ? "Đã tất toán" : "Đang theo dõi";
-        const balanceLabel = item.type === "owedToMe" ? "Số tiền còn phải thu" : "Số tiền còn phải trả";
+        const balanceLabel = item.type === "owedToMe" ? "Còn phải thu" : "Còn phải trả";
         const settleLabel = item.type === "owedToMe" ? "Thu hết" : "Trả hết";
         card.innerHTML = `
-          <div class="debt-card-top">
-            <div class="debt-person">
+          <button class="debt-card-summary" type="button" onclick="toggleDebtCard('${item.id}')" aria-expanded="${isOpen ? "true" : "false"}">
+            <span class="debt-person">
               <span class="debt-person-mark">${safeText(initial)}</span>
-              <div class="debt-person-copy">
-                <b>${safeText(person)}</b>
-                <span>${relation}</span>
-              </div>
+              <span class="debt-person-copy"><b>${safeText(person)}</b><span>${relation}</span></span>
+            </span>
+            <span class="debt-card-summary-right">
+              <span class="debt-summary-amount">${money(item.amount)}</span>
+              <span class="debt-status">${status}</span>
+              <span class="debt-card-chevron" aria-hidden="true">⌄</span>
+            </span>
+          </button>
+          <div class="debt-card-details">
+            <div class="debt-balance-row"><span>${balanceLabel}</span><b class="debt-amount">${money(item.amount)}</b></div>
+            <div class="debt-card-dates">
+              <div><span>${dateLabel}</span><b>${item.debtDate ? formatCompactDate(item.debtDate) : "Chưa ghi ngày"}</b></div>
+              <div><span>${dueLabel}</span><b>${item.dueDate ? formatCompactDate(item.dueDate) : "Chưa đặt hạn"}</b></div>
             </div>
-            <span class="debt-status">${status}</span>
-          </div>
-          <div class="debt-balance-row">
-            <span>${balanceLabel}</span>
-            <b class="debt-amount">${money(item.amount)}</b>
-          </div>
-          <div class="debt-card-dates">
-            <div><span>${dateLabel}</span><b>${item.debtDate ? formatCompactDate(item.debtDate) : "Chưa ghi ngày"}</b></div>
-            <div><span>${dueLabel}</span><b>${item.dueDate ? formatCompactDate(item.dueDate) : "Chưa đặt hạn"}</b></div>
-          </div>
-          ${item.note ? `<div class="debt-meta">${safeText(item.note)}</div>` : ""}
-          <div class="debt-history"><div class="debt-history-head"><span>Lần cập nhật gần đây</span><span>${debtHistoryEntries(item).length} lần</span></div><div id="debtHistory-${item.id}" class="debt-history-list"></div></div>
-          <div class="debt-actions">
-            <button class="btn-secondary btn-small" type="button" onclick="openDebtUpdate('${item.id}')">Cập nhật</button>
-            ${item.settled ? `<button class="btn-success" type="button" onclick="openDebtUpdate('${item.id}','increase')">Phát sinh mới</button>` : `<button class="btn-success" type="button" onclick="openDebtUpdate('${item.id}','decrease',true)">${settleLabel}</button>`}
-            <button class="btn-danger" type="button" onclick="deleteDebt('${item.id}')">Xóa</button>
+            ${item.note ? `<div class="debt-meta">${safeText(item.note)}</div>` : ""}
+            <div class="debt-history"><div class="debt-history-head"><span>Lần cập nhật gần đây</span><span>${debtHistoryEntries(item).length} lần</span></div><div id="debtHistory-${item.id}" class="debt-history-list"></div></div>
+            <div class="debt-actions">
+              <button class="btn-secondary btn-small" type="button" onclick="openDebtUpdate('${item.id}')">Cập nhật</button>
+              ${item.settled ? `<button class="btn-success" type="button" onclick="openDebtUpdate('${item.id}','increase')">Phát sinh mới</button>` : `<button class="btn-success" type="button" onclick="openDebtUpdate('${item.id}','decrease',true)">${settleLabel}</button>`}
+              <button class="btn-danger" type="button" onclick="deleteDebt('${item.id}')">Xóa</button>
+            </div>
           </div>`;
         list.appendChild(card);
-        renderDebtHistoryItems(item,{limit:2,container:$("debtHistory-" + item.id)});
+        if(isOpen) renderDebtHistoryItems(item,{limit:4,container:$("debtHistory-" + item.id)});
       });
     }
     function getDebtForUpdate(){
@@ -3581,6 +4503,8 @@
     }
     window.toggleDebtPanel = toggleDebtPanel;
     window.setDebtMode = setDebtMode;
+    window.setDebtSearch = setDebtSearch;
+    window.toggleDebtCard = toggleDebtCard;
     window.addDebt = addDebt;
     window.toggleDebt = toggleDebt;
     window.openDebtUpdate = openDebtUpdate;
@@ -3728,16 +4652,24 @@
     setDebtDate("debtDate",$("debtDate").value || today());
     setDebtDate("debtDueDate",$("debtDueDate").value || "");
     setupMoneyInputs();
+    renderJarPicker();
+    updateReportTypeButtons();
     window.applyAmountSuggestion = applyAmountSuggestion;
 
     document.addEventListener("click",event=>{
       if(!event.target.closest(".category-picker")) closeCategoryMenu();
+      if(!event.target.closest(".jar-picker")) closeJarMenu();
     });
 
     // Close modal by clicking its dark background
-    ["profileModal","brandModal","categoryModal","dateModal","monthModal"].forEach(id=>{
+    ["profileModal","brandModal","categoryModal","dateModal","monthModal","jarCreateModal","jarFundModal"].forEach(id=>{
       $(id).addEventListener("click",event=>{ if(event.target.id === id) $(id).classList.add("hidden"); });
     });
-  </script>
+  
+
+    document.addEventListener("click",event=>{
+      if(!event.target.closest("#reportCategoryPicker")) closeReportCategoryMenu?.();
+    });
+</script>
 </body>
 </html>

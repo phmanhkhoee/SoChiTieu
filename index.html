@@ -1702,6 +1702,274 @@
       .support-float span:last-child{font-size:11px!important}
     }
 
+
+
+    /* Unified chevrons for report category, transaction category and jar selector. */
+    .category-chevron{
+      width:24px!important;
+      height:24px!important;
+      display:inline-grid!important;
+      place-items:center!important;
+      flex:none!important;
+      border:1px solid #dce5f2!important;
+      border-radius:8px!important;
+      background:#f7f9fc!important;
+      color:#2f6fed!important;
+      font-size:0!important;
+      line-height:1!important;
+      transform:none!important;
+      transition:background .18s ease,border-color .18s ease!important;
+    }
+    .category-chevron::before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      transform:rotate(45deg) translate(-1px,-1px);
+      transition:transform .2s ease;
+    }
+    .category-picker.is-open .category-chevron::before,
+    .report-category-picker.is-open .category-chevron::before,
+    .jar-picker.is-open .category-chevron::before{
+      transform:rotate(225deg) translate(-1px,1px);
+    }
+    .category-trigger:hover .category-chevron,
+    .report-category-trigger:hover .category-chevron,
+    .jar-trigger:hover .category-chevron{
+      background:#eef4ff!important;
+      border-color:#b9ccf4!important;
+    }
+    body.dark-mode .category-chevron{
+      background:#182436!important;
+      border-color:#304562!important;
+      color:#a9c1ff!important;
+    }
+    @media(max-width:540px){
+      .category-chevron{width:23px!important;height:23px!important;border-radius:8px!important}
+    }
+
+
+
+    /* === FINAL CHEVRON + MOBILE ALIGNMENT FIX === */
+    /* Category / jar / report chevrons now use the exact same square control as debt rows. */
+    .category-chevron{
+      width:22px!important;
+      height:22px!important;
+      display:inline-grid!important;
+      place-items:center!important;
+      flex:none!important;
+      border:1px solid #dce5f2!important;
+      border-radius:7px!important;
+      background:#f7f9fc!important;
+      color:#51709f!important;
+      font-size:0!important;
+      line-height:1!important;
+      transform:none!important;
+      box-shadow:none!important;
+    }
+    .category-chevron::before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-right:2px solid currentColor;
+      border-bottom:2px solid currentColor;
+      transform:rotate(45deg) translate(-1px,-1px);
+      transition:transform .18s ease;
+    }
+    .category-picker.is-open .category-chevron,
+    .report-category-picker.is-open .category-chevron,
+    .jar-picker.is-open .category-chevron{
+      background:var(--blue-soft)!important;
+      border-color:#bdd1fa!important;
+      color:var(--blue)!important;
+    }
+    .category-picker.is-open .category-chevron::before,
+    .report-category-picker.is-open .category-chevron::before,
+    .jar-picker.is-open .category-chevron::before{
+      transform:rotate(225deg) translate(-1px,1px);
+    }
+    body.dark-mode .category-chevron{
+      background:#182436!important;
+      border-color:#304562!important;
+      color:#a9c1ff!important;
+    }
+
+    /* Keep the landing preview centered and prevent its cards from creating horizontal drift on phones. */
+    @media(max-width:700px){
+      #introView,.public-view{width:100%;max-width:100%;overflow-x:hidden}
+      .hero{
+        width:100%;
+        max-width:100%;
+        margin-left:auto!important;
+        margin-right:auto!important;
+        padding-left:20px!important;
+        padding-right:20px!important;
+        box-sizing:border-box;
+      }
+      .hero-card{
+        width:100%!important;
+        max-width:100%!important;
+        margin:0 auto!important;
+        box-sizing:border-box;
+        transform:none!important;
+      }
+      .mock-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+      .mock-stat{min-width:0;padding:12px 10px}
+      .mock-stat b{font-size:14px;white-space:nowrap}
+      .mock-line{min-width:0;padding:11px 10px}
+      .mock-line-left{min-width:0}
+      .mock-line-left>div{min-width:0}
+      .mock-line b,.mock-line span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+      .mock-money{flex:none;font-size:11px}
+    }
+
+    @media(max-width:540px){
+      .category-chevron{width:22px!important;height:22px!important;border-radius:7px!important}
+      .hero{padding-left:16px!important;padding-right:16px!important}
+      .hero-card{padding:18px!important;border-radius:24px!important}
+      .mock-stat{padding:11px 9px}
+      .mock-stat span{font-size:9px}
+      .mock-stat b{font-size:13px}
+    }
+
+
+
+    /* FINAL: tất cả mũi tên chọn danh mục / hũ giống đúng mũi tên sổ vay mượn. */
+    .category-chevron,
+    .debt-card-chevron,
+    .debt-collapse-chevron{
+      width:22px!important;
+      height:22px!important;
+      min-width:22px!important;
+      min-height:22px!important;
+      display:inline-grid!important;
+      place-items:center!important;
+      flex:0 0 22px!important;
+      overflow:hidden!important;
+      padding:0!important;
+      border:1px solid #dce5f2!important;
+      border-radius:7px!important;
+      background:#f7f9fc!important;
+      color:#51709f!important;
+      font-size:0!important;
+      line-height:0!important;
+      text-indent:-9999px!important;
+      box-shadow:none!important;
+      transform:none!important;
+    }
+    .category-chevron::before,
+    .debt-card-chevron::before,
+    .debt-collapse-chevron::before{
+      content:""!important;
+      display:block!important;
+      width:6px!important;
+      height:6px!important;
+      border-right:2px solid currentColor!important;
+      border-bottom:2px solid currentColor!important;
+      transform:rotate(45deg) translate(-1px,-1px)!important;
+      transition:transform .18s ease!important;
+    }
+    .category-picker.is-open .category-chevron,
+    .report-category-picker.is-open .category-chevron,
+    .jar-picker.is-open .category-chevron,
+    .debt-card.is-open .debt-card-chevron{
+      background:var(--blue-soft)!important;
+      border-color:#bdd1fa!important;
+      color:var(--blue)!important;
+    }
+    .category-picker.is-open .category-chevron::before,
+    .report-category-picker.is-open .category-chevron::before,
+    .jar-picker.is-open .category-chevron::before,
+    .debt-card.is-open .debt-card-chevron::before{
+      transform:rotate(225deg) translate(-1px,1px)!important;
+    }
+    .debt-panel.is-collapsed .debt-collapse-chevron::before{
+      transform:rotate(-45deg) translate(-1px,1px)!important;
+    }
+    body.dark-mode .category-chevron,
+    body.dark-mode .debt-card-chevron,
+    body.dark-mode .debt-collapse-chevron{
+      background:#182436!important;
+      border-color:#304562!important;
+      color:#a9c1ff!important;
+    }
+
+
+
+    /* FINAL PICKER ARROWS — no text glyphs, same square chevron as debt rows. */
+    .report-category-trigger > .category-chevron,
+    .category-trigger > .category-chevron,
+    .jar-trigger > .category-chevron{
+      position:relative!important;
+      display:grid!important;
+      place-items:center!important;
+      width:22px!important;
+      height:22px!important;
+      min-width:22px!important;
+      min-height:22px!important;
+      flex:0 0 22px!important;
+      margin-left:6px!important;
+      padding:0!important;
+      overflow:hidden!important;
+      border:1px solid #dce5f2!important;
+      border-radius:7px!important;
+      background:#f7f9fc!important;
+      color:#51709f!important;
+      font-size:0!important;
+      line-height:0!important;
+      text-indent:0!important;
+      letter-spacing:0!important;
+      box-shadow:none!important;
+      transform:none!important;
+    }
+    .report-category-trigger > .category-chevron::before,
+    .category-trigger > .category-chevron::before,
+    .jar-trigger > .category-chevron::before{
+      content:""!important;
+      display:block!important;
+      width:6px!important;
+      height:6px!important;
+      margin-top:-3px!important;
+      border-right:2px solid #51709f!important;
+      border-bottom:2px solid #51709f!important;
+      transform:rotate(45deg)!important;
+      transition:transform .18s ease!important;
+    }
+    .report-category-picker.is-open .report-category-trigger > .category-chevron,
+    .category-picker.is-open .category-trigger > .category-chevron,
+    .jar-picker.is-open .jar-trigger > .category-chevron{
+      background:var(--blue-soft)!important;
+      border-color:#bdd1fa!important;
+    }
+    .report-category-picker.is-open .report-category-trigger > .category-chevron::before,
+    .category-picker.is-open .category-trigger > .category-chevron::before,
+    .jar-picker.is-open .jar-trigger > .category-chevron::before{
+      margin-top:3px!important;
+      transform:rotate(225deg)!important;
+    }
+    body.dark-mode .report-category-trigger > .category-chevron,
+    body.dark-mode .category-trigger > .category-chevron,
+    body.dark-mode .jar-trigger > .category-chevron{
+      background:#182436!important;
+      border-color:#304562!important;
+    }
+    body.dark-mode .report-category-trigger > .category-chevron::before,
+    body.dark-mode .category-trigger > .category-chevron::before,
+    body.dark-mode .jar-trigger > .category-chevron::before{
+      border-color:#a9c1ff!important;
+    }
+    @media(max-width:540px){
+      .report-category-trigger > .category-chevron,
+      .category-trigger > .category-chevron,
+      .jar-trigger > .category-chevron{
+        width:22px!important;
+        height:22px!important;
+        min-width:22px!important;
+        min-height:22px!important;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -1965,7 +2233,7 @@
                     <span class="report-category-trigger-icon"><img id="reportCategoryTriggerIcon" src="https://cdn-icons-png.flaticon.com/512/2693/2693507.png" alt=""></span>
                     <span id="reportCategoryTriggerName">Tất cả danh mục</span>
                   </span>
-                  <span class="category-chevron" aria-hidden="true">⌄</span>
+                  <span class="category-chevron" aria-hidden="true"></span>
                 </button>
                 <div id="reportCategoryMenu" class="report-category-menu hidden" role="listbox" aria-label="Lọc theo danh mục">
                   <div class="report-category-menu-head"><div><b>Lọc danh mục</b><span>Chọn một mục hoặc xem toàn bộ</span></div></div>
@@ -2035,7 +2303,7 @@
                         <span class="category-trigger-icon"><img id="categoryTriggerIcon" src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt=""></span>
                         <span id="categoryTriggerName">Ăn uống</span>
                       </span>
-                      <span class="category-chevron" aria-hidden="true">⌄</span>
+                      <span class="category-chevron" aria-hidden="true"></span>
                     </button>
 
                     <div id="categoryMenu" class="category-menu hidden" role="listbox" aria-label="Chọn danh mục">
@@ -2065,7 +2333,7 @@
                           <span id="jarTriggerCaption" class="jar-trigger-caption">Tùy chọn cho từng giao dịch</span>
                         </span>
                       </span>
-                      <span class="category-chevron" aria-hidden="true">⌄</span>
+                      <span class="category-chevron" aria-hidden="true"></span>
                     </button>
                     <div id="jarMenu" class="jar-menu hidden" role="listbox" aria-label="Chọn hũ tài chính">
                       <div class="jar-menu-head">

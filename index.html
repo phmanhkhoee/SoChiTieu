@@ -1550,6 +1550,158 @@
       .debt-due-action{font-size:9px}
     }
 
+
+
+    /* === MOBILE APP SHELL: drawer sidebar + no horizontal overflow === */
+    .mobile-books-toggle,.mobile-sidebar-close,.mobile-menu-backdrop{display:none}
+    .app-shell,.shell,.main,.panel,.finance-tools-grid,.content-grid{min-width:0}
+
+    @media(min-width:901px) and (max-width:1320px){
+      .report-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .report-apply{grid-column:1 / -1}
+    }
+
+    @media(max-width:900px){
+      html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+      #mainView .app-shell{width:100%;max-width:100%;padding:12px!important;overflow-x:clip}
+      #mainView .topbar{
+        display:grid!important;
+        grid-template-columns:minmax(0,1fr) auto;
+        align-items:center;
+        gap:10px;
+        margin-bottom:14px;
+      }
+      #mainView .app-brand{grid-column:1;grid-row:1;min-width:0;gap:9px}
+      #mainView .app-brand p{display:none}
+      #mainView .app-brand .brand-mark{width:40px;height:40px;border-radius:13px}
+      #mainView .app-brand h1{font-size:21px;white-space:nowrap}
+      .mobile-books-toggle{
+        display:inline-flex;
+        grid-column:2;
+        grid-row:1;
+        align-items:center;
+        justify-content:center;
+        gap:7px;
+        min-height:40px;
+        padding:0 12px;
+        border:1px solid var(--line);
+        border-radius:12px;
+        background:#fff;
+        color:var(--ink);
+        font-size:12px;
+        font-weight:800;
+      }
+      .mobile-books-toggle:hover{transform:none;border-color:#b9cbee;background:#fbfdff}
+      .mobile-books-icon{display:grid;gap:3px;width:14px}
+      .mobile-books-icon i{display:block;width:14px;height:1.5px;border-radius:9px;background:currentColor}
+      #mainView .user-area{
+        grid-column:1 / -1;
+        grid-row:2;
+        display:flex!important;
+        width:100%;
+        flex-wrap:wrap;
+        align-items:center;
+        justify-content:flex-start;
+        gap:7px;
+      }
+      #mainView .user-profile-button{flex:1 1 170px;min-width:0;max-width:100%}
+      #mainView .user-area .btn-secondary{flex:0 0 auto;min-height:40px;padding:8px 10px;font-size:11px}
+      #mainView .shell{display:block!important;width:100%!important;min-width:0!important}
+      #mainView .main{width:100%!important;min-width:0!important}
+      #mainView .sidebar{
+        position:fixed!important;
+        z-index:510;
+        top:0!important;
+        left:0!important;
+        bottom:0!important;
+        width:min(86vw,340px)!important;
+        max-width:340px;
+        min-width:0!important;
+        height:100dvh!important;
+        margin:0!important;
+        padding:calc(16px + env(safe-area-inset-top)) 16px calc(18px + env(safe-area-inset-bottom))!important;
+        overflow-y:auto!important;
+        border-radius:0 22px 22px 0!important;
+        transform:translateX(-106%);
+        transition:transform .24s ease;
+        box-shadow:18px 0 42px rgba(17,28,47,.16);
+        overscroll-behavior:contain;
+      }
+      #mainView.mobile-books-open .sidebar{transform:translateX(0)}
+      .mobile-sidebar-close{
+        display:grid;
+        place-items:center;
+        width:32px;
+        height:32px;
+        border:1px solid var(--line);
+        border-radius:10px;
+        background:#f8fafc;
+        color:var(--ink-soft);
+        font-size:21px;
+        line-height:1;
+      }
+      .mobile-menu-backdrop{
+        display:block;
+        position:fixed;
+        z-index:500;
+        inset:0;
+        width:100%;
+        height:100dvh;
+        border:0;
+        background:rgba(18,29,47,.34);
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+        transition:opacity .22s ease,visibility .22s ease;
+      }
+      #mainView.mobile-books-open .mobile-menu-backdrop{opacity:1;visibility:visible;pointer-events:auto}
+      body.mobile-menu-lock{overflow:hidden!important}
+      #mainView .dashboard-head{flex-direction:column;align-items:stretch;gap:12px}
+      #mainView .month-toolbar{width:100%;max-width:none;grid-template-columns:40px minmax(0,1fr) 40px}
+      #mainView .finance-tools-grid,#mainView .content-grid{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:14px}
+      #mainView .panel{width:100%;min-width:0}
+      #mainView .summary,#mainView .report-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+      #mainView .report-filter-grid{grid-template-columns:1fr 1fr!important;gap:9px}
+      #mainView .report-category-picker{grid-column:1 / -1}
+      #mainView .report-apply{grid-column:1 / -1;width:100%}
+      #mainView .transaction-form{grid-template-columns:1fr!important}
+      #mainView .transaction-form>*{grid-column:auto!important;min-width:0}
+      #mainView .transaction-form .wide,#mainView .transaction-submit{grid-column:auto!important}
+      #mainView .table-wrap{width:100%;max-width:100%;overflow-x:auto}
+      #mainView .debt-wide-workspace{grid-template-columns:1fr!important}
+      #mainView .debt-results-panel .debt-list{max-height:48dvh!important;overflow:auto!important}
+      .support-float{right:12px!important;bottom:16px!important;min-height:46px!important;padding:0 13px!important;border-radius:999px!important}
+      .support-float span:last-child{font-size:12px!important}
+      body.dark-mode .mobile-books-toggle{background:#111923;border-color:var(--line);color:var(--ink)}
+      body.dark-mode .mobile-sidebar-close{background:#182233;border-color:#30445f;color:#c9d6e9}
+      body.dark-mode #mainView .sidebar{box-shadow:18px 0 44px rgba(0,0,0,.48)}
+      body.dark-mode .mobile-menu-backdrop{background:rgba(0,0,0,.58)}
+    }
+
+    @media(max-width:540px){
+      #mainView .app-shell{padding:10px!important}
+      #mainView .topbar{gap:8px}
+      #mainView .app-brand h1{font-size:20px}
+      #mainView .user-profile-button{flex:0 0 auto;padding:4px 8px 4px 4px}
+      #mainView .user-profile-button .user-text,#mainView .user-profile-caret{display:none}
+      #mainView #appIntroButton{display:none}
+      #mainView .user-area .btn-secondary{min-height:38px;padding:7px 9px;font-size:10px}
+      #mainView .sidebar{width:min(90vw,330px)!important;padding:calc(14px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom))!important}
+      #mainView .dashboard-head h2{font-size:23px}
+      #mainView .book-meta{gap:7px}
+      #mainView .code-box{width:100%;font-size:10px}
+      #mainView .summary,#mainView .report-summary{gap:8px}
+      #mainView .stat,#mainView .report-stat{padding:12px}
+      #mainView .report-filter-grid{grid-template-columns:1fr!important}
+      #mainView .report-category-picker,#mainView .report-apply{grid-column:auto}
+      #mainView .report-type-toggle,#mainView .report-group-toggle{min-height:44px}
+      #mainView .debt-panel-wide .debt-panel-content{padding:12px}
+      #mainView .debt-results-panel .debt-list{max-height:42dvh!important}
+      .support-float{right:10px!important;bottom:13px!important;min-height:43px!important;padding:0 11px!important}
+      .support-float span:first-child{width:24px!important;height:24px!important;font-size:13px!important}
+      .support-float span:last-child{font-size:11px!important}
+    }
+
 </style>
 </head>
 <body>
@@ -1698,6 +1850,10 @@
             <p>Quản lý thu chi, ghi chú theo tháng và khoản vay mượn trong một không gian gọn gàng.</p>
           </div>
         </div>
+        <button id="mobileBooksButton" class="mobile-books-toggle" type="button" onclick="toggleMobileBooksMenu()" aria-controls="mobileSidebar" aria-expanded="false">
+          <span class="mobile-books-icon" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Sổ</span>
+        </button>
         <div class="user-area">
           <button class="user-profile-button" type="button" onclick="openProfileModal()" title="Quản lý tài khoản">
             <span id="userAvatar" class="user-avatar" aria-hidden="true"><span>S</span></span>
@@ -1709,14 +1865,17 @@
           </button>
           <button id="adminPanelButton" class="btn-secondary btn-small hidden" type="button" onclick="openAdminPanel()">Quản trị</button>
           <button id="appThemeButton" class="btn-secondary btn-small" type="button" onclick="toggleTheme()">Giao diện tối</button>
-          <button class="btn-secondary btn-small" onclick="showIntro()">Giới thiệu</button>
+          <button id="appIntroButton" class="btn-secondary btn-small" onclick="showIntro()">Giới thiệu</button>
           <button class="btn-secondary btn-small" onclick="logout()">Đăng xuất</button>
         </div>
       </header>
 
       <div class="shell">
-        <aside class="sidebar">
-          <div class="sidebar-head"><h3>Sổ của bạn</h3></div>
+        <aside id="mobileSidebar" class="sidebar" aria-label="Danh sách sổ">
+          <div class="sidebar-head">
+            <h3>Sổ của bạn</h3>
+            <button class="mobile-sidebar-close" type="button" onclick="closeMobileBooksMenu()" aria-label="Đóng danh sách sổ">×</button>
+          </div>
           <div class="stack">
             <input id="newBookName" placeholder="Tên sổ mới">
             <button class="btn-primary" onclick="createBook()">Tạo sổ mới</button>
@@ -1729,6 +1888,7 @@
           </div>
           <div id="bookList" class="book-list"></div>
         </aside>
+        <button id="mobileMenuBackdrop" class="mobile-menu-backdrop" type="button" aria-label="Đóng danh sách sổ" onclick="closeMobileBooksMenu()"></button>
 
         <main id="bookDetail" class="main hidden">
           <div class="dashboard-head">
@@ -3124,7 +3284,7 @@
       syncThemeButtons();
       updateBrowserMetadata(null);
     }
-    function showIntro(){ publicScreen = "intro"; renderPublicView(); }
+    function showIntro(){ closeMobileBooksMenu?.(); publicScreen = "intro"; renderPublicView(); }
     function showAuth(){ publicScreen = "auth"; renderPublicView(); }
     function activateIntroFromKey(event){
       if(event.key === "Enter" || event.key === " "){
@@ -3160,7 +3320,7 @@
         await signInWithEmailAndPassword(auth,email,password);
       }catch(error){ setAuthMessage("Không thể đăng nhập: " + error.message); }
     }
-    async function logout(){ await signOut(auth); }
+    async function logout(){ closeMobileBooksMenu?.(); await signOut(auth); }
     window.register = register;
     window.login = login;
     window.logout = logout;
@@ -3581,7 +3741,28 @@
       $("joinBookId").value = "";
       selectBook(bookId);
     }
+    function isMobileViewport(){ return window.matchMedia("(max-width: 900px)").matches; }
+    function setMobileBooksMenu(open){
+      const mainView = $("mainView");
+      const toggle = $("mobileBooksButton");
+      if(!mainView) return;
+      const shouldOpen = Boolean(open) && isMobileViewport();
+      mainView.classList.toggle("mobile-books-open", shouldOpen);
+      document.body.classList.toggle("mobile-menu-lock", shouldOpen);
+      if(toggle) toggle.setAttribute("aria-expanded", String(shouldOpen));
+    }
+    function toggleMobileBooksMenu(){
+      const mainView = $("mainView");
+      setMobileBooksMenu(!mainView?.classList.contains("mobile-books-open"));
+    }
+    function closeMobileBooksMenu(){ setMobileBooksMenu(false); }
+    window.toggleMobileBooksMenu = toggleMobileBooksMenu;
+    window.closeMobileBooksMenu = closeMobileBooksMenu;
+    window.addEventListener("resize",()=>{ if(!isMobileViewport()) closeMobileBooksMenu(); });
+    document.addEventListener("keydown",event=>{ if(event.key === "Escape") closeMobileBooksMenu(); });
+
     function selectBook(bookId){
+      closeMobileBooksMenu();
       currentBookId = bookId;
       rememberPersonalBook(bookId);
       $("bookDetail").classList.remove("hidden");
